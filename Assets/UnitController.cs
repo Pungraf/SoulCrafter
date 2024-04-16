@@ -5,23 +5,30 @@ using UnityEngine.AI;
 
 public class UnitController : MonoBehaviour
 {
-    public enum State
+    public enum BehaviourState
     {
         Idle,
+        Eating
+    }
+
+    public enum MovementState
+    {
+        Standing,
         Walking
     }
 
-    public State state = State.Idle;
+    public MovementState movementState = MovementState.Standing;
+    public BehaviourState behaviourState = BehaviourState.Idle;
 
     private float behaviurCounter;
-    private float currentYPosition;
+
     private bool destinationReached;
     private NavMeshAgent navMeshAgent;
+    private Unit unit;
 
     [SerializeField] Transform unitTransform;
 
-    [SerializeField] private float floatingSpeed = 1f;
-    [SerializeField] private float floatingAmp = 0.5f;
+    
     [SerializeField] private float walkRadius = 20f;
     [SerializeField] private float idleTimeSpeed = 20f;
 
@@ -30,41 +37,86 @@ public class UnitController : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        currentYPosition = unitTransform.position.y;
+        unit = GetComponent<Unit>();
         destinationReached = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (destinationReached && state == State.Idle)
+        if(true)
         {
-            behaviurCounter -= Time.deltaTime * idleTimeSpeed;
-            if(behaviurCounter < 0 )
-            {
-                state = State.Walking;
-                Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-                randomDirection += transform.position;
-                NavMeshHit hit;
-                NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
-                Vector3 finalPosition = hit.position;
-                navMeshAgent.SetDestination(finalPosition);
-            }
+            IdleBehaviour();
         }
-        Vector3 newPosition = new Vector3(unitTransform.position.x, currentYPosition + floatingAmp * Mathf.Sin(floatingSpeed * Time.time), unitTransform.position.z);
-        unitTransform.position = newPosition;
+    }
 
-        if (!navMeshAgent.pathPending && state == State.Walking)
+    private void IdleBehaviour()
+    {
+        if(destinationReached && behaviurCounter <= 0)
+        {
+            FindeActivity();
+        }
+
+        if (!navMeshAgent.pathPending && movementState == MovementState.Walking)
         {
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                 {
-                    destinationReached = true;
-                    behaviurCounter = 100f;
-                    state = State.Idle;
+                    if(behaviourState == BehaviourState.Eating)
+                    {
+                        destinationReached = true;
+                        Collider[] hitColliders = Physics.OverlapSphere(unit.transform.position, unit.InteractionRadius);
+                        foreach (var hitCollider in hitColliders)
+                        {
+                            if (hitCollider.GetComponent<Food>() != null)
+                            {
+                                hitCollider.GetComponent<Food>().Eat(unit);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        FindeActivity();
+                    }
                 }
             }
+        }
+    }
+
+    private void FindeActivity()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(unit.transform.position, unit.SenseRadius);
+
+        unit.Hungry += 10;
+
+        if(unit.Hungry > 50)
+        {
+            foreach (var hitCollider in hitColliders)
+            {
+                if(hitCollider.GetComponent<Food>() != null)
+                {
+                    movementState = MovementState.Walking;
+                    Vector3 finalPosition = hitCollider.transform.position;
+                    navMeshAgent.SetDestination(finalPosition);
+                    behaviourState = BehaviourState.Eating;
+                    destinationReached = false;
+                    break;
+                }
+            }
+            IdleBehaviour();
+        }
+        else
+        {
+            movementState = MovementState.Walking;
+            Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+            randomDirection += transform.position;
+            NavMeshHit hit;
+            NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
+            Vector3 finalPosition = hit.position;
+            navMeshAgent.SetDestination(finalPosition);
+            destinationReached = false;
         }
     }
 }
