@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] private int health = 100;
-    [SerializeField] private int hungry = 0;
-    [SerializeField] private int thirst = 0;
+    [SerializeField] private float health = 100;
+    [SerializeField] private float hungry = 0;
+    [SerializeField] private float hungryTreshold = 80;
+    [SerializeField] private float thirstTreshold = 50;
+    [SerializeField] private float thirst = 0;
+    [SerializeField] private float consumingSpeed = 1;
     [SerializeField] private float senseRadius = 10f;
     [SerializeField] private float interactionRadius = 2f;
     // Start is called before the first frame update
@@ -20,11 +23,16 @@ public class Unit : MonoBehaviour
     {
         if(Hungry >= 100)
         {
-            Health--;
+            Health -= Time.deltaTime * 10;
+        }
+        if (health <= 0)
+        {
+            Debug.Log("Died with hunger: " + hungry + " and thirst: " + thirst);
+            Die();
         }
     }
 
-    public void Feed(int amount)
+    public void Feed(float amount)
     {
         hungry -= amount;
         if(hungry < 0)
@@ -33,24 +41,53 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public int Health
+    public void Hydrate(float amount)
+    {
+        thirst -= amount;
+        if (thirst < 0)
+        {
+            thirst = 0;
+        }
+    }
+
+    public float Health
     {
         get { return health; }
         set { health = value; }
 
     }
 
-    public int Hungry
+    public float Hungry
     {
         get { return hungry; }
         set { hungry = value; }
 
     }
 
-    public int Thirst
+    public float HungryTreshold
+    {
+        get { return hungryTreshold; }
+        set { hungryTreshold = value; }
+
+    }
+    public float ConsumingSpeed
+    {
+        get { return consumingSpeed; }
+        set { consumingSpeed = value; }
+
+    }
+
+    public float Thirst
     {
         get { return thirst; }
         set { thirst = value; }
+
+    }
+
+    public float ThirstTreshold
+    {
+        get { return thirstTreshold; }
+        set { thirstTreshold = value; }
 
     }
 
@@ -66,5 +103,10 @@ public class Unit : MonoBehaviour
         get { return interactionRadius; }
         set { interactionRadius = value; }
 
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }
