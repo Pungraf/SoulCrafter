@@ -412,7 +412,10 @@ public class UnitController : MonoBehaviour
         {
             int offspringQuantity = rand.Next(5);
 
-            Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity);
+            for(int i = 0; i < offspringQuantity; i++)
+            {
+                Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity);
+            }
         }
 
         unit.IsPregnant = false;
