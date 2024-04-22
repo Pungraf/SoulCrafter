@@ -4,19 +4,38 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    [SerializeField] protected float maxLifeTime;
     [SerializeField] protected float nutritiousness;
+
+    private float currentLifeTime;
+    private float currentNutritiousness;
+
+    private void Start()
+    {
+        currentLifeTime = maxLifeTime;
+        currentNutritiousness = nutritiousness;
+    }
+
+    private void Update()
+    {
+        currentLifeTime -= Time.deltaTime;
+        if(currentLifeTime <= 0 )
+        {
+            Destroy(gameObject);
+        }
+    }
     public void Eat(Unit eatingUnit)
     {
         float amountToConsume = eatingUnit.Gens.consumingSpeed * Time.deltaTime;
 
-        if(nutritiousness > amountToConsume)
+        if(currentNutritiousness > amountToConsume)
         {
             eatingUnit.Feed(amountToConsume);
-            nutritiousness -= amountToConsume;
+            currentNutritiousness -= amountToConsume;
         }
         else
         {
-            eatingUnit.Feed(nutritiousness);
+            eatingUnit.Feed(currentNutritiousness);
             Destroy(gameObject);
         }
         

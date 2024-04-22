@@ -159,10 +159,28 @@ public class UnitController : MonoBehaviour
         // Critical behaviuors
         if (unit.IsHungry || unit.IsThirsty)
         {
-            if(!LookForFood())
+            if(unit.Hunger > unit.Thirst)
             {
-                LookForDrink();
+                if (!LookForFood())
+                {
+                    if (!LookForDrink())
+                    {
+                        Wandering();
+                    }
+                }
             }
+            else
+            {
+                if (!LookForDrink())
+                {
+                    if (!LookForFood())
+                    {
+                        Wandering();
+                    }
+                }
+
+            }
+            
         }
         // Secondary behaviours
         else if (unit.Urge >= urgeTreshold && unit.IsAdult)
