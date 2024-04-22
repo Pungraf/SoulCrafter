@@ -18,33 +18,26 @@ public class UnitController : MonoBehaviour
         Mating,
         Copulating
     }
-
-    System.Random rand = new System.Random();
-
-
-    [SerializeField] private BehaviourState currentBehaviourState = BehaviourState.None;
-
-
     public BehaviourState CurrentBehaviourState
     {
         get { return currentBehaviourState; }
         set
         {
             currentBehaviourState = value;
-            behaviurCounter = 20f;
+            behaviurCounter = behaviourTimeLimit;
         }
     }
 
+    System.Random rand = new System.Random();
+
+    [SerializeField] private BehaviourState currentBehaviourState = BehaviourState.None;
+    [SerializeField] private float idleTime = 5f;
+    [SerializeField] private float behaviourTimeLimit = 10f;
+    [SerializeField] private float urgeTreshold = 100f;
+
     private float behaviurCounter;
-    private float pregnancyCounter;
     private NavMeshAgent navMeshAgent;
     private Unit unit;
-
-    [SerializeField] public Transform targetedTransform;
-
-    [SerializeField] private float walkRadius = 20f;
-    [SerializeField] private float idleTime = 5f;
-
 
     // Start is called before the first frame update
     void Start()
@@ -59,37 +52,9 @@ public class UnitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        unit.Hungry += Time.deltaTime;
-        unit.Thirst += Time.deltaTime;
         behaviurCounter -= Time.deltaTime;
 
-        if (unit.IsAdult)
-        {
-            unit.Urge += Time.deltaTime * 10;
-            unit.LifeTime -= Time.deltaTime;
-            if (unit.LifeTime <= 0)
-            {
-                unit.Die();
-            }
-        }
-        else
-        {
-            unit.OffspringTime -= Time.deltaTime;
-            if (unit.OffspringTime <= 0)
-            {
-                Mature();
-            }
-        }
-
-        if(unit.IsPregnant)
-        {
-            pregnancyCounter -= Time.deltaTime;
-            if(pregnancyCounter <= 0)
-            {
-                Birth();
-            }
-        }
+        LifeCycleStatusCheck();
 
         ExecuteBehaviour();
         DeprecatedBehaviour();
@@ -116,10 +81,10 @@ public class UnitController : MonoBehaviour
                 BehaviourDestintaionReached();
                 break;
             case BehaviourState.Eating:
-                if(targetedTransform != null)
+                if(unit.targetedTransform != null)
                 {
-                    targetedTransform.TryGetComponent<Food>(out Food currnetFood);
-                    if (currnetFood != null && unit.Hungry > 1)
+                    unit.targetedTransform.TryGetComponent<Food>(out Food currnetFood);
+                    if (currnetFood != null && unit.Hunger > 1)
                     {
                         currnetFood.Eat(unit);
                         break;
@@ -131,9 +96,9 @@ public class UnitController : MonoBehaviour
                 BehaviourDestintaionReached();
                 break;
             case BehaviourState.Drinking:
-                if (targetedTransform != null)
+                if (unit.targetedTransform != null)
                 {
-                    targetedTransform.TryGetComponent<Drink>(out Drink currnetDrink);
+                    unit.targetedTransform.TryGetComponent<Drink>(out Drink currnetDrink);
                     if (currnetDrink != null && unit.Thirst > 1)
                     {
                         currnetDrink.Drinking(unit);
@@ -143,7 +108,7 @@ public class UnitController : MonoBehaviour
                 currentBehaviourState = BehaviourState.None;
                 break;
             case BehaviourState.Mating:
-                if(unit.IsFemale)
+                if(unit.Gens.isFemale)
                 {
                     if(CheckForValidPartner())
                     {
@@ -167,11 +132,9 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    
-
     private void BehaviourDestintaionReached()
     {
-        if (!navMeshAgent.pathPending)
+        if (!navMeshAgent.pathPending && navMeshAgent.isOnNavMesh)
         {
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
@@ -193,87 +156,23 @@ public class UnitController : MonoBehaviour
 
     private void FindeActivity()
     {
-        if (unit.Hungry > unit.HungryTreshold)
+        // Critical behaviuors
+        if (unit.IsHungry || unit.IsThirsty)
         {
-            Collider[] inSenseRadius = Physics.OverlapSphere(unit.transform.position, unit.SenseRadius);
-            Collider[] inInteractRadius = Physics.OverlapSphere(unit.transform.position, unit.InteractionRadius);
-
-            foreach (var hitCollider in inInteractRadius)
+            if(!LookForFood())
             {
-                if (hitCollider.GetComponent<Food>() != null)
-                {
-                    EatFood(hitCollider.GetComponent<Food>());
-                    return;
-                }
+                LookForDrink();
             }
-            foreach (var hitCollider in inSenseRadius)
-            {
-                if (hitCollider.GetComponent<Food>() != null)
-                {
-                    SearchingForFood(hitCollider.ClosestPoint(unit.transform.position));
-                    return;
-                }
-            }
-
-            Wandering();
         }
-        else if (unit.Thirst > unit.ThirstTreshold)
+        // Secondary behaviours
+        else if (unit.Urge >= urgeTreshold && unit.IsAdult)
         {
-            Collider[] inSenseRadius = Physics.OverlapSphere(unit.transform.position, unit.SenseRadius);
-            Collider[] inInteractRadius = Physics.OverlapSphere(unit.transform.position, unit.InteractionRadius);
-
-            foreach (var hitCollider in inInteractRadius)
-            {
-                if (hitCollider.GetComponent<Drink>() != null)
-                {
-                    Drink(hitCollider.GetComponent<Drink>());
-                    return;
-                }
-            }
-            foreach (var hitCollider in inSenseRadius)
-            {
-                if (hitCollider.GetComponent<Drink>() != null)
-                {
-                    SearchingForDrink(hitCollider.ClosestPoint(unit.transform.position));
-                    return;
-                }
-            }
-
-            Wandering();
+            lookForValidMatingPartners();
         }
-        else if (unit.Urge >= 100 && unit.IsAdult)
-        {
-            if(unit.IsFemale)
-            {
-                FemaleMating();
-                return;
-            }
-            else
-            {
-                Collider[] inSenseRadius = Physics.OverlapSphere(unit.transform.position, unit.SenseRadius);
-
-                foreach (var hitCollider in inSenseRadius)
-                {
-                    UnitController potentialMatingTarget = hitCollider.GetComponent<UnitController>();
-                    if (potentialMatingTarget != null && potentialMatingTarget.transform != transform)
-                    {
-                        if (potentialMatingTarget.ProposeMating(unit))
-                        {
-                            targetedTransform = potentialMatingTarget.transform;
-                            potentialMatingTarget.targetedTransform = transform;
-                            MaleMating(hitCollider.ClosestPoint(unit.transform.position));
-                            return;
-                        }
-                    }
-                }
-            }
-            
-
-            Wandering();
-        }
+        // 50% chance for ddle behaviours
         else
         {
-            if (Random.Range(0, 2) == 0)
+            if (rand.NextDouble() > 0.5f)
             {
                 IdleBehaviour(idleTime);
             }
@@ -283,28 +182,130 @@ public class UnitController : MonoBehaviour
             }
         }
     }
+
+    private void LifeCycleStatusCheck()
+    {
+        if (unit.IsAdult)
+        {
+            if (unit.IsPregnant)
+            {
+                if (unit.IsReadyToBear)
+                {
+                    Birth();
+                    unit.IsReadyToBear = false;
+                    unit.IsPregnant = false;
+                }
+            }
+        }
+        else
+        {
+            if (unit.IsReadyToGrowUp)
+            {
+                Mature();
+            }
+        }
+    }
+
+    private bool LookForFood()
+    {
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius);
+
+        foreach (var hitCollider in inInteractRadius)
+        {
+            if (hitCollider.GetComponent<Food>() != null)
+            {
+                EatFood(hitCollider.GetComponent<Food>());
+                return true;
+            }
+        }
+        foreach (var hitCollider in inSenseRadius)
+        {
+            if (hitCollider.GetComponent<Food>() != null)
+            {
+                SearchingForFood(hitCollider.ClosestPoint(transform.position));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool LookForDrink()
+    {
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius);
+
+        foreach (var hitCollider in inInteractRadius)
+        {
+            if (hitCollider.GetComponent<Drink>() != null)
+            {
+                Drink(hitCollider.GetComponent<Drink>());
+                return true;
+            }
+        }
+        foreach (var hitCollider in inSenseRadius)
+        {
+            if (hitCollider.GetComponent<Drink>() != null)
+            {
+                SearchingForDrink(hitCollider.ClosestPoint(transform.position));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void lookForValidMatingPartners()
+    {
+        if (unit.Gens.isFemale)
+        {
+            FemaleMating();
+            return;
+        }
+        else
+        {
+            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
+
+            foreach (var hitCollider in inSenseRadius)
+            {
+                UnitController potentialMatingTarget = hitCollider.GetComponent<UnitController>();
+                if (potentialMatingTarget != null && potentialMatingTarget.transform != transform)
+                {
+                    if (potentialMatingTarget.ProposeMating(unit))
+                    {
+                        unit.targetedTransform = potentialMatingTarget.transform;
+                        potentialMatingTarget.unit.targetedTransform = transform;
+                        MaleMating(hitCollider.ClosestPoint(transform.position));
+                        return;
+                    }
+                }
+            }
+        }
+
+        Wandering();
+    }
+
     private void IdleBehaviour(float time)
     {
-
         CurrentBehaviourState = BehaviourState.Idle;
         behaviurCounter = time;
     }
 
     public bool ProposeMating(Unit offeredMatting)
     {
-        if(currentBehaviourState == BehaviourState.Mating && unit.IsFemale)
+        if(currentBehaviourState == BehaviourState.Mating && unit.Gens.isFemale)
         {
-            if (rand.NextDouble() > offeredMatting.Attractiveness)
+            if (rand.NextDouble() > offeredMatting.Gens.attractiveness)
             {
                 return true;
             }
             else
             {
-                //Rejection penalty
+                offeredMatting.Urge = 0;
                 return false;
             }
         }
-        
         return false;
     }
 
@@ -324,13 +325,13 @@ public class UnitController : MonoBehaviour
 
     private bool CheckForValidPartner()
     {
-        Collider[] inInteractRadius = Physics.OverlapSphere(unit.transform.position, unit.InteractionRadius, LayerMask.NameToLayer("Soul"));
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius, LayerMask.NameToLayer(unit.Gens.species));
         foreach (var hitCollider in inInteractRadius)
         {
             UnitController potentialCopulateTarget = hitCollider.GetComponent<UnitController>();
             if (potentialCopulateTarget != null)
             {
-                if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.targetedTransform == transform)
+                if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.unit.targetedTransform == transform)
                 {
                     return true;
                 }
@@ -344,10 +345,9 @@ public class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
-        if (unit.IsFemale)
+        if (unit.Gens.isFemale)
         {
-            pregnancyCounter = unit.PregnancyTime;
-        
+            unit.PregnancyCounter = unit.Gens.pregnancyTime;
             unit.IsPregnant = true;
         }
     }
@@ -366,23 +366,23 @@ public class UnitController : MonoBehaviour
 
     private void EatFood(Food food)
     {
-        targetedTransform = food.transform;
+        unit.targetedTransform = food.transform;
         currentBehaviourState = BehaviourState.Eating;
     }
 
     private void Drink(Drink drink)
     {
-        targetedTransform = drink.transform;
+        unit.targetedTransform = drink.transform;
         currentBehaviourState = BehaviourState.Drinking;
     }
 
     private void Wandering()
     {
         CurrentBehaviourState = BehaviourState.Wandering;
-        Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+        Vector3 randomDirection = Random.insideUnitSphere * unit.Gens.walkRadius;
         randomDirection += transform.position;
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
+        NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.walkRadius, 1);
         Vector3 finalPosition = hit.position;
         navMeshAgent.SetDestination(finalPosition);
     }
@@ -392,7 +392,7 @@ public class UnitController : MonoBehaviour
         if(!unit.IsAdult)
         {
             GameObject adultObject;
-            if(rand.NextDouble() > 0.5f)
+            if(unit.Gens.isFemale)
             {
                 adultObject = unit.femalePrefab;
             }
@@ -400,7 +400,6 @@ public class UnitController : MonoBehaviour
             {
                 adultObject = unit.malePrefab;
             }
-
             Instantiate(adultObject, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -408,16 +407,17 @@ public class UnitController : MonoBehaviour
 
     private void Birth()
     {
-        if (unit.IsAdult && unit.IsFemale)
+        if (unit.IsAdult && unit.Gens.isFemale)
         {
-            int offspringQuantity = rand.Next(5);
+            int offspringQuantity = rand.Next(unit.Gens.offspringMaxPopulation);
 
             for(int i = 0; i < offspringQuantity; i++)
             {
-                Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity);
+                Unit offspring = Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
+                // 50% chance for gender
+                offspring.Gens.isFemale = (rand.NextDouble() > 0.5f);
             }
         }
-
         unit.IsPregnant = false;
     }
 }

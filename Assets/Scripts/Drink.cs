@@ -7,7 +7,7 @@ public class Drink : MonoBehaviour
     [SerializeField] protected float hydration;
     public void Drinking(Unit drinkingUnit)
     {
-        float amountToConsume = drinkingUnit.ConsumingSpeed * Time.deltaTime;
+        float amountToConsume = drinkingUnit.Gens.consumingSpeed * Time.deltaTime;
 
         if (hydration > amountToConsume)
         {
