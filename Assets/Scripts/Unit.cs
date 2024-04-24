@@ -41,6 +41,9 @@ public class Unit : MonoBehaviour
         remainingLifeTime = gens.lifeTime;
         offspringCounter = gens.offspringTime;
         isReadyToGrowUp = false;
+
+        transform.SetParent(SoulsManager.Instance.WispsHolder);
+
         if (gens.isFemale)
         {
             pregnancyCounter = gens.pregnancyTime;
@@ -169,7 +172,7 @@ public class Unit : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Died with hunger: " + hunger + " and thirst: " + thirst + ", female:  " + gens.isFemale + ", pregnant status: " + isPregnant + ", lived: " + RemainingLifeTime + " secodns.");
+        //Debug.Log("Died with hunger: " + hunger + " and thirst: " + thirst + ", female:  " + gens.isFemale + ", pregnant status: " + isPregnant + ", lived: " + RemainingLifeTime + " secodns.");
 
         Destroy(gameObject);
     }

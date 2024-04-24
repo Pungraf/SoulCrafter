@@ -194,17 +194,17 @@ MonoBehaviour:
     lifeTime: 600
     maxHealth: 100
     hungerTreshold: 60
-    hungerResistance: 0.5
+    hungerResistance: 0.3
     thirstTreshold: 60
-    thirstResistance: 0.5
-    urgeTreshold: 100
+    thirstResistance: 0.3
+    urgeTreshold: 20
     walkRadius: 20
     senseRadius: 10
     interactionRadius: 2
     consumingSpeed: 5
-    pregnancyTime: 100
+    pregnancyTime: 10
     offspringTime: 100
-    offspringMaxPopulation: 5
+    offspringMaxPopulation: 10
     attractiveness: 0.5
   isAdult: 1
   health: 100

@@ -110,10 +110,6 @@ public class UnitController : MonoBehaviour
             case BehaviourState.Mating:
                 if(unit.Gens.isFemale)
                 {
-                    if(CheckForValidPartner())
-                    {
-                        Copulating();
-                    }
                     break;
                 }
                 else
@@ -349,17 +345,21 @@ public class UnitController : MonoBehaviour
             UnitController potentialCopulateTarget = hitCollider.GetComponent<UnitController>();
             if (potentialCopulateTarget != null)
             {
-                if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.unit.targetedTransform == transform)
+                if(potentialCopulateTarget.unit.targetedTransform != null)
                 {
-                    return true;
+                    if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.unit.targetedTransform == transform)
+                    {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    private void Copulating()
+    public void Copulating()
     {
+        Debug.Log(transform.name + " is copulating with " + unit.targetedTransform.name);
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
@@ -367,6 +367,10 @@ public class UnitController : MonoBehaviour
         {
             unit.PregnancyCounter = unit.Gens.pregnancyTime;
             unit.IsPregnant = true;
+        }
+        else
+        {
+            unit.targetedTransform.GetComponent<UnitController>().Copulating();
         }
     }
 
@@ -402,7 +406,10 @@ public class UnitController : MonoBehaviour
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.walkRadius, 1);
         Vector3 finalPosition = hit.position;
-        navMeshAgent.SetDestination(finalPosition);
+        if(navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.SetDestination(finalPosition);
+        }
     }
 
     private void Mature()

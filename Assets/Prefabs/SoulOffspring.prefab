@@ -147,9 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentBehaviourState: 0
-  targetedTransform: {fileID: 0}
-  walkRadius: 20
   idleTime: 5
+  behaviourTimeLimit: 10
+  urgeTreshold: 100
 --- !u!195 &4258381993688489328
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -184,27 +184,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778757e108dbb8e44b6db480395d7c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFemale: 1
-  isAdult: 0
-  health: 100
-  urge: 0
-  hungry: 0
-  hungryTreshold: 80
-  thirstTreshold: 30
-  thirst: 0
-  consumingSpeed: 10
-  lifeTime: 600
-  pregnancyTime: 100
-  offspringTime: 100
-  senseRadius: 10
-  interactionRadius: 2
   offspringPrefab: {fileID: 0}
   malePrefab: {fileID: 7207470651662688898, guid: daaef0255c250b54aa564fbe6d205f0b,
     type: 3}
   femalePrefab: {fileID: 7207470651662688898, guid: 80610df0743f0e94ebeb1bd9299f887f,
     type: 3}
+  targetedTransform: {fileID: 0}
+  gens:
+    species: Soul
+    isFemale: 0
+    lifeTime: 600
+    maxHealth: 100
+    hungerTreshold: 40
+    hungerResistance: 0.5
+    thirstTreshold: 40
+    thirstResistance: 0.5
+    urgeTreshold: 50
+    walkRadius: 20
+    senseRadius: 10
+    interactionRadius: 2
+    consumingSpeed: 5
+    pregnancyTime: 100
+    offspringTime: 10
+    offspringMaxPopulation: 5
+    attractiveness: 0.5
+  isAdult: 0
+  health: 100
+  remainingLifeTime: 0
+  hunger: 0
+  thirst: 0
+  urge: 0
+  isHungry: 0
+  isThirsty: 0
+  isEagerToMate: 0
+  isReadyToGrowUp: 0
+  isReadyToBear: 0
+  pregnancyCounter: 0
+  offspringCounter: 0
   isPregnant: 0
-  attractiveness: 0.5
 --- !u!136 &761177702870868642
 CapsuleCollider:
   m_ObjectHideFlags: 0
