@@ -31,17 +31,6 @@ public class Window_Graph : MonoBehaviour
         dashTemplateY = graphContainer.Find("dashTemplateY").GetComponent<RectTransform>();
         gameObjectList = new List<GameObject>();
 
-        List<int> valueList = new List<int>() { 0, 98, 56, 45, 30, 22, 17, 15, 13, 17, 25, 37, 40, 36, 33 };
-
-        FunctionPeriodic.Create(() =>
-        {
-            valueList.Clear();
-            for (int i = 0; i < 40; i++)
-            {
-                valueList.Add(UnityEngine.Random.Range(0, 500));
-            }
-            ShowGraph(valueList, -1, (int _i) => "Hour " + (_i + 1), (float _f) => _f + " Wisps");
-        }, .5f);
     }
 
     private GameObject CreateCircle(Vector2 anchoredPosition)
@@ -57,7 +46,7 @@ public class Window_Graph : MonoBehaviour
         return gameObject;
     }
 
-    private void ShowGraph(List<int> valueList, int maxVisibleValueAmount = -1, Func<int, string> getAxisLabelX = null, Func<float, string> getAxisLabelY = null)
+    public void ShowGraph(List<int> valueList, int maxVisibleValueAmount = -1, Func<int, string> getAxisLabelX = null, Func<float, string> getAxisLabelY = null)
     {
         if(getAxisLabelX == null)
         {

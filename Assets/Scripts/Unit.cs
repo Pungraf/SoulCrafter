@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,9 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool isPregnant = false;
 
 
-    //Male gense
+    public static event EventHandler OnAnyUnitSpawn;
+    public static event EventHandler OnAnyUnitDead;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +51,8 @@ public class Unit : MonoBehaviour
         {
             pregnancyCounter = gens.pregnancyTime;
         }
+
+        OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
     }
 
     // Update is called once per frame
@@ -173,7 +178,7 @@ public class Unit : MonoBehaviour
     public void Die()
     {
         //Debug.Log("Died with hunger: " + hunger + " and thirst: " + thirst + ", female:  " + gens.isFemale + ", pregnant status: " + isPregnant + ", lived: " + RemainingLifeTime + " secodns.");
-
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject);
     }
 

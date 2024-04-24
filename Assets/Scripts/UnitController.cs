@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -345,11 +346,22 @@ public class UnitController : MonoBehaviour
             UnitController potentialCopulateTarget = hitCollider.GetComponent<UnitController>();
             if (potentialCopulateTarget != null)
             {
-                if(potentialCopulateTarget.unit.targetedTransform != null)
+                try
                 {
                     if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.unit.targetedTransform == transform)
                     {
                         return true;
+                    }
+                }
+                catch(Exception e) 
+                {
+                    if (e.Message == "Object reference not set to an instance of an object")
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        Debug.LogError(e.Message);
                     }
                 }
             }
@@ -359,7 +371,6 @@ public class UnitController : MonoBehaviour
 
     public void Copulating()
     {
-        Debug.Log(transform.name + " is copulating with " + unit.targetedTransform.name);
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
@@ -401,7 +412,7 @@ public class UnitController : MonoBehaviour
     private void Wandering()
     {
         CurrentBehaviourState = BehaviourState.Wandering;
-        Vector3 randomDirection = Random.insideUnitSphere * unit.Gens.walkRadius;
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.walkRadius;
         randomDirection += transform.position;
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.walkRadius, 1);

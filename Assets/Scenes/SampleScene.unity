@@ -1176,7 +1176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &508370672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1244,6 +1244,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window_Graph: {fileID: 508370671}
+  populationSamplingTime: 60
+  window_graph: {fileID: 508370673}
   WispsHolder: {fileID: 1751655318}
 --- !u!4 &594073759
 Transform:
