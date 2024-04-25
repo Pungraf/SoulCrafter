@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2946774447280446750}
   - component: {fileID: 8645604257269117948}
   - component: {fileID: 1869803040392632795}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4258381993688489328}
   - component: {fileID: 7895760233304102100}
   - component: {fileID: 761177702870868642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SoulOffspring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,6 @@ MonoBehaviour:
   currentBehaviourState: 0
   idleTime: 5
   behaviourTimeLimit: 10
-  urgeTreshold: 100
 --- !u!195 &4258381993688489328
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -164,7 +163,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.6
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -191,23 +190,24 @@ MonoBehaviour:
     type: 3}
   targetedTransform: {fileID: 0}
   gens:
-    species: Soul
-    isFemale: 0
-    lifeTime: 600
-    maxHealth: 100
-    hungerTreshold: 40
-    hungerResistance: 0.5
-    thirstTreshold: 40
-    thirstResistance: 0.5
-    urgeTreshold: 50
-    walkRadius: 20
-    senseRadius: 10
-    interactionRadius: 2
-    consumingSpeed: 5
-    pregnancyTime: 100
-    offspringTime: 10
-    offspringMaxPopulation: 5
-    attractiveness: 0.5
+    _species: Wisp
+    _isFemale: 0
+    _lifeTime: 400
+    _maxHealth: 100
+    _hungerTreshold: 30
+    _hungerResistance: 0.6
+    _thirstTreshold: 30
+    _thirstResistance: 0.6
+    _urgeTreshold: 100
+    _walkRadius: 10
+    _walkSpeed: 6
+    _senseRadius: 10
+    _interactionRadius: 2
+    _consumingSpeed: 2
+    _pregnancyTime: 20
+    _offspringTime: 30
+    _offspringMaxPopulation: 5
+    _attractivness: 0.5
   isAdult: 0
   health: 100
   remainingLifeTime: 0

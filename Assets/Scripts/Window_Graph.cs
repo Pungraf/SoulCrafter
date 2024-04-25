@@ -121,7 +121,14 @@ public class Window_Graph : MonoBehaviour
             labelX.SetParent(graphContainer, false);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(xPosition, xLabelOffset);
-            labelX.GetComponent<Text>().text = getAxisLabelX(i);
+            if(i % 10 == 0)
+            {
+                labelX.GetComponent<Text>().text = getAxisLabelX(i);
+            }
+            else
+            {
+                labelX.GetComponent<Text>().text = "";
+            }
             gameObjectList.Add(labelX.gameObject);
 
             RectTransform dashX = Instantiate(dashTemplateY);

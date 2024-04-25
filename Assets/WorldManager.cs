@@ -14,6 +14,8 @@ public class WorldManager : MonoBehaviour
     {
         worldTimeSlider.onValueChanged.AddListener(delegate { WorldTimeSpeedChange(); });
         this.fixedDeltaTime = Time.fixedDeltaTime;
+
+
     }
 
     // Update is called once per frame

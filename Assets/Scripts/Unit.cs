@@ -40,16 +40,16 @@ public class Unit : MonoBehaviour
     void Start()
     {
         //Initialize starting parameters
-        health = gens.maxHealth;
-        remainingLifeTime = gens.lifeTime;
-        offspringCounter = gens.offspringTime;
+        health = gens.MaxHealth;
+        remainingLifeTime = gens.LifeTime;
+        offspringCounter = gens.OffspringTime;
         isReadyToGrowUp = false;
 
         transform.SetParent(SoulsManager.Instance.WispsHolder);
 
-        if (gens.isFemale)
+        if (gens.IsFemale)
         {
-            pregnancyCounter = gens.pregnancyTime;
+            pregnancyCounter = gens.PregnancyTime;
         }
 
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
@@ -204,7 +204,7 @@ public class Unit : MonoBehaviour
                     IsReadyToBear = true;
                 }
             }
-            if (Urge > gens.urgeTreshold)
+            if (Urge > gens.UrgeTreshold)
             {
                 isEagerToMate = true;
             }
@@ -214,7 +214,7 @@ public class Unit : MonoBehaviour
             }
         }
 
-        if (Hunger > gens.hungerTreshold)
+        if (Hunger > gens.HungerTreshold)
         {
             isHungry = true;
         }
@@ -223,7 +223,7 @@ public class Unit : MonoBehaviour
             isHungry = false;
         }
 
-        if (Thirst > gens.thirstTreshold)
+        if (Thirst > gens.ThirstTreshold)
         {
             IsThirsty = true;
         }
@@ -235,8 +235,8 @@ public class Unit : MonoBehaviour
 
     private void UpdateParameters()
     {
-        Hunger += Time.deltaTime * gens.hungerResistance;
-        Thirst += Time.deltaTime * gens.thirstResistance;
+        Hunger += Time.deltaTime * gens.HungerResistance;
+        Thirst += Time.deltaTime * gens.ThirstResistance;
 
 
         if (hunger >= 100 || Thirst >= 100)

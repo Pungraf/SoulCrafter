@@ -34,7 +34,6 @@ public class UnitController : MonoBehaviour
     [SerializeField] private BehaviourState currentBehaviourState = BehaviourState.None;
     [SerializeField] private float idleTime = 5f;
     [SerializeField] private float behaviourTimeLimit = 10f;
-    [SerializeField] private float urgeTreshold = 100f;
 
     private float behaviurCounter;
     private NavMeshAgent navMeshAgent;
@@ -47,6 +46,7 @@ public class UnitController : MonoBehaviour
         unit = GetComponent<Unit>();
 
         CurrentBehaviourState = BehaviourState.None;
+        navMeshAgent.speed = unit.Gens.WalkSpeed;
     }
 
 
@@ -76,10 +76,16 @@ public class UnitController : MonoBehaviour
                 }
                 break;
             case BehaviourState.Wandering:
-                BehaviourDestintaionReached();
+                if(BehaviourDestintaionReached())
+                {
+                    FindeActivity();
+                }
                 break;
             case BehaviourState.SearchingForFood:
-                BehaviourDestintaionReached();
+                if (BehaviourDestintaionReached())
+                {
+                    FindeActivity();
+                }
                 break;
             case BehaviourState.Eating:
                 if(unit.targetedTransform != null)
@@ -94,7 +100,10 @@ public class UnitController : MonoBehaviour
                 currentBehaviourState = BehaviourState.None;
                 break;
             case BehaviourState.SearchingForDrink:
-                BehaviourDestintaionReached();
+                if (BehaviourDestintaionReached())
+                {
+                    FindeActivity();
+                }
                 break;
             case BehaviourState.Drinking:
                 if (unit.targetedTransform != null)
@@ -109,18 +118,23 @@ public class UnitController : MonoBehaviour
                 currentBehaviourState = BehaviourState.None;
                 break;
             case BehaviourState.Mating:
-                if(unit.Gens.isFemale)
+                if(unit.Gens.IsFemale)
                 {
                     break;
                 }
                 else
                 {
-                    if (CheckForValidPartner())
+                    if (BehaviourDestintaionReached())
                     {
-                        Copulating();
-                        break;
+                        if (CheckForValidPartner())
+                        {
+                            Copulating();
+                        }
+                        else
+                        {
+                            FindeActivity();
+                        }
                     }
-                    BehaviourDestintaionReached();
                 }
                 break;
             case BehaviourState.Copulating:
@@ -129,7 +143,7 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    private void BehaviourDestintaionReached()
+    private bool BehaviourDestintaionReached()
     {
         if (!navMeshAgent.pathPending && navMeshAgent.isOnNavMesh)
         {
@@ -137,10 +151,11 @@ public class UnitController : MonoBehaviour
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                 {
-                    FindeActivity();
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     private void DeprecatedBehaviour()
@@ -180,7 +195,7 @@ public class UnitController : MonoBehaviour
             
         }
         // Secondary behaviours
-        else if (unit.Urge >= urgeTreshold && unit.IsAdult)
+        else if (unit.Urge >= unit.Gens.UrgeTreshold && unit.IsAdult)
         {
             lookForValidMatingPartners();
         }
@@ -223,8 +238,8 @@ public class UnitController : MonoBehaviour
 
     private bool LookForFood()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
 
         foreach (var hitCollider in inInteractRadius)
         {
@@ -248,8 +263,8 @@ public class UnitController : MonoBehaviour
 
     private bool LookForDrink()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
 
         foreach (var hitCollider in inInteractRadius)
         {
@@ -273,14 +288,14 @@ public class UnitController : MonoBehaviour
 
     private void lookForValidMatingPartners()
     {
-        if (unit.Gens.isFemale)
+        if (unit.Gens.IsFemale)
         {
             FemaleMating();
             return;
         }
         else
         {
-            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.senseRadius);
+            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
 
             foreach (var hitCollider in inSenseRadius)
             {
@@ -309,9 +324,9 @@ public class UnitController : MonoBehaviour
 
     public bool ProposeMating(Unit offeredMatting)
     {
-        if(currentBehaviourState == BehaviourState.Mating && unit.Gens.isFemale)
+        if(currentBehaviourState == BehaviourState.Mating && unit.Gens.IsFemale)
         {
-            if (rand.NextDouble() > offeredMatting.Gens.attractiveness)
+            if (rand.NextDouble() > offeredMatting.Gens.Attractivness)
             {
                 return true;
             }
@@ -340,7 +355,8 @@ public class UnitController : MonoBehaviour
 
     private bool CheckForValidPartner()
     {
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.interactionRadius, LayerMask.NameToLayer(unit.Gens.species));
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius, 1 << LayerMask.NameToLayer(unit.Gens.Species));
+        
         foreach (var hitCollider in inInteractRadius)
         {
             UnitController potentialCopulateTarget = hitCollider.GetComponent<UnitController>();
@@ -374,9 +390,9 @@ public class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
-        if (unit.Gens.isFemale)
+        if (unit.Gens.IsFemale)
         {
-            unit.PregnancyCounter = unit.Gens.pregnancyTime;
+            unit.PregnancyCounter = unit.Gens.PregnancyTime;
             unit.IsPregnant = true;
         }
         else
@@ -412,10 +428,10 @@ public class UnitController : MonoBehaviour
     private void Wandering()
     {
         CurrentBehaviourState = BehaviourState.Wandering;
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.walkRadius;
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.WalkRadius;
         randomDirection += transform.position;
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.walkRadius, 1);
+        NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.WalkRadius, 1);
         Vector3 finalPosition = hit.position;
         if(navMeshAgent.isOnNavMesh)
         {
@@ -428,7 +444,7 @@ public class UnitController : MonoBehaviour
         if(!unit.IsAdult)
         {
             GameObject adultObject;
-            if(unit.Gens.isFemale)
+            if(unit.Gens.IsFemale)
             {
                 adultObject = unit.femalePrefab;
             }
@@ -443,15 +459,15 @@ public class UnitController : MonoBehaviour
 
     private void Birth()
     {
-        if (unit.IsAdult && unit.Gens.isFemale)
+        if (unit.IsAdult && unit.Gens.IsFemale)
         {
-            int offspringQuantity = rand.Next(unit.Gens.offspringMaxPopulation);
+            int offspringQuantity = rand.Next(unit.Gens.OffspringMaxPopulation);
 
             for(int i = 0; i < offspringQuantity; i++)
             {
                 Unit offspring = Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 // 50% chance for gender
-                offspring.Gens.isFemale = (rand.NextDouble() > 0.5f);
+                offspring.Gens.IsFemale = (rand.NextDouble() > 0.5f);
             }
         }
         unit.IsPregnant = false;

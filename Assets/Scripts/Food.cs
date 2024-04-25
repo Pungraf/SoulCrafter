@@ -26,7 +26,7 @@ public class Food : MonoBehaviour
     }
     public void Eat(Unit eatingUnit)
     {
-        float amountToConsume = eatingUnit.Gens.consumingSpeed * Time.deltaTime;
+        float amountToConsume = eatingUnit.Gens.ConsumingSpeed * Time.deltaTime;
 
         if(currentNutritiousness > amountToConsume)
         {
