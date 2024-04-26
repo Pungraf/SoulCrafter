@@ -5,28 +5,28 @@ using UnityEngine;
 [System.Serializable]
 public class GenSample
 {
-    [SerializeField] private string _species;
+    [SerializeField] protected string _species;
 
-    [SerializeField] private bool _isFemale;
-    [SerializeField] private float _lifeTime;
-    [SerializeField] private float _maxHealth;
-    [SerializeField] private float _hungerTreshold;
-    [SerializeField] private float _hungerResistance;
-    [SerializeField] private float _thirstTreshold;
-    [SerializeField] private float _thirstResistance;
-    [SerializeField] private float _urgeTreshold;
+    [SerializeField] protected bool _isFemale;
+    [SerializeField] protected float _lifeTime;
+    [SerializeField] protected float _maxHealth;
+    [SerializeField] protected float _hungerTreshold;
+    [SerializeField] protected float _hungerResistance;
+    [SerializeField] protected float _thirstTreshold;
+    [SerializeField] protected float _thirstResistance;
+    [SerializeField] protected float _urgeTreshold;
 
-    [SerializeField] private float _walkRadius;
-    [SerializeField] private float _walkSpeed;
-    [SerializeField] private float _senseRadius;
-    [SerializeField] private float _interactionRadius;
+    [SerializeField] protected float _walkRadius;
+    [SerializeField] protected float _walkSpeed;
+    [SerializeField] protected float _senseRadius;
+    [SerializeField] protected float _interactionRadius;
 
-    [SerializeField] private float _consumingSpeed;
+    [SerializeField] protected float _consumingSpeed;
 
-    [SerializeField] private float _pregnancyTime;
-    [SerializeField] private float _offspringTime;
-    [SerializeField] private int _offspringMaxPopulation;
-    [SerializeField] private float _attractivness;
+    [SerializeField] protected float _pregnancyTime;
+    [SerializeField] protected float _offspringTime;
+    [SerializeField] protected int _offspringMaxPopulation;
+    [SerializeField] protected float _attractivness;
 
     public string Species
     {

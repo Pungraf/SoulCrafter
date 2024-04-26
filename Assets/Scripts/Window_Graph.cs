@@ -161,6 +161,7 @@ public class Window_Graph : MonoBehaviour
         ChangeChildrenOreder();
     }
 
+    
     private GameObject CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
     {
         GameObject gameObject = new GameObject("dotConnection", typeof(UnityEngine.UI.Image));
