@@ -81,7 +81,7 @@ public class GenMerger: GenSample
         get { return _offspringTime / _samplesCount; }
         set { _offspringTime += value; }
     }
-    public new int OffspringMaxPopulation
+    public new float OffspringMaxPopulation
     {
         get { return _offspringMaxPopulation / _samplesCount; }
         set { _offspringMaxPopulation += value; }

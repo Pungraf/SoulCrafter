@@ -28,6 +28,7 @@ public class UnitController : MonoBehaviour
             behaviurCounter = behaviourTimeLimit;
         }
     }
+    public NavMeshAgent navMeshAgent;
 
     System.Random rand = new System.Random();
 
@@ -36,17 +37,17 @@ public class UnitController : MonoBehaviour
     [SerializeField] private float behaviourTimeLimit = 10f;
 
     private float behaviurCounter;
-    private NavMeshAgent navMeshAgent;
     private Unit unit;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         unit = GetComponent<Unit>();
-
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
         CurrentBehaviourState = BehaviourState.None;
-        navMeshAgent.speed = unit.Gens.WalkSpeed;
     }
 
 
@@ -397,7 +398,12 @@ public class UnitController : MonoBehaviour
         }
         else
         {
-            unit.targetedTransform.GetComponent<UnitController>().Copulating();
+            if(unit.targetedTransform != null)
+            {
+                unit.targetedTransform.GetComponent<UnitController>().Copulating();
+                unit.targetedTransform.GetComponent<Unit>().LastPartnerGenSample = unit.Gens;
+            }
+            
         }
     }
 
@@ -452,7 +458,8 @@ public class UnitController : MonoBehaviour
             {
                 adultObject = unit.malePrefab;
             }
-            Instantiate(adultObject, transform.position, Quaternion.identity);
+            Unit adultUnit =  Instantiate(adultObject, transform.position, Quaternion.identity).GetComponent<Unit>();
+            adultUnit.Initialize(unit.Gens);
             Destroy(gameObject);
         }
     }
@@ -461,15 +468,17 @@ public class UnitController : MonoBehaviour
     {
         if (unit.IsAdult && unit.Gens.IsFemale)
         {
-            int offspringQuantity = rand.Next(unit.Gens.OffspringMaxPopulation);
+            int offspringQuantity = rand.Next((int)unit.Gens.OffspringMaxPopulation);
 
             for(int i = 0; i < offspringQuantity; i++)
             {
                 Unit offspring = Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 // 50% chance for gender
+                offspring.Initialize(GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f));
                 offspring.Gens.IsFemale = (rand.NextDouble() > 0.5f);
             }
         }
         unit.IsPregnant = false;
+        unit.LastPartnerGenSample = null;
     }
 }

@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d7f2933da0de40bcb60ac6440abde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 0}
   currentBehaviourState: 0
   idleTime: 5
   behaviourTimeLimit: 10
@@ -194,20 +195,39 @@ MonoBehaviour:
     _isFemale: 0
     _lifeTime: 400
     _maxHealth: 100
-    _hungerTreshold: 30
-    _hungerResistance: 0.6
-    _thirstTreshold: 30
-    _thirstResistance: 0.6
-    _urgeTreshold: 100
-    _walkRadius: 10
-    _walkSpeed: 6
-    _senseRadius: 10
+    _hungerTreshold: 60
+    _hungerResistance: 0.4
+    _thirstTreshold: 60
+    _thirstResistance: 0.4
+    _urgeTreshold: 10
+    _walkRadius: 20
+    _walkSpeed: 3
+    _senseRadius: 20
     _interactionRadius: 2
-    _consumingSpeed: 2
-    _pregnancyTime: 20
-    _offspringTime: 30
+    _consumingSpeed: 5
+    _pregnancyTime: 60
+    _offspringTime: 120
     _offspringMaxPopulation: 5
     _attractivness: 0.5
+  lastPartnerGenSample:
+    _species: 
+    _isFemale: 0
+    _lifeTime: 0
+    _maxHealth: 0
+    _hungerTreshold: 0
+    _hungerResistance: 0
+    _thirstTreshold: 0
+    _thirstResistance: 0
+    _urgeTreshold: 0
+    _walkRadius: 0
+    _walkSpeed: 0
+    _senseRadius: 0
+    _interactionRadius: 0
+    _consumingSpeed: 0
+    _pregnancyTime: 0
+    _offspringTime: 0
+    _offspringMaxPopulation: 0
+    _attractivness: 0
   isAdult: 0
   health: 100
   remainingLifeTime: 0

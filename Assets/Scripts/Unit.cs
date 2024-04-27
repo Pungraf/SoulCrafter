@@ -11,7 +11,10 @@ public class Unit : MonoBehaviour
 
     public Transform targetedTransform;
 
+    private UnitController controller;
+
     [SerializeField] private GenSample gens;
+    [SerializeField] private GenSample lastPartnerGenSample;
 
     [SerializeField] private bool isAdult = true;
     [SerializeField] private float health = 100;
@@ -36,15 +39,16 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitDead;
 
 
+    private void Awake()
+    {
+        controller = GetComponent<UnitController>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         //Initialize starting parameters
-        health = gens.MaxHealth;
-        remainingLifeTime = gens.LifeTime;
-        offspringCounter = gens.OffspringTime;
-        isReadyToGrowUp = false;
-
+        Initialize();
         transform.SetParent(SoulsManager.Instance.WispsHolder);
 
         if (gens.IsFemale)
@@ -62,11 +66,41 @@ public class Unit : MonoBehaviour
         CheckStatuses();
     }
 
+    public void Initialize(GenSample gen = null)
+    {
+        if(gen != null)
+        {
+            gens = gen;
+        }
+        if(IsAdult)
+        {
+            controller.navMeshAgent.speed = gens.WalkSpeed;
+            health = gens.MaxHealth;
+        }
+        else
+        {
+            controller.navMeshAgent.speed = gens.WalkSpeed / 2;
+            health = gens.MaxHealth / 2;
+            Hunger = 50f;
+            Thirst = 50f;
+        }
+        
+        remainingLifeTime = gens.LifeTime;
+        offspringCounter = gens.OffspringTime;
+        isReadyToGrowUp = false;
+
+    }
+
     // Accesors
     public GenSample Gens
     {
         get { return gens; }
         set { gens = value; }
+    }
+    public GenSample LastPartnerGenSample
+    {
+        get { return lastPartnerGenSample; }
+        set { lastPartnerGenSample = value; }
     }
     public float Health
     {
@@ -191,6 +225,24 @@ public class Unit : MonoBehaviour
             {
                 isReadyToGrowUp = true;
             }
+
+            if (Hunger > gens.HungerTreshold / 2)
+            {
+                isHungry = true;
+            }
+            else
+            {
+                isHungry = false;
+            }
+
+            if (Thirst > gens.ThirstTreshold / 2)
+            {
+                IsThirsty = true;
+            }
+            else
+            {
+                IsThirsty = false;
+            }
         }
         else
         {
@@ -212,24 +264,24 @@ public class Unit : MonoBehaviour
             {
                 isEagerToMate = false;
             }
-        }
 
-        if (Hunger > gens.HungerTreshold)
-        {
-            isHungry = true;
-        }
-        else
-        {
-            isHungry = false;
-        }
+            if (Hunger > gens.HungerTreshold)
+            {
+                isHungry = true;
+            }
+            else
+            {
+                isHungry = false;
+            }
 
-        if (Thirst > gens.ThirstTreshold)
-        {
-            IsThirsty = true;
-        }
-        else
-        {
-            IsThirsty = false;
+            if (Thirst > gens.ThirstTreshold)
+            {
+                IsThirsty = true;
+            }
+            else
+            {
+                IsThirsty = false;
+            }
         }
     }
 

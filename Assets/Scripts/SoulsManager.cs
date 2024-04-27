@@ -182,7 +182,7 @@ public class SoulsManager : MonoBehaviour
             List<int> genList = new List<int>();
             foreach (GenMerger gen in genTimeLine)
             {
-                genList.Add(gen.OffspringMaxPopulation);
+                genList.Add(Convert.ToInt32(gen.OffspringMaxPopulation));
             }
             window_graph.ShowGraph(genList, 60, (int _i) => (_i + 1) + " '", (float _f) => _f + " Qt");
         }
