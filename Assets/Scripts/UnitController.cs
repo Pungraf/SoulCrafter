@@ -391,7 +391,7 @@ public class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
-        if (unit.Gens.IsFemale)
+        if (unit.Gens.IsFemale && unit.targetedTransform.GetComponent<Unit>().Gens.ReproductionChance > rand.NextDouble())
         {
             unit.PregnancyCounter = unit.Gens.PregnancyTime;
             unit.IsPregnant = true;

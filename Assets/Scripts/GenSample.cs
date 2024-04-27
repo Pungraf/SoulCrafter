@@ -27,6 +27,7 @@ public class GenSample
     [SerializeField] protected float _offspringTime;
     [SerializeField] protected float _offspringMaxPopulation;
     [SerializeField] protected float _attractivness;
+    [SerializeField] protected float _reproductionChance;
 
     public string Species
     {
@@ -114,6 +115,12 @@ public class GenSample
         set { _offspringMaxPopulation = value; }
     }
     public float Attractivness
+    {
+        get { return _attractivness; }
+        set { _attractivness = value; }
+    }
+
+    public float ReproductionChance
     {
         get { return _attractivness; }
         set { _attractivness = value; }

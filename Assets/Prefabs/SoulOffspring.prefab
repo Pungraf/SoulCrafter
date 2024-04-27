@@ -209,6 +209,7 @@ MonoBehaviour:
     _offspringTime: 120
     _offspringMaxPopulation: 5
     _attractivness: 0.5
+    _reproductionChance: 0.5
   lastPartnerGenSample:
     _species: 
     _isFemale: 0
@@ -228,6 +229,7 @@ MonoBehaviour:
     _offspringTime: 0
     _offspringMaxPopulation: 0
     _attractivness: 0
+    _reproductionChance: 0
   isAdult: 0
   health: 100
   remainingLifeTime: 0

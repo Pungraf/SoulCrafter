@@ -90,7 +90,7 @@ public class GenManager : MonoBehaviour
         newGen.OffspringTime = RandomOverRange(firstSample.OffspringTime, secondSample.OffspringTime, rangeModifier);
         newGen.OffspringMaxPopulation = RandomOverRange(firstSample.OffspringMaxPopulation, secondSample.OffspringMaxPopulation, rangeModifier);
         newGen.Attractivness = RandomOverRange(firstSample.Attractivness, secondSample.Attractivness, rangeModifier);
-
+        newGen.ReproductionChance = RandomOverRange(firstSample.ReproductionChance, secondSample.ReproductionChance, rangeModifier);
         return newGen;
     }
 

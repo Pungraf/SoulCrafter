@@ -91,4 +91,10 @@ public class GenMerger: GenSample
         get { return _attractivness / _samplesCount; }
         set { _attractivness += value; }
     }
+
+    public new float ReproductionChance
+    {
+        get { return _attractivness / _samplesCount; }
+        set { _attractivness += value; }
+    }
 }
