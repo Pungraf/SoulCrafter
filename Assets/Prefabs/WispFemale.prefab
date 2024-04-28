@@ -200,7 +200,7 @@ MonoBehaviour:
   targetedTransform: {fileID: 0}
   gens:
     _species: 
-    _isFemale: 0
+    _isFemale: 1
     _lifeTime: 0
     _maxHealth: 0
     _hungerTreshold: 0
@@ -253,6 +253,8 @@ MonoBehaviour:
   isReadyToBear: 0
   pregnancyCounter: 0
   isPregnant: 0
+  eggPrefab: {fileID: 2681955293210169971, guid: 9de444c84fbe37e4abf04a3cb789b4ee,
+    type: 3}
 --- !u!114 &7805208632879594182
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,16 +30,16 @@ public abstract class UnitController : MonoBehaviour
     }
     public NavMeshAgent navMeshAgent;
 
-    System.Random rand = new System.Random();
+    protected System.Random rand = new System.Random();
 
-    [SerializeField] private BehaviourState currentBehaviourState = BehaviourState.None;
-    [SerializeField] private float idleTime = 5f;
-    [SerializeField] private float behaviourTimeLimit = 10f;
+    [SerializeField] protected BehaviourState currentBehaviourState = BehaviourState.None;
+    [SerializeField] protected float idleTime = 5f;
+    [SerializeField] protected float behaviourTimeLimit = 10f;
 
-    private float behaviurCounter;
-    private Unit unit;
+    protected float behaviurCounter;
+    protected Unit unit;
 
-    private void Awake()
+    protected void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         unit = GetComponent<Unit>();
@@ -62,7 +62,7 @@ public abstract class UnitController : MonoBehaviour
         DeprecatedBehaviour();
     }
 
-    private void ExecuteBehaviour()
+    protected void ExecuteBehaviour()
     {
         switch(CurrentBehaviourState)
         {
@@ -144,7 +144,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private bool BehaviourDestintaionReached()
+    protected bool BehaviourDestintaionReached()
     {
         if (!navMeshAgent.pathPending && navMeshAgent.isOnNavMesh)
         {
@@ -159,7 +159,7 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    private void DeprecatedBehaviour()
+    protected void DeprecatedBehaviour()
     {
         if(behaviurCounter <= 0)
         {
@@ -167,14 +167,14 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private void FindeActivity()
+    protected void FindeActivity()
     {
         // Critical behaviuors
         if (unit.IsHungry || unit.IsThirsty)
         {
             if(unit.Hunger > unit.Thirst)
             {
-                if (!LookForFood())
+                if (!LookForFood() && unit.IsThirsty)
                 {
                     if (!LookForDrink())
                     {
@@ -184,7 +184,7 @@ public abstract class UnitController : MonoBehaviour
             }
             else
             {
-                if (!LookForDrink())
+                if (!LookForDrink() && unit.IsHungry)
                 {
                     if (!LookForFood())
                     {
@@ -214,7 +214,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private void LifeCycleStatusCheck()
+    protected void LifeCycleStatusCheck()
     {
         if (unit.IsAdult)
         {
@@ -235,7 +235,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private bool LookForFood()
+    protected bool LookForFood()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
         Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
@@ -260,7 +260,7 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    private bool LookForDrink()
+    protected bool LookForDrink()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
         Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
@@ -285,7 +285,7 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    private void lookForValidMatingPartners()
+    protected void lookForValidMatingPartners()
     {
         if (unit.Gens.IsFemale)
         {
@@ -315,7 +315,7 @@ public abstract class UnitController : MonoBehaviour
         Wandering();
     }
 
-    private void IdleBehaviour(float time)
+    protected void IdleBehaviour(float time)
     {
         CurrentBehaviourState = BehaviourState.Idle;
         behaviurCounter = time;
@@ -338,13 +338,13 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    private void MaleMating(Vector3 partnerPosition)
+    protected void MaleMating(Vector3 partnerPosition)
     {
         navMeshAgent.SetDestination(partnerPosition);
         CurrentBehaviourState = BehaviourState.Mating;
     }
 
-    private void FemaleMating()
+    protected void FemaleMating()
     { 
         if(!unit.IsPregnant)
         {
@@ -352,7 +352,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private bool CheckForValidPartner()
+    protected bool CheckForValidPartner()
     {
         Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius, 1 << LayerMask.NameToLayer(unit.Gens.Species));
         
@@ -405,31 +405,31 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private void SearchingForFood( Vector3 foodPosition)
+    protected void SearchingForFood( Vector3 foodPosition)
     {
         navMeshAgent.SetDestination(foodPosition);
         CurrentBehaviourState = BehaviourState.SearchingForFood;
     }
 
-    private void SearchingForDrink(Vector3 drinkPosition)
+    protected void SearchingForDrink(Vector3 drinkPosition)
     {
         navMeshAgent.SetDestination(drinkPosition);
         CurrentBehaviourState = BehaviourState.SearchingForDrink;
     }
 
-    private void EatFood(Food food)
+    protected void EatFood(Food food)
     {
         unit.targetedTransform = food.transform;
         currentBehaviourState = BehaviourState.Eating;
     }
 
-    private void Drink(Drink drink)
+    protected void Drink(Drink drink)
     {
         unit.targetedTransform = drink.transform;
         currentBehaviourState = BehaviourState.Drinking;
     }
 
-    private void Wandering()
+    protected void Wandering()
     {
         CurrentBehaviourState = BehaviourState.Wandering;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.WalkRadius;
@@ -443,7 +443,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private void Mature()
+    protected void Mature()
     {
         if(unit.evolvedUnitPrefab == null)
         {
@@ -457,7 +457,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    private void Birth()
+    protected virtual void Birth()
     {
         if (unit.IsAdult && unit.Gens.IsFemale)
         {
@@ -466,8 +466,9 @@ public abstract class UnitController : MonoBehaviour
             for(int i = 0; i < offspringQuantity; i++)
             {
                 Unit offspring;
+                GenSample newGen = GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f);
                 // 50% chance for gender
-                if (rand.NextDouble() > 0.5f)
+                if (newGen.IsFemale)
                 {
                     offspring = Instantiate(unit.femaleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 }
@@ -476,7 +477,7 @@ public abstract class UnitController : MonoBehaviour
                     offspring = Instantiate(unit.maleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 }
                
-                offspring.Initialize(GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f));
+                offspring.Initialize(newGen, newGen.MaxHealth,newGen.HungerTreshold, newGen.ThirstTreshold);
             }
         }
         unit.IsPregnant = false;

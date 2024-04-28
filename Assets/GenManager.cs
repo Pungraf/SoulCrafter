@@ -9,6 +9,8 @@ public class GenManager : MonoBehaviour
 
     private GenMerger genMerged;
 
+    System.Random rand = new System.Random();
+
     private void Awake()
     {
         if (Instance != null)
@@ -74,6 +76,8 @@ public class GenManager : MonoBehaviour
         }
 
         newGen.Species = firstSample.Species;
+        // 50% chance for gender
+        newGen.IsFemale = rand.NextDouble() > 0.5f;
         newGen.LifeTime = RandomOverRange(firstSample.LifeTime, secondSample.LifeTime, rangeModifier);
         newGen.MaxHealth = RandomOverRange(firstSample.MaxHealth, secondSample.MaxHealth, rangeModifier);
         newGen.HungerTreshold = RandomOverRange(firstSample.HungerTreshold, secondSample.HungerTreshold, rangeModifier);
