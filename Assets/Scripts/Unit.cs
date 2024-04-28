@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
-    public GameObject offspringPrefab;
-    public GameObject malePrefab;
-    public GameObject femalePrefab;
+    public GameObject femaleOffspringPrefab;
+    public GameObject maleOffspringPrefab;
+    public GameObject evolvedUnitPrefab;
+    public GameObject corpseUnitPrefab;
 
     public Transform targetedTransform;
 
@@ -18,7 +19,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private bool isAdult = true;
     [SerializeField] private float health = 100;
-    [SerializeField] private float remainingLifeTime = 0;
+    [SerializeField] private float remainingStageLifeTime = 0;
     [SerializeField] private float hunger = 0;
     [SerializeField] private float thirst = 0;
     [SerializeField] private float urge = 0;
@@ -30,7 +31,6 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool isReadyToBear;
 
     [SerializeField] private float pregnancyCounter;
-    [SerializeField] private float offspringCounter;
     //Female gense
     [SerializeField] private bool isPregnant = false;
 
@@ -66,7 +66,7 @@ public class Unit : MonoBehaviour
         CheckStatuses();
     }
 
-    public void Initialize(GenSample gen = null)
+    public void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
     {
         if(gen != null)
         {
@@ -75,7 +75,9 @@ public class Unit : MonoBehaviour
         if(IsAdult)
         {
             controller.navMeshAgent.speed = gens.WalkSpeed;
-            health = gens.MaxHealth;
+            this.health = health;
+            this.hunger = hunger;
+            this.thirst = thirst;
         }
         else
         {
@@ -84,9 +86,15 @@ public class Unit : MonoBehaviour
             Hunger = 50f;
             Thirst = 50f;
         }
-        
-        remainingLifeTime = gens.LifeTime;
-        offspringCounter = gens.OffspringTime;
+
+        if(isAdult)
+        {
+            remainingStageLifeTime = gens.LifeTime;
+        }
+        else
+        {
+            remainingStageLifeTime = gens.OffspringTime;
+        }
         isReadyToGrowUp = false;
 
     }
@@ -172,10 +180,10 @@ public class Unit : MonoBehaviour
         set { isPregnant = value;}
     }
 
-    public float RemainingLifeTime
+    public float RemainingStageLifeTime
     {
-        get { return remainingLifeTime; }
-        set { remainingLifeTime = value; }
+        get { return remainingStageLifeTime; }
+        set { remainingStageLifeTime = value; }
     }
 
     public float PregnancyCounter
@@ -183,13 +191,6 @@ public class Unit : MonoBehaviour
         get { return pregnancyCounter; }
         set { pregnancyCounter = value; }
     }
-
-    public float OffspringCounter
-    {
-        get { return offspringCounter; }
-        set { offspringCounter = value; }
-    }
-
 
     public void Feed(float amount)
     {
@@ -211,21 +212,19 @@ public class Unit : MonoBehaviour
 
     public void Die()
     {
-        //Debug.Log("Died with hunger: " + hunger + " and thirst: " + thirst + ", female:  " + gens.isFemale + ", pregnant status: " + isPregnant + ", lived: " + RemainingLifeTime + " secodns.");
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
-        Destroy(gameObject);
+        controller.Death();
     }
 
     private void CheckStatuses()
     {
+        RemainingStageLifeTime -= Time.deltaTime;
+        if (RemainingStageLifeTime <= 0)
+        {
+            isReadyToGrowUp = true;
+        }
         if (!isAdult)
         {
-            offspringCounter -= Time.deltaTime;
-            if (offspringCounter <= 0)
-            {
-                isReadyToGrowUp = true;
-            }
-
             if (Hunger > gens.HungerTreshold / 2)
             {
                 isHungry = true;
@@ -247,7 +246,6 @@ public class Unit : MonoBehaviour
         else
         {
             Urge += Time.deltaTime;
-            RemainingLifeTime -= Time.deltaTime;
             if (IsPregnant)
             {
                 pregnancyCounter -= Time.deltaTime;
@@ -295,7 +293,7 @@ public class Unit : MonoBehaviour
         {
             Health -= Time.deltaTime * 10;
         }
-        if (health <= 0 || remainingLifeTime <= 0)
+        if (health <= 0)
         {
             Die();
         }

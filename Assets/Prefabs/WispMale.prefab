@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8291344813399346514}
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9d347e625bb7f54b98c989a99c8cdb7, type: 2}
+  - {fileID: 2100000, guid: af7919922634ea3439efb2391a9c5baf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,12 +107,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8291344813399346514}
-  - component: {fileID: 8971831224721758614}
   - component: {fileID: 4258381993688489328}
-  - component: {fileID: 7895760233304102100}
-  - component: {fileID: 761177702870868642}
+  - component: {fileID: 5334816998270578032}
+  - component: {fileID: 1102431838014547513}
+  - component: {fileID: 4214859869093625885}
   m_Layer: 6
-  m_Name: SoulOffspring
+  m_Name: WispMale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,29 +127,13 @@ Transform:
   m_GameObject: {fileID: 7207470651662688898}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 0, z: -10.23}
+  m_LocalPosition: {x: 4.69, y: 0, z: -1.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1105466783390221476}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8971831224721758614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7207470651662688898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db4d7f2933da0de40bcb60ac6440abde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
-  currentBehaviourState: 0
-  idleTime: 5
-  behaviourTimeLimit: 10
 --- !u!195 &4258381993688489328
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -172,79 +156,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7895760233304102100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7207470651662688898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 778757e108dbb8e44b6db480395d7c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offspringPrefab: {fileID: 0}
-  malePrefab: {fileID: 7207470651662688898, guid: daaef0255c250b54aa564fbe6d205f0b,
-    type: 3}
-  femalePrefab: {fileID: 7207470651662688898, guid: 80610df0743f0e94ebeb1bd9299f887f,
-    type: 3}
-  targetedTransform: {fileID: 0}
-  gens:
-    _species: Wisp
-    _isFemale: 0
-    _lifeTime: 400
-    _maxHealth: 100
-    _hungerTreshold: 60
-    _hungerResistance: 0.4
-    _thirstTreshold: 60
-    _thirstResistance: 0.4
-    _urgeTreshold: 10
-    _walkRadius: 20
-    _walkSpeed: 3
-    _senseRadius: 20
-    _interactionRadius: 2
-    _consumingSpeed: 5
-    _pregnancyTime: 60
-    _offspringTime: 120
-    _offspringMaxPopulation: 5
-    _attractivness: 0.5
-    _reproductionChance: 0.5
-  lastPartnerGenSample:
-    _species: 
-    _isFemale: 0
-    _lifeTime: 0
-    _maxHealth: 0
-    _hungerTreshold: 0
-    _hungerResistance: 0
-    _thirstTreshold: 0
-    _thirstResistance: 0
-    _urgeTreshold: 0
-    _walkRadius: 0
-    _walkSpeed: 0
-    _senseRadius: 0
-    _interactionRadius: 0
-    _consumingSpeed: 0
-    _pregnancyTime: 0
-    _offspringTime: 0
-    _offspringMaxPopulation: 0
-    _attractivness: 0
-    _reproductionChance: 0
-  isAdult: 0
-  health: 100
-  remainingLifeTime: 0
-  hunger: 0
-  thirst: 0
-  urge: 0
-  isHungry: 0
-  isThirsty: 0
-  isEagerToMate: 0
-  isReadyToGrowUp: 0
-  isReadyToBear: 0
-  pregnancyCounter: 0
-  offspringCounter: 0
-  isPregnant: 0
---- !u!136 &761177702870868642
+--- !u!136 &5334816998270578032
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,3 +179,91 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &1102431838014547513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207470651662688898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccced80c5462b43479194c94e4a35bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  femaleOffspringPrefab: {fileID: 0}
+  maleOffspringPrefab: {fileID: 0}
+  evolvedUnitPrefab: {fileID: 0}
+  corpseUnitPrefab: {fileID: 0}
+  targetedTransform: {fileID: 0}
+  gens:
+    _species: 
+    _isFemale: 0
+    _lifeTime: 0
+    _maxHealth: 0
+    _hungerTreshold: 0
+    _hungerResistance: 0
+    _thirstTreshold: 0
+    _thirstResistance: 0
+    _urgeTreshold: 0
+    _walkRadius: 0
+    _walkSpeed: 0
+    _senseRadius: 0
+    _interactionRadius: 0
+    _consumingSpeed: 0
+    _pregnancyTime: 0
+    _offspringTime: 0
+    _incubationTime: 0
+    _offspringMaxPopulation: 0
+    _attractivness: 0
+    _reproductionChance: 0
+  lastPartnerGenSample:
+    _species: 
+    _isFemale: 0
+    _lifeTime: 0
+    _maxHealth: 0
+    _hungerTreshold: 0
+    _hungerResistance: 0
+    _thirstTreshold: 0
+    _thirstResistance: 0
+    _urgeTreshold: 0
+    _walkRadius: 0
+    _walkSpeed: 0
+    _senseRadius: 0
+    _interactionRadius: 0
+    _consumingSpeed: 0
+    _pregnancyTime: 0
+    _offspringTime: 0
+    _incubationTime: 0
+    _offspringMaxPopulation: 0
+    _attractivness: 0
+    _reproductionChance: 0
+  isAdult: 1
+  health: 100
+  remainingStageLifeTime: 0
+  hunger: 0
+  thirst: 0
+  urge: 0
+  isHungry: 0
+  isThirsty: 0
+  isEagerToMate: 0
+  isReadyToGrowUp: 0
+  isReadyToBear: 0
+  pregnancyCounter: 0
+  isPregnant: 0
+--- !u!114 &4214859869093625885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207470651662688898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a80ea90088921d4bac904c7c48be2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 0}
+  currentBehaviourState: 0
+  idleTime: 5
+  behaviourTimeLimit: 10

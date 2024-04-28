@@ -25,6 +25,7 @@ public class GenSample
 
     [SerializeField] protected float _pregnancyTime;
     [SerializeField] protected float _offspringTime;
+    [SerializeField] protected float _incubationTime;
     [SerializeField] protected float _offspringMaxPopulation;
     [SerializeField] protected float _attractivness;
     [SerializeField] protected float _reproductionChance;
@@ -109,6 +110,11 @@ public class GenSample
         get { return _offspringTime; }
         set { _offspringTime = value; }
     }
+    public float IncubationTime
+    {
+        get { return _incubationTime; }
+        set { _incubationTime = value; }
+    }
     public float OffspringMaxPopulation
     {
         get { return _offspringMaxPopulation; }
@@ -122,7 +128,7 @@ public class GenSample
 
     public float ReproductionChance
     {
-        get { return _attractivness; }
-        set { _attractivness = value; }
+        get { return _reproductionChance; }
+        set { _reproductionChance = value; }
     }
 }

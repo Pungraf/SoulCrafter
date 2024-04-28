@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class UnitController : MonoBehaviour
+public abstract class UnitController : MonoBehaviour
 {
     public enum BehaviourState
     {
@@ -228,12 +228,10 @@ public class UnitController : MonoBehaviour
                 }
             }
         }
-        else
+
+        if (unit.IsReadyToGrowUp)
         {
-            if (unit.IsReadyToGrowUp)
-            {
-                Mature();
-            }
+            Mature();
         }
     }
 
@@ -447,19 +445,14 @@ public class UnitController : MonoBehaviour
 
     private void Mature()
     {
-        if(!unit.IsAdult)
+        if(unit.evolvedUnitPrefab == null)
         {
-            GameObject adultObject;
-            if(unit.Gens.IsFemale)
-            {
-                adultObject = unit.femalePrefab;
-            }
-            else
-            {
-                adultObject = unit.malePrefab;
-            }
-            Unit adultUnit =  Instantiate(adultObject, transform.position, Quaternion.identity).GetComponent<Unit>();
-            adultUnit.Initialize(unit.Gens);
+            Death();
+        }
+        else
+        {
+            Unit evolvedUnit = Instantiate(unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
+            evolvedUnit.Initialize(unit.Gens, unit.Health, unit.Hunger, unit.Thirst);
             Destroy(gameObject);
         }
     }
@@ -472,13 +465,26 @@ public class UnitController : MonoBehaviour
 
             for(int i = 0; i < offspringQuantity; i++)
             {
-                Unit offspring = Instantiate(unit.offspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
+                Unit offspring;
                 // 50% chance for gender
+                if (rand.NextDouble() > 0.5f)
+                {
+                    offspring = Instantiate(unit.femaleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
+                }
+                else
+                {
+                    offspring = Instantiate(unit.maleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
+                }
+               
                 offspring.Initialize(GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f));
-                offspring.Gens.IsFemale = (rand.NextDouble() > 0.5f);
             }
         }
         unit.IsPregnant = false;
         unit.LastPartnerGenSample = null;
+    }
+
+    public void Death()
+    {
+        Destroy(gameObject);
     }
 }

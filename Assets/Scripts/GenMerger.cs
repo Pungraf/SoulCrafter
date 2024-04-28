@@ -81,6 +81,11 @@ public class GenMerger: GenSample
         get { return _offspringTime / _samplesCount; }
         set { _offspringTime += value; }
     }
+    public new float IncubationTime
+    {
+        get { return _incubationTime / _samplesCount; }
+        set { _incubationTime += value; }
+    }
     public new float OffspringMaxPopulation
     {
         get { return _offspringMaxPopulation / _samplesCount; }
@@ -94,7 +99,7 @@ public class GenMerger: GenSample
 
     public new float ReproductionChance
     {
-        get { return _attractivness / _samplesCount; }
-        set { _attractivness += value; }
+        get { return _reproductionChance / _samplesCount; }
+        set { _reproductionChance += value; }
     }
 }

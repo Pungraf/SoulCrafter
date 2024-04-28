@@ -88,6 +88,7 @@ public class GenManager : MonoBehaviour
         newGen.ConsumingSpeed = RandomOverRange(firstSample.ConsumingSpeed, secondSample.ConsumingSpeed, rangeModifier);
         newGen.PregnancyTime = RandomOverRange(firstSample.PregnancyTime, secondSample.PregnancyTime, rangeModifier);
         newGen.OffspringTime = RandomOverRange(firstSample.OffspringTime, secondSample.OffspringTime, rangeModifier);
+        newGen.IncubationTime = RandomOverRange(firstSample.IncubationTime, secondSample.IncubationTime, rangeModifier);
         newGen.OffspringMaxPopulation = RandomOverRange(firstSample.OffspringMaxPopulation, secondSample.OffspringMaxPopulation, rangeModifier);
         newGen.Attractivness = RandomOverRange(firstSample.Attractivness, secondSample.Attractivness, rangeModifier);
         newGen.ReproductionChance = RandomOverRange(firstSample.ReproductionChance, secondSample.ReproductionChance, rangeModifier);
