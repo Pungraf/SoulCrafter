@@ -49,7 +49,6 @@ public abstract class Unit : MonoBehaviour
     {
         //Initialize starting parameters
         Initialize();
-        transform.SetParent(SoulsManager.Instance.WispsHolder);
 
         if (gens.IsFemale)
         {
@@ -66,8 +65,9 @@ public abstract class Unit : MonoBehaviour
         CheckStatuses();
     }
 
-    public void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
+    public virtual void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
     {
+
         if(gen != null)
         {
             gens = gen;

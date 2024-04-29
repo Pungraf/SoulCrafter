@@ -43,7 +43,7 @@ public abstract class UnitEgg : MonoBehaviour
     }
 
     // TODO: create IInitializableUnit interface
-    public void Initialize(GenSample gen, GameObject evolveUnit, float health = 100, float hunger = 0, float thirst = 0)
+    public virtual void Initialize(GenSample gen, GameObject evolveUnit, float health = 100, float hunger = 0, float thirst = 0)
     {
         if (gen != null)
         {

@@ -407,14 +407,22 @@ public abstract class UnitController : MonoBehaviour
 
     protected void SearchingForFood( Vector3 foodPosition)
     {
-        navMeshAgent.SetDestination(foodPosition);
-        CurrentBehaviourState = BehaviourState.SearchingForFood;
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.SetDestination(foodPosition);
+            CurrentBehaviourState = BehaviourState.SearchingForFood;
+        }
+        
     }
 
     protected void SearchingForDrink(Vector3 drinkPosition)
     {
-        navMeshAgent.SetDestination(drinkPosition);
-        CurrentBehaviourState = BehaviourState.SearchingForDrink;
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.SetDestination(drinkPosition);
+            CurrentBehaviourState = BehaviourState.SearchingForDrink;
+        }
+        
     }
 
     protected void EatFood(Food food)
