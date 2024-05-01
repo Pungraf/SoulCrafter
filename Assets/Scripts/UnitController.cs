@@ -17,7 +17,8 @@ public abstract class UnitController : MonoBehaviour
         Drinking,
         Wandering,
         Mating,
-        Copulating
+        Copulating,
+        Hunting
     }
     public BehaviourState CurrentBehaviourState
     {
@@ -139,6 +140,8 @@ public abstract class UnitController : MonoBehaviour
                 }
                 break;
             case BehaviourState.Copulating:
+                break;
+            case BehaviourState.Hunting:
                 
                 break;
         }
@@ -172,7 +175,7 @@ public abstract class UnitController : MonoBehaviour
         // Critical behaviuors
         if (unit.IsHungry || unit.IsThirsty)
         {
-            if(unit.Hunger > unit.Thirst)
+            if(unit.IsHungry)
             {
                 if (!LookForFood() && unit.IsThirsty)
                 {
@@ -191,9 +194,7 @@ public abstract class UnitController : MonoBehaviour
                         Wandering();
                     }
                 }
-
             }
-            
         }
         // Secondary behaviours
         else if (unit.Urge >= unit.Gens.UrgeTreshold && unit.IsAdult)
@@ -242,19 +243,39 @@ public abstract class UnitController : MonoBehaviour
 
         foreach (var hitCollider in inInteractRadius)
         {
-            if (hitCollider.GetComponent<Food>() != null)
+            Food food = hitCollider.GetComponent<Food>();
+            if (food != null)
             {
-                EatFood(hitCollider.GetComponent<Food>());
-                return true;
+                if(unit.edibleFood.Contains(food.foodType))
+                {
+                    EatFood(hitCollider.GetComponent<Food>());
+                    return true;
+                }
             }
         }
+
+        Unit potentialHuntTarget = null;
         foreach (var hitCollider in inSenseRadius)
         {
-            if (hitCollider.GetComponent<Food>() != null)
+            Unit sensedUnit = hitCollider.GetComponent<Unit>();
+            Food food = hitCollider.GetComponent<Food>();
+            if(sensedUnit != null && sensedUnit != unit && unit.foodChainSpecies.Contains(sensedUnit.species))
             {
-                SearchingForFood(hitCollider.ClosestPoint(transform.position));
-                return true;
+                potentialHuntTarget = sensedUnit;
             }
+
+            if (food != null)
+            {
+                if (unit.edibleFood.Contains(food.foodType))
+                {
+                    SearchingForFood(hitCollider.ClosestPoint(transform.position));
+                    return true;
+                }
+            }
+        }
+        if(potentialHuntTarget != null)
+        {
+            StartCoroutine(Hunt(potentialHuntTarget));
         }
 
         return false;
@@ -413,6 +434,34 @@ public abstract class UnitController : MonoBehaviour
             CurrentBehaviourState = BehaviourState.SearchingForFood;
         }
         
+    }
+
+    IEnumerator Hunt(Unit huntedUnit)
+    {
+        unit.targetedTransform = huntedUnit.transform;
+        while(huntedUnit != null)
+        {
+            //TODO: Change detection mask here, nad in other Overlaps
+            Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
+            foreach (var hitCollider in inInteractRadius)
+            {
+                Unit unitInRange = hitCollider.GetComponent<Unit>();
+                if (unitInRange != null && unitInRange != unit && unit.foodChainSpecies.Contains(unitInRange.species))
+                {
+                    Debug.Log("Unit attacking " + unitInRange.name);
+                    //TODO: Change for attack speed
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+
+            if (navMeshAgent.isOnNavMesh && unit.targetedTransform != null)
+            {
+                navMeshAgent.SetDestination(unit.targetedTransform.position);
+                CurrentBehaviourState = BehaviourState.Hunting;
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+        yield return null;
     }
 
     protected void SearchingForDrink(Vector3 drinkPosition)

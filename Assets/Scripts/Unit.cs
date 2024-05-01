@@ -5,6 +5,12 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
+    public enum Species
+    {
+        Wisp,
+        Wolf
+    }
+
     public GameObject femaleOffspringPrefab;
     public GameObject maleOffspringPrefab;
     public GameObject evolvedUnitPrefab;
@@ -17,12 +23,15 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private GenSample gens;
     [SerializeField] private GenSample lastPartnerGenSample;
 
+    [SerializeField] public Species species;
     [SerializeField] private bool isAdult = true;
     [SerializeField] private float health = 100;
     [SerializeField] private float remainingStageLifeTime = 0;
     [SerializeField] private float hunger = 0;
     [SerializeField] private float thirst = 0;
     [SerializeField] private float urge = 0;
+    [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
+    [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
 
     [SerializeField] private bool isHungry;
     [SerializeField] private bool isThirsty;

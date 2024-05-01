@@ -240,12 +240,15 @@ MonoBehaviour:
     _offspringMaxPopulation: 0
     _attractivness: 0
     _reproductionChance: 0
+  species: 0
   isAdult: 1
   health: 100
   remainingStageLifeTime: 0
   hunger: 0
   thirst: 0
   urge: 0
+  edibleFood: 00000000
+  foodChainSpecies: 
   isHungry: 0
   isThirsty: 0
   isEagerToMate: 0

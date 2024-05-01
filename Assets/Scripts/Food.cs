@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    public enum FoodType
+    {
+        Vegetable,
+        Meat
+    }
+
+    [SerializeField] public FoodType foodType;
     [SerializeField] protected float maxLifeTime;
     [SerializeField] protected float nutritiousness;
 

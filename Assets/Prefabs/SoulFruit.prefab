@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1042c276b11cd784993d09beb9c9a47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodType: 0
   maxLifeTime: 90
   nutritiousness: 100
 --- !u!1 &7982222302064913249
