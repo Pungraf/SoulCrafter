@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class UnitController : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public abstract class UnitController : MonoBehaviour
         {
             currentBehaviourState = value;
             behaviurCounter = behaviourTimeLimit;
+            unit.targetedTransform = null;
         }
     }
     public NavMeshAgent navMeshAgent;
@@ -142,7 +144,7 @@ public abstract class UnitController : MonoBehaviour
             case BehaviourState.Copulating:
                 break;
             case BehaviourState.Hunting:
-                
+
                 break;
         }
     }
@@ -326,7 +328,7 @@ public abstract class UnitController : MonoBehaviour
                     {
                         unit.targetedTransform = potentialMatingTarget.transform;
                         potentialMatingTarget.unit.targetedTransform = transform;
-                        MaleMating(hitCollider.ClosestPoint(transform.position));
+                        MaleMating(hitCollider.ClosestPoint(transform.position), potentialMatingTarget.transform);
                         return;
                     }
                 }
@@ -359,10 +361,12 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    protected void MaleMating(Vector3 partnerPosition)
+    protected void MaleMating(Vector3 partnerPosition, Transform matingTarget)
     {
-        navMeshAgent.SetDestination(partnerPosition);
+        Unit targetMating = unit;
         CurrentBehaviourState = BehaviourState.Mating;
+        unit.targetedTransform = matingTarget;
+        navMeshAgent.SetDestination(partnerPosition);
     }
 
     protected void FemaleMating()
@@ -430,16 +434,18 @@ public abstract class UnitController : MonoBehaviour
     {
         if (navMeshAgent.isOnNavMesh)
         {
-            navMeshAgent.SetDestination(foodPosition);
             CurrentBehaviourState = BehaviourState.SearchingForFood;
+            navMeshAgent.SetDestination(foodPosition);
         }
         
     }
 
     IEnumerator Hunt(Unit huntedUnit)
     {
-        unit.targetedTransform = huntedUnit.transform;
-        while(huntedUnit != null)
+        CurrentBehaviourState = BehaviourState.Hunting;
+        Unit huntTarget = huntedUnit;
+        unit.targetedTransform = huntTarget.transform;
+        while(huntTarget != null)
         {
             //TODO: Change detection mask here, nad in other Overlaps
             Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.InteractionRadius);
@@ -448,42 +454,75 @@ public abstract class UnitController : MonoBehaviour
                 Unit unitInRange = hitCollider.GetComponent<Unit>();
                 if (unitInRange != null && unitInRange != unit && unit.foodChainSpecies.Contains(unitInRange.species))
                 {
-                    Debug.Log("Unit attacking " + unitInRange.name);
+                    huntTarget = unitInRange;
+                    unit.targetedTransform = huntTarget.transform;
+                    StartCoroutine(Attack(huntTarget));
                     //TODO: Change for attack speed
-                    yield return new WaitForSeconds(1f);
+                    yield return StartCoroutine(Attack(huntTarget));
+                    break;
                 }
             }
 
-            if (navMeshAgent.isOnNavMesh && unit.targetedTransform != null)
+            if (navMeshAgent.isOnNavMesh && huntTarget != null)
             {
-                navMeshAgent.SetDestination(unit.targetedTransform.position);
-                CurrentBehaviourState = BehaviourState.Hunting;
+                navMeshAgent.SetDestination(huntTarget.transform.position);
+                yield return new WaitForSeconds(0.5f);
             }
-            yield return new WaitForSeconds(0.5f);
         }
-        yield return null;
+        FindeActivity();
+    }
+
+    IEnumerator Attack(Unit targetUnit)
+    {
+        navMeshAgent.enabled = false;
+        Vector3 originalPosition = transform.position;
+        Vector3 dirToTarget = (targetUnit.transform.position - transform.position).normalized;
+        //TODO: parameter for uni radius
+        Vector3 attackPosition = targetUnit.transform.position - dirToTarget * (0.5f + 0.5f / 2);
+
+        float attackSpeed = 3;
+        float percent = 0;
+
+        bool hasAppliedDamage = false;
+
+        while (percent <= 1)
+        {
+            if (percent >= .5f && !hasAppliedDamage)
+            {
+                hasAppliedDamage = true;
+                //TODO: parameter for unit damage
+                targetUnit.TakeDamage(10f);
+            }
+            percent += Time.deltaTime * attackSpeed;
+            float interpolation = (-Mathf.Pow(percent, 2) + percent) * 4;
+            transform.position = Vector3.Lerp(originalPosition, attackPosition, interpolation);
+
+            yield return null;
+        }
+
+        navMeshAgent.enabled = true;
     }
 
     protected void SearchingForDrink(Vector3 drinkPosition)
     {
         if (navMeshAgent.isOnNavMesh)
         {
-            navMeshAgent.SetDestination(drinkPosition);
             CurrentBehaviourState = BehaviourState.SearchingForDrink;
+            navMeshAgent.SetDestination(drinkPosition);
         }
         
     }
 
     protected void EatFood(Food food)
     {
-        unit.targetedTransform = food.transform;
         currentBehaviourState = BehaviourState.Eating;
+        unit.targetedTransform = food.transform;
     }
 
     protected void Drink(Drink drink)
     {
-        unit.targetedTransform = drink.transform;
         currentBehaviourState = BehaviourState.Drinking;
+        unit.targetedTransform = drink.transform;
     }
 
     protected void Wandering()
@@ -543,6 +582,19 @@ public abstract class UnitController : MonoBehaviour
 
     public void Death()
     {
+        if(unit.corpseUnitPrefab != null)
+        {
+            Food corpse = Instantiate(unit.corpseUnitPrefab, transform.position, Quaternion.identity).GetComponent<Food>();
+            if (!unit.IsAdult)
+            {
+                corpse.Nutritiousness = unit.Gens.MaxHealth / 4f;
+            }
+            else
+            {
+                corpse.Nutritiousness = unit.Gens.MaxHealth / 2f;
+            }
+            corpse.Initialize();
+        }
         Destroy(gameObject);
     }
 }

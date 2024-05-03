@@ -32,7 +32,8 @@ public class FertilePlane : MonoBehaviour
                 int x = (int)renderer.bounds.size.x;
                 int z = (int)renderer.bounds.size.z;
                 Vector3 spawnPosition = new Vector3(transform.position.x - (x/2) + Random.Range(0, x), 0f, transform.position.z - (z / 2) + Random.Range(0, z));
-                GameObject newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity);
+                Food newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity).GetComponent<Food>();
+                newPlant.Initialize();
                 newPlant.transform.parent = transform;
             }
             fertilizeCounter = fertilizeTime;

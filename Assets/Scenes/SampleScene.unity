@@ -6224,26 +6224,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wolf
       objectReference: {fileID: 0}
-    - target: {fileID: 1397707917935130270, guid: c04b4a89f012bd845a985572678da7ca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2058680820461125766, guid: c04b4a89f012bd845a985572678da7ca,
-        type: 3}
-      propertyPath: m_StoppingDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2894623249736813553, guid: c04b4a89f012bd845a985572678da7ca,
-        type: 3}
-      propertyPath: gens._hungerTreshold
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2894623249736813553, guid: c04b4a89f012bd845a985572678da7ca,
-        type: 3}
-      propertyPath: foodChainSpecies.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3463418302598323927, guid: c04b4a89f012bd845a985572678da7ca,
         type: 3}
       propertyPath: m_LocalPosition.x

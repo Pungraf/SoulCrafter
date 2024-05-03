@@ -127,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 7207470651662688898}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.69, y: 0, z: -1.06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -194,7 +194,8 @@ MonoBehaviour:
   femaleOffspringPrefab: {fileID: 0}
   maleOffspringPrefab: {fileID: 0}
   evolvedUnitPrefab: {fileID: 0}
-  corpseUnitPrefab: {fileID: 0}
+  corpseUnitPrefab: {fileID: 8808340983654602511, guid: 2f5777db0ebc95844ba154da3c68bf5a,
+    type: 3}
   targetedTransform: {fileID: 0}
   gens:
     _species: 

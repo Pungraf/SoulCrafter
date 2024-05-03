@@ -15,12 +15,11 @@ public class Food : MonoBehaviour
     [SerializeField] protected float nutritiousness;
 
     private float currentLifeTime;
-    private float currentNutritiousness;
+    [SerializeField] private float currentNutritiousness;
 
     private void Start()
     {
-        currentLifeTime = maxLifeTime;
-        currentNutritiousness = nutritiousness;
+        Initialize();
     }
 
     private void Update()
@@ -46,5 +45,16 @@ public class Food : MonoBehaviour
             Destroy(gameObject);
         }
         
+    }
+    public float Nutritiousness
+    {
+        get { return nutritiousness; }
+        set { nutritiousness = value; }
+    }
+
+    public void Initialize()
+    {
+        currentLifeTime = maxLifeTime;
+        currentNutritiousness = nutritiousness;
     }
 }
