@@ -348,7 +348,7 @@ public abstract class UnitController : MonoBehaviour
     {
         if(currentBehaviourState == BehaviourState.Mating && unit.Gens.IsFemale)
         {
-            if (rand.NextDouble() > offeredMatting.Gens.Attractivness)
+            if (rand.NextDouble() < offeredMatting.Gens.Attractivness)
             {
                 return true;
             }
@@ -456,7 +456,6 @@ public abstract class UnitController : MonoBehaviour
                 {
                     huntTarget = unitInRange;
                     unit.targetedTransform = huntTarget.transform;
-                    StartCoroutine(Attack(huntTarget));
                     //TODO: Change for attack speed
                     yield return StartCoroutine(Attack(huntTarget));
                     break;
@@ -557,7 +556,7 @@ public abstract class UnitController : MonoBehaviour
     {
         if (unit.IsAdult && unit.Gens.IsFemale)
         {
-            int offspringQuantity = rand.Next((int)unit.Gens.OffspringMaxPopulation);
+            int offspringQuantity = rand.Next(1,(int)unit.Gens.OffspringMaxPopulation);
 
             for(int i = 0; i < offspringQuantity; i++)
             {

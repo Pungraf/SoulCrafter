@@ -27,6 +27,7 @@ public class SoulsManager : MonoBehaviour
     [SerializeField] private Toggle toggleAttractivness;
 
     public Transform WispsHolder;
+    public Transform WolfsHolder;
 
     private float samplingCounter = 0;
     private List<int> populationTimeLine = new List<int>();

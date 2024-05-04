@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3863750351393124155}
   - component: {fileID: 2894623249736813553}
   - component: {fileID: 2024571889775966183}
-  m_Layer: 0
-  m_Name: Wolf
+  m_Layer: 7
+  m_Name: WolfFemaleOffspring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,16 +95,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   femaleOffspringPrefab: {fileID: 0}
   maleOffspringPrefab: {fileID: 0}
-  evolvedUnitPrefab: {fileID: 0}
+  evolvedUnitPrefab: {fileID: 1397707917935130270, guid: 5ae6beb8b2123404abba82ee941143f6,
+    type: 3}
   corpseUnitPrefab: {fileID: 0}
   targetedTransform: {fileID: 0}
   gens:
     _species: Wolf
-    _isFemale: 0
+    _isFemale: 1
     _lifeTime: 3000
     _maxHealth: 1000
-    _hungerTreshold: 20
-    _hungerResistance: 1
+    _hungerTreshold: 30
+    _hungerResistance: 0.1
     _thirstTreshold: 60
     _thirstResistance: 0.2
     _urgeTreshold: 100
@@ -118,7 +119,7 @@ MonoBehaviour:
     _incubationTime: 0
     _offspringMaxPopulation: 2
     _attractivness: 0.8
-    _reproductionChance: 0.6
+    _reproductionChance: 1
   lastPartnerGenSample:
     _species: 
     _isFemale: 0
@@ -140,8 +141,8 @@ MonoBehaviour:
     _offspringMaxPopulation: 0
     _attractivness: 0
     _reproductionChance: 0
-  species: 0
-  isAdult: 1
+  species: 1
+  isAdult: 0
   health: 100
   remainingStageLifeTime: 0
   hunger: 0
@@ -183,7 +184,7 @@ GameObject:
   - component: {fileID: 8840907720053989188}
   - component: {fileID: 4797038073241147856}
   - component: {fileID: 5361531777185968905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3463418302598323927}
@@ -233,7 +234,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8569849697eb1264aa84a578cd1b9141, type: 2}
+  - {fileID: 2100000, guid: 23b0f3f69ad28a04f87e7ef86fc91459, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
