@@ -129,6 +129,8 @@ public class SimpleHexGrid : MonoBehaviour
 
             //set the position back to zero
             Hex.transform.position = new Vector3(Hex.transform.position.x, - WaterLevel / 2f, Hex.transform.position.z);
+
+            Hex.layer = LayerMask.NameToLayer("Swimmable");
         }
 
         if (HexHeight > WaterLevel)
@@ -138,6 +140,7 @@ public class SimpleHexGrid : MonoBehaviour
                 //sand
                 Hex.GetComponentInChildren<MeshRenderer>().material = Sand;
                 //Hex.tag = ("Sand");
+                Hex.layer = LayerMask.NameToLayer("Walkable");
             }
         }
 
@@ -148,6 +151,7 @@ public class SimpleHexGrid : MonoBehaviour
                 //grass
                 Hex.GetComponentInChildren<MeshRenderer>().material = Grass;
                 //Hex.tag = ("Grass");
+                Hex.layer = LayerMask.NameToLayer("Walkable");
             }
         }
 
@@ -156,6 +160,7 @@ public class SimpleHexGrid : MonoBehaviour
             //rock
             Hex.GetComponentInChildren<MeshRenderer>().material = Stone;
             //Hex.tag = ("Stone");
+            Hex.layer = LayerMask.NameToLayer("Climmable");
         }
     }
 }
