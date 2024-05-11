@@ -4,6 +4,10 @@ public class SimpleHexGrid : MonoBehaviour
 {
     public GameObject Hexagon;
     public GameObject HexParentHolder;
+
+    //TODO: remove after implementing loading prefabs form resources
+    public GameObject plant;
+
     public int chunkSize = 50;
     public float TileScale = 1;
     public int heightMultiplier = 2;
@@ -131,6 +135,7 @@ public class SimpleHexGrid : MonoBehaviour
             Hex.transform.position = new Vector3(Hex.transform.position.x, - WaterLevel / 2f, Hex.transform.position.z);
 
             Hex.layer = LayerMask.NameToLayer("Swimmable");
+            Hex.AddComponent<SoulRiver>();
         }
 
         if (HexHeight > WaterLevel)
@@ -152,6 +157,7 @@ public class SimpleHexGrid : MonoBehaviour
                 Hex.GetComponentInChildren<MeshRenderer>().material = Grass;
                 //Hex.tag = ("Grass");
                 Hex.layer = LayerMask.NameToLayer("Walkable");
+                Hex.AddComponent<FertilePlane>().Initialize(plant, 30f, 1);
             }
         }
 

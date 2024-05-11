@@ -39,4 +39,11 @@ public class FertilePlane : MonoBehaviour
             fertilizeCounter = fertilizeTime;
         }
     }
+
+    public void Initialize(GameObject plant, float fertilizeTime, int FertilizeQuantity)
+    {
+        plantPrefab = plant;
+        this.fertilizeTime = fertilizeTime;
+        fertilizeMaxQuantity = FertilizeQuantity;
+    }
 }
