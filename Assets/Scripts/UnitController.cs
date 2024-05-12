@@ -19,6 +19,7 @@ public abstract class UnitController : MonoBehaviour
         Wandering,
         Mating,
         Copulating,
+        Disposing,
         Hunting
     }
     public BehaviourState CurrentBehaviourState
@@ -143,6 +144,8 @@ public abstract class UnitController : MonoBehaviour
                 break;
             case BehaviourState.Copulating:
                 break;
+            case BehaviourState.Disposing:
+                break;
             case BehaviourState.Hunting:
 
                 break;
@@ -199,11 +202,15 @@ public abstract class UnitController : MonoBehaviour
             }
         }
         // Secondary behaviours
+        else if(unit.IsWasteReady)
+        {
+            DisposeWastes();
+        }
         else if (unit.Urge >= unit.Gens.UrgeTreshold && unit.IsAdult)
         {
             lookForValidMatingPartners();
         }
-        // 50% chance for ddle behaviours
+        // 50% chance for idle behaviours
         else
         {
             if (rand.NextDouble() > 0.5f)
@@ -348,7 +355,9 @@ public abstract class UnitController : MonoBehaviour
     {
         if(currentBehaviourState == BehaviourState.Mating && unit.Gens.IsFemale)
         {
-            if (rand.NextDouble() < offeredMatting.Gens.Attractivness)
+            double randomDouble = rand.NextDouble();
+            
+            if (randomDouble < offeredMatting.Gens.Attractivness)
             {
                 return true;
             }
@@ -522,6 +531,21 @@ public abstract class UnitController : MonoBehaviour
     {
         currentBehaviourState = BehaviourState.Drinking;
         unit.targetedTransform = drink.transform;
+    }
+
+    protected void DisposeWastes()
+    {
+        currentBehaviourState = BehaviourState.Disposing;
+        behaviurCounter = 1f;
+
+        RaycastHit hit;
+        FertilePlane fertilePlane;
+        Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
+        if(hit.collider != null && hit.transform.TryGetComponent(out fertilePlane))
+        {
+            fertilePlane.Fertilize(unit.Waste);
+            unit.Dispose();
+        }
     }
 
     protected void Wandering()

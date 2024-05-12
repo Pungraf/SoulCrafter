@@ -30,11 +30,13 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private float hunger = 0;
     [SerializeField] private float thirst = 0;
     [SerializeField] private float urge = 0;
+    [SerializeField] private float waste = 0;
     [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
     [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
 
     [SerializeField] private bool isHungry;
     [SerializeField] private bool isThirsty;
+    [SerializeField] private bool isWasteReady;
     [SerializeField] private bool isEagerToMate;
     [SerializeField] private bool isReadyToGrowUp;
     [SerializeField] private bool isReadyToBear;
@@ -147,6 +149,13 @@ public abstract class Unit : MonoBehaviour
 
     }
 
+    public float Waste
+    {
+        get { return waste; }
+        set { waste = value; }
+
+    }
+
     public bool IsHungry
     {
         get { return isHungry; }
@@ -157,6 +166,12 @@ public abstract class Unit : MonoBehaviour
     {
         get { return isThirsty; }
         set { isThirsty = value; }
+    }
+
+    public bool IsWasteReady
+    {
+        get { return isWasteReady; }
+        set { isWasteReady = value; }
     }
 
     public bool IsEagerToMate
@@ -208,6 +223,8 @@ public abstract class Unit : MonoBehaviour
         {
             hunger = 0;
         }
+        //TODO: change all statee variable to 0-1 range;
+        Waste += amount / 10;
     }
 
     public void Hydrate(float amount)
@@ -217,6 +234,12 @@ public abstract class Unit : MonoBehaviour
         {
             thirst = 0;
         }
+    }
+
+    public void Dispose()
+    {
+        Waste = 0;
+        IsWasteReady = false;
     }
     public void TakeDamage(float amount)
     {
@@ -235,6 +258,10 @@ public abstract class Unit : MonoBehaviour
         if (RemainingStageLifeTime <= 0)
         {
             isReadyToGrowUp = true;
+        }
+        if(Waste >= 1f)
+        {
+            IsWasteReady = true;
         }
         if (!isAdult)
         {
