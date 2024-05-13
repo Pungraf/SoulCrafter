@@ -98,6 +98,8 @@ MonoBehaviour:
   evolvedUnitPrefab: {fileID: 1397707917935130270, guid: c04b4a89f012bd845a985572678da7ca,
     type: 3}
   corpseUnitPrefab: {fileID: 0}
+  wastePrefab: {fileID: 1476191031177356634, guid: b663d958bcc562e4db07e30c3333ebbf,
+    type: 3}
   targetedTransform: {fileID: 0}
   gens:
     _species: Wolf

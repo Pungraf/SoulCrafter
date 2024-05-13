@@ -97,6 +97,8 @@ MonoBehaviour:
   maleOffspringPrefab: {fileID: 0}
   evolvedUnitPrefab: {fileID: 0}
   corpseUnitPrefab: {fileID: 0}
+  wastePrefab: {fileID: 1476191031177356634, guid: b663d958bcc562e4db07e30c3333ebbf,
+    type: 3}
   targetedTransform: {fileID: 0}
   gens:
     _species: Wolf
@@ -147,10 +149,12 @@ MonoBehaviour:
   hunger: 0
   thirst: 0
   urge: 0
+  waste: 0
   edibleFood: 01000000
   foodChainSpecies: 00000000
   isHungry: 0
   isThirsty: 0
+  isWasteReady: 0
   isEagerToMate: 0
   isReadyToGrowUp: 0
   isReadyToBear: 0

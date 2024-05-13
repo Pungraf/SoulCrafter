@@ -196,6 +196,8 @@ MonoBehaviour:
   evolvedUnitPrefab: {fileID: 0}
   corpseUnitPrefab: {fileID: 8808340983654602511, guid: 2f5777db0ebc95844ba154da3c68bf5a,
     type: 3}
+  wastePrefab: {fileID: 1476191031177356634, guid: b663d958bcc562e4db07e30c3333ebbf,
+    type: 3}
   targetedTransform: {fileID: 0}
   gens:
     _species: 
@@ -246,10 +248,12 @@ MonoBehaviour:
   hunger: 0
   thirst: 0
   urge: 0
+  waste: 0
   edibleFood: 00000000
   foodChainSpecies: 
   isHungry: 0
   isThirsty: 0
+  isWasteReady: 0
   isEagerToMate: 0
   isReadyToGrowUp: 0
   isReadyToBear: 0

@@ -538,14 +538,16 @@ public abstract class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.Disposing;
         behaviurCounter = 1f;
 
+        Destroy(Instantiate(unit.wastePrefab, unit.transform.position, Quaternion.identity), 1f);
+
         RaycastHit hit;
         FertilePlane fertilePlane;
         Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
         if(hit.collider != null && hit.transform.TryGetComponent(out fertilePlane))
         {
             fertilePlane.Fertilize(unit.Waste);
-            unit.Dispose();
         }
+        unit.Dispose();
     }
 
     protected void Wandering()

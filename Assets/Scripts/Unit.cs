@@ -15,6 +15,7 @@ public abstract class Unit : MonoBehaviour
     public GameObject maleOffspringPrefab;
     public GameObject evolvedUnitPrefab;
     public GameObject corpseUnitPrefab;
+    public GameObject wastePrefab;
 
     public Transform targetedTransform;
 
@@ -224,7 +225,7 @@ public abstract class Unit : MonoBehaviour
             hunger = 0;
         }
         //TODO: change all statee variable to 0-1 range;
-        Waste += amount / 10;
+        Waste += amount / 100;
     }
 
     public void Hydrate(float amount)
