@@ -264,21 +264,68 @@ public abstract class UnitController : MonoBehaviour
         }
 
         Unit potentialHuntTarget = null;
+        Food potentialFoodTarget = null;
+        List<Unit> preyTargets = new List<Unit>();
+        List<Food> foodTargets = new List<Food>();
+        float closestTargetDistance = float.MaxValue;
+        NavMeshPath path = null;
+
         foreach (var hitCollider in inSenseRadius)
         {
+            //Build lists with proper types
             Unit sensedUnit = hitCollider.GetComponent<Unit>();
-            Food food = hitCollider.GetComponent<Food>();
-            if(sensedUnit != null && sensedUnit != unit && unit.foodChainSpecies.Contains(sensedUnit.species))
+            if(sensedUnit != null)
             {
-                potentialHuntTarget = sensedUnit;
+                preyTargets.Add(sensedUnit);
             }
 
+            Food food = hitCollider.GetComponent<Food>();
             if (food != null)
             {
-                if (unit.edibleFood.Contains(food.foodType))
+                foodTargets.Add(food);
+            }
+        }
+
+        //Search for closest food
+        foreach(Food food in foodTargets)
+        {
+            path = new NavMeshPath();
+
+            if (unit.edibleFood.Contains(food.foodType) && NavMesh.CalculatePath(transform.position, food.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
+            {
+                float distance = Vector3.Distance(transform.position, path.corners[0]);
+                for (int i = 1; i < path.corners.Length; i++)
                 {
-                    SearchingForFood(hitCollider.ClosestPoint(transform.position));
-                    return true;
+                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                }
+                if (distance < closestTargetDistance)
+                {
+                    closestTargetDistance = distance;
+                    potentialFoodTarget = food;
+                }
+            }
+        }
+        if(potentialFoodTarget != null)
+        {
+            SearchingForFood(potentialFoodTarget.GetComponent<Collider>().ClosestPoint(transform.position));
+            return true;
+        }
+        //Search for closest prey
+        foreach (Unit prey in preyTargets)
+        {
+            path = new NavMeshPath();
+
+            if (prey != unit && unit.foodChainSpecies.Contains(prey.species) && NavMesh.CalculatePath(transform.position, prey.transform.position, navMeshAgent.areaMask, path))
+            {
+                float distance = Vector3.Distance(transform.position, path.corners[0]);
+                for(int i = 1; i < path.corners.Length; i++)
+                {
+                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                }
+                if(distance < closestTargetDistance)
+                {
+                    closestTargetDistance = distance;
+                    potentialHuntTarget = prey;
                 }
             }
         }
@@ -303,13 +350,45 @@ public abstract class UnitController : MonoBehaviour
                 return true;
             }
         }
+
+        Drink potentialDrinkTarget = null;
+        List<Drink> drinkTargets = new List<Drink>();
+        float closestTargetDistance = float.MaxValue;
+        NavMeshPath path = null;
+
         foreach (var hitCollider in inSenseRadius)
         {
-            if (hitCollider.GetComponent<Drink>() != null)
+            //Build list with proper type
+            Drink sensedDrink = hitCollider.GetComponent<Drink>();
+            if (sensedDrink != null)
             {
-                SearchingForDrink(hitCollider.ClosestPoint(transform.position));
-                return true;
+                drinkTargets.Add(sensedDrink);
             }
+        }
+        
+        //Search for closest Drink
+        foreach (Drink drink in drinkTargets)
+        {
+            path = new NavMeshPath();
+
+            if (NavMesh.CalculatePath(transform.position, drink.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
+            {
+                float distance = Vector3.Distance(transform.position, path.corners[0]);
+                for (int i = 1; i < path.corners.Length; i++)
+                {
+                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                }
+                if (distance < closestTargetDistance)
+                {
+                    closestTargetDistance = distance;
+                    potentialDrinkTarget = drink;
+                }
+            }
+        }
+        if (potentialDrinkTarget != null)
+        {
+            SearchingForDrink(potentialDrinkTarget.GetComponent<Collider>().ClosestPoint(transform.position));
+            return true;
         }
 
         return false;
@@ -326,20 +405,49 @@ public abstract class UnitController : MonoBehaviour
         {
             Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
 
+            UnitController potentialMatingTarget = null;
+            List<UnitController> unitTargets = new List<UnitController>();
+            float closestTargetDistance = float.MaxValue;
+            NavMeshPath path = null;
             foreach (var hitCollider in inSenseRadius)
             {
-                UnitController potentialMatingTarget = hitCollider.GetComponent<UnitController>();
-                if (potentialMatingTarget != null && potentialMatingTarget.transform != transform)
+                UnitController sensedUnit = hitCollider.GetComponent<UnitController>();
+                if (sensedUnit != null)
                 {
-                    if (potentialMatingTarget.ProposeMating(unit))
+                    unitTargets.Add(sensedUnit);
+                }
+            }
+            
+            foreach(UnitController unitTarget in unitTargets)
+            {
+                path = new NavMeshPath();
+
+                if (unitTarget.transform != transform && NavMesh.CalculatePath(transform.position, unitTarget.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
+                {
+                    float distance = Vector3.Distance(transform.position, path.corners[0]);
+                    for (int i = 1; i < path.corners.Length; i++)
                     {
-                        unit.targetedTransform = potentialMatingTarget.transform;
-                        potentialMatingTarget.unit.targetedTransform = transform;
-                        MaleMating(hitCollider.ClosestPoint(transform.position), potentialMatingTarget.transform);
-                        return;
+                        distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                    }
+                    if (distance < closestTargetDistance)
+                    {
+                        closestTargetDistance = distance;
+                        potentialMatingTarget = unitTarget;
                     }
                 }
             }
+
+            if (potentialMatingTarget != null)
+            {
+                if (potentialMatingTarget.ProposeMating(unit))
+                {
+                    unit.targetedTransform = potentialMatingTarget.transform;
+                    potentialMatingTarget.unit.targetedTransform = transform;
+                    MaleMating(potentialMatingTarget.GetComponent<Collider>().ClosestPoint(transform.position), potentialMatingTarget.transform);
+                    return;
+                }
+            }
+            
         }
 
         Wandering();
@@ -473,7 +581,7 @@ public abstract class UnitController : MonoBehaviour
 
             if (navMeshAgent.isOnNavMesh && huntTarget != null)
             {
-                navMeshAgent.SetDestination(huntTarget.transform.position);
+                navMeshAgent.SetDestination(huntTarget.GetComponent<Collider>().ClosestPoint(transform.position));
                 yield return new WaitForSeconds(0.5f);
             }
         }
