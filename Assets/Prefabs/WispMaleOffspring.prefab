@@ -252,7 +252,7 @@ MonoBehaviour:
   waste: 0
   edibleFood: 00000000
   foodChainSpecies: 
-  predators: 
+  predators: 01000000
   isHungry: 0
   isThirsty: 0
   isWasteReady: 0

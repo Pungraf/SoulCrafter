@@ -318,11 +318,11 @@ public abstract class Unit : MonoBehaviour
             {
                 IsThirsty = false;
             }
+        }
 
-            if (health <= 0)
-            {
-                Die();
-            }
+        if (health <= 0)
+        {
+            Die();
         }
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public abstract class UnitController : MonoBehaviour
@@ -20,7 +21,8 @@ public abstract class UnitController : MonoBehaviour
         Mating,
         Copulating,
         Disposing,
-        Hunting
+        Hunting,
+        RunningAway
     }
     public BehaviourState CurrentBehaviourState
     {
@@ -60,32 +62,32 @@ public abstract class UnitController : MonoBehaviour
     void Update()
     {
         behaviurCounter -= Time.deltaTime;
+        ExecuteBehaviour();
     }
 
     private void Update_Tick05(object sender, EventArgs e)
     {
-        LifeCycleStatusCheck();
-        ExecuteBehaviour();
-        DeprecatedBehaviour();
         unit.CheckStatuses();
+        LifeCycleStatusCheck();
+        DeprecatedBehaviour();
     }
 
     protected void ExecuteBehaviour()
     {
-        switch(CurrentBehaviourState)
+        switch (CurrentBehaviourState)
         {
             case BehaviourState.None:
                 FindeActivity();
                 break;
             case BehaviourState.Idle:
                 behaviurCounter -= Time.deltaTime;
-                if(behaviurCounter <= 0)
+                if (behaviurCounter <= 0)
                 {
                     FindeActivity();
                 }
                 break;
             case BehaviourState.Wandering:
-                if(BehaviourDestintaionReached())
+                if (BehaviourDestintaionReached())
                 {
                     FindeActivity();
                 }
@@ -97,7 +99,7 @@ public abstract class UnitController : MonoBehaviour
                 }
                 break;
             case BehaviourState.Eating:
-                if(unit.targetedTransform != null)
+                if (unit.targetedTransform != null)
                 {
                     unit.targetedTransform.TryGetComponent<Food>(out Food currnetFood);
                     if (currnetFood != null && unit.Hunger > 1)
@@ -127,7 +129,7 @@ public abstract class UnitController : MonoBehaviour
                 currentBehaviourState = BehaviourState.None;
                 break;
             case BehaviourState.Mating:
-                if(unit.Gens.IsFemale)
+                if (unit.Gens.IsFemale)
                 {
                     break;
                 }
@@ -173,18 +175,27 @@ public abstract class UnitController : MonoBehaviour
 
     protected void DeprecatedBehaviour()
     {
-        if(behaviurCounter <= 0)
+        if (behaviurCounter <= 0)
         {
-            Wandering();
+            if(!SensedDanger())
+            {
+                Wandering();
+            }
         }
     }
 
     protected void FindeActivity()
     {
+        //Sense dangers
+        if (SensedDanger())
+        {
+            return;
+        }
+
         // Critical behaviuors
         if (unit.IsHungry || unit.IsThirsty)
         {
-            if(unit.IsHungry)
+            if (unit.IsHungry)
             {
                 if (!LookForFood() && unit.IsThirsty)
                 {
@@ -206,7 +217,7 @@ public abstract class UnitController : MonoBehaviour
             }
         }
         // Secondary behaviours
-        else if(unit.IsWasteReady)
+        else if (unit.IsWasteReady)
         {
             DisposeWastes();
         }
@@ -249,6 +260,80 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
+    protected bool SensedDanger()
+    {
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
+
+        Unit predatorUnit = SensePredaot(inSenseRadius);
+        if(predatorUnit != null)
+        {
+            RunAway(predatorUnit.transform);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected Unit SensePredaot(Collider[] sensedObjects)
+    {
+        Unit potentialPredator = null;
+        List<Unit> predatorTargets = new List<Unit>();
+        float closestTargetDistance = float.MaxValue;
+        NavMeshPath path = null;
+
+        foreach (var hitCollider in sensedObjects)
+        {
+            Unit sensedUnit = hitCollider.GetComponent<Unit>();
+            if (sensedUnit != null && unit.predators.Contains(sensedUnit.species))
+            {
+                predatorTargets.Add(sensedUnit);
+            }
+        }
+
+        foreach (Unit predator in predatorTargets)
+        {
+            path = new NavMeshPath();
+
+            //TODO: potensialy chacne areaMask for predator areaMask
+            if (NavMesh.CalculatePath(transform.position, predator.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
+            {
+                float distance = Vector3.Distance(transform.position, path.corners[0]);
+                for (int i = 1; i < path.corners.Length; i++)
+                {
+                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                }
+                if (distance < closestTargetDistance)
+                {
+                    closestTargetDistance = distance;
+                    potentialPredator = predator;
+                }
+            }
+        }
+
+        if (potentialPredator != null)
+        {
+            return potentialPredator;
+        }
+        return null;
+
+    }
+
+    protected void RunAway(Transform runAwayTarget)
+    {
+        currentBehaviourState = BehaviourState.RunningAway;
+        unit.targetedTransform = runAwayTarget;
+
+
+        Vector3 directionAway = (transform.position - runAwayTarget.position).normalized * unit.Gens.WalkRadius;
+        directionAway += transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(directionAway, out hit, unit.Gens.WalkRadius, navMeshAgent.areaMask);
+        Vector3 finalPosition = hit.position;
+        if (navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.SetDestination(finalPosition);
+        }
+    }
     protected bool LookForFood()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
@@ -265,6 +350,7 @@ public abstract class UnitController : MonoBehaviour
                     return true;
                 }
             }
+
         }
 
         Unit potentialHuntTarget = null;
@@ -278,13 +364,13 @@ public abstract class UnitController : MonoBehaviour
         {
             //Build lists with proper types
             Unit sensedUnit = hitCollider.GetComponent<Unit>();
-            if(sensedUnit != null)
+            if(sensedUnit != null && unit.foodChainSpecies.Contains(sensedUnit.species))
             {
                 preyTargets.Add(sensedUnit);
             }
 
             Food food = hitCollider.GetComponent<Food>();
-            if (food != null)
+            if (food != null && unit.edibleFood.Contains(food.foodType))
             {
                 foodTargets.Add(food);
             }
@@ -295,7 +381,7 @@ public abstract class UnitController : MonoBehaviour
         {
             path = new NavMeshPath();
 
-            if (unit.edibleFood.Contains(food.foodType) && NavMesh.CalculatePath(transform.position, food.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
+            if (food != null && NavMesh.CalculatePath(transform.position, food.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
             {
                 float distance = Vector3.Distance(transform.position, path.corners[0]);
                 for (int i = 1; i < path.corners.Length; i++)
@@ -319,7 +405,7 @@ public abstract class UnitController : MonoBehaviour
         {
             path = new NavMeshPath();
 
-            if (prey != unit && unit.foodChainSpecies.Contains(prey.species) && NavMesh.CalculatePath(transform.position, prey.transform.position, navMeshAgent.areaMask, path))
+            if (prey != unit && NavMesh.CalculatePath(transform.position, prey.GetComponent<Collider>().ClosestPoint(transform.position), navMeshAgent.areaMask, path))
             {
                 float distance = Vector3.Distance(transform.position, path.corners[0]);
                 for(int i = 1; i < path.corners.Length; i++)
@@ -668,7 +754,7 @@ public abstract class UnitController : MonoBehaviour
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.WalkRadius;
         randomDirection += transform.position;
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.WalkRadius, 1);
+        NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.WalkRadius, navMeshAgent.areaMask);
         Vector3 finalPosition = hit.position;
         if(navMeshAgent.isOnNavMesh)
         {
