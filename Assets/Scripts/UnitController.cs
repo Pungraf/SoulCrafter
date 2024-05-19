@@ -52,6 +52,7 @@ public abstract class UnitController : MonoBehaviour
     void Start()
     {
         CurrentBehaviourState = BehaviourState.None;
+        Ticker.Tick_05 += Update_Tick05;
     }
 
 
@@ -59,11 +60,14 @@ public abstract class UnitController : MonoBehaviour
     void Update()
     {
         behaviurCounter -= Time.deltaTime;
+    }
 
+    private void Update_Tick05(object sender, EventArgs e)
+    {
         LifeCycleStatusCheck();
-
         ExecuteBehaviour();
         DeprecatedBehaviour();
+        unit.CheckStatuses();
     }
 
     protected void ExecuteBehaviour()
@@ -682,6 +686,7 @@ public abstract class UnitController : MonoBehaviour
         {
             Unit evolvedUnit = Instantiate(unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
             evolvedUnit.Initialize(unit.Gens, unit.Health, unit.Hunger, unit.Thirst);
+            Ticker.Tick_05 -= Update_Tick05;
             Destroy(gameObject);
         }
     }
@@ -728,6 +733,7 @@ public abstract class UnitController : MonoBehaviour
             }
             corpse.Initialize();
         }
+        Ticker.Tick_05 -= Update_Tick05;
         Destroy(gameObject);
     }
 }

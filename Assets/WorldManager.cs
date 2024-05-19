@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,6 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private Slider worldTimeSlider;
 
     private float fixedDeltaTime;
-
 
     public System.Random rand = new System.Random();
 

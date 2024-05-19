@@ -34,6 +34,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private float waste = 0;
     [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
     [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
+    [SerializeField] public List<Species> predators = new List<Species>();
 
     [SerializeField] private bool isHungry;
     [SerializeField] private bool isThirsty;
@@ -74,7 +75,6 @@ public abstract class Unit : MonoBehaviour
     void Update()
     {
         UpdateParameters();
-        CheckStatuses();
     }
 
     public virtual void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
@@ -253,9 +253,8 @@ public abstract class Unit : MonoBehaviour
         controller.Death();
     }
 
-    private void CheckStatuses()
+    public void CheckStatuses()
     {
-        RemainingStageLifeTime -= Time.deltaTime;
         if (RemainingStageLifeTime <= 0)
         {
             isReadyToGrowUp = true;
@@ -286,10 +285,8 @@ public abstract class Unit : MonoBehaviour
         }
         else
         {
-            Urge += Time.deltaTime;
             if (IsPregnant)
             {
-                pregnancyCounter -= Time.deltaTime;
                 if (pregnancyCounter <= 0)
                 {
                     IsReadyToBear = true;
@@ -321,6 +318,11 @@ public abstract class Unit : MonoBehaviour
             {
                 IsThirsty = false;
             }
+
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -330,13 +332,21 @@ public abstract class Unit : MonoBehaviour
         Thirst += Time.deltaTime * gens.ThirstResistance;
 
 
+        RemainingStageLifeTime -= Time.deltaTime;
+
+
         if (hunger >= 100 || Thirst >= 100)
         {
             Health -= Time.deltaTime * 10;
         }
-        if (health <= 0)
+
+        if (IsAdult)
         {
-            Die();
+            Urge += Time.deltaTime;
+            if(isPregnant)
+            {
+                pregnancyCounter -= Time.deltaTime;
+            }
         }
     }
 }

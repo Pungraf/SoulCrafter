@@ -113,7 +113,7 @@ MonoBehaviour:
     _urgeTreshold: 100
     _walkRadius: 20
     _walkSpeed: 6
-    _senseRadius: 30
+    _senseRadius: 50
     _interactionRadius: 3
     _consumingSpeed: 15
     _pregnancyTime: 600
@@ -153,6 +153,7 @@ MonoBehaviour:
   waste: 0
   edibleFood: 01000000
   foodChainSpecies: 00000000
+  predators: 
   isHungry: 0
   isThirsty: 0
   isWasteReady: 0

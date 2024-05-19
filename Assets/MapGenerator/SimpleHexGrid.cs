@@ -157,7 +157,7 @@ public class SimpleHexGrid : MonoBehaviour
                 Hex.GetComponentInChildren<MeshRenderer>().material = Grass;
                 //Hex.tag = ("Grass");
                 Hex.layer = LayerMask.NameToLayer("Walkable");
-                Hex.AddComponent<FertilePlane>().Initialize(plant, 60f, 1);
+                Hex.AddComponent<FertilePlane>().Initialize(plant, 30f, 5);
             }
         }
 
