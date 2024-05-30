@@ -13,8 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private InputActionMap PlayerActionMap;
     private InputAction Movement;
 
-    [SerializeField]
-    private Camera Camera;
     private NavMeshAgent Agent;
     [SerializeField]
     [Range(0f, 0.99f)]
@@ -66,11 +64,5 @@ public class PlayerMovement : MonoBehaviour
 
         LerpTime += Time.deltaTime;
     }
-
-    private void LateUpdate()
-    {
-        Camera.transform.position = transform.position + Vector3.up * 20;
-    }
-
 
 }
