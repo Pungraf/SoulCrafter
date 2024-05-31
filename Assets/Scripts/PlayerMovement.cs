@@ -46,8 +46,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        Move();
+        Rotate();
+
+        LerpTime += Time.deltaTime;
+    }
+
+    private void Move()
+    {
         MovementVector.Normalize();
-        if(MovementVector != LastDirection)
+        if (MovementVector != LastDirection)
         {
             LerpTime = 0;
         }
@@ -55,14 +63,16 @@ public class PlayerMovement : MonoBehaviour
         TargetDirection = Vector3.Lerp(TargetDirection, MovementVector, Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
 
         Agent.Move(TargetDirection * Agent.speed * Time.deltaTime);
+    }
 
-        Vector3 lookDirection = MovementVector;
-        if(lookDirection != Vector3.zero)
+    private void Rotate()
+    {
+        Vector3 ScreenPos = MouseWorld.GetPosition();
+
+        Vector3 lookDirection = ScreenPos - transform.position;
+        if (lookDirection != Vector3.zero)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookDirection), Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
         }
-
-        LerpTime += Time.deltaTime;
     }
-
 }

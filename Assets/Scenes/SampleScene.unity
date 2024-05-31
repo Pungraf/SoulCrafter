@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 103670176}
   - component: {fileID: 103670175}
   - component: {fileID: 103670177}
+  - component: {fileID: 103670178}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: Untagged
@@ -381,6 +382,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008592fa4fd309c47954a57344ac929c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &103670178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103670174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f132df3cbeb24814db1213f2ce0ba86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mousePlaneLayerMask:
+    serializedVersion: 2
+    m_Bits: 1792
 --- !u!1 &117676211
 GameObject:
   m_ObjectHideFlags: 0
@@ -8053,6 +8069,11 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 2483453656621900510, guid: 08429da985b33e043b4d520ecf4ce8e9,
+        type: 3}
+      propertyPath: pointer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5160033977487528432, guid: 08429da985b33e043b4d520ecf4ce8e9,
         type: 3}
       propertyPath: m_LocalPosition.x
