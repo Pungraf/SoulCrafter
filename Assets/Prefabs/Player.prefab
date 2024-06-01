@@ -72,7 +72,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputActions: {fileID: -944628639613478452, guid: af34ec9ff0e26f944b2fcc91035d4962,
     type: 3}
-  Camera: {fileID: 0}
   Smoothing: 0.25
   TargetLerpSpeed: 1
 --- !u!1 &2191891637815513562
