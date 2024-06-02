@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private InputActionAsset InputActions;
     private InputActionMap PlayerActionMap;
     private InputAction Movement;
+    private InputAction Sprint;
 
     private NavMeshAgent Agent;
     [SerializeField]
@@ -24,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 LastDirection;
     private Vector3 MovementVector;
 
+    [SerializeField]
+    private float Speed = 3f;
+
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -33,14 +37,33 @@ public class PlayerMovement : MonoBehaviour
         Movement.canceled += HandleMovementAction;
         Movement.performed += HandleMovementAction;
         Movement.Enable();
+        Sprint = PlayerActionMap.FindAction("Sprint");
+        Sprint.started += HandleSprintActionStarted;
+        Sprint.canceled += HandleSprintActionCanceld;
+        Sprint.Enable();
         PlayerActionMap.Enable();
         InputActions.Enable();
+    }
+
+    private void Start()
+    {
+        Agent.speed = Speed;
     }
 
     private void HandleMovementAction(InputAction.CallbackContext Context)
     {
         Vector2 input = Context.ReadValue<Vector2>();
         MovementVector = new Vector3(input.x, 0, input.y);
+    }
+
+    private void HandleSprintActionStarted(InputAction.CallbackContext Context)
+    {
+        Agent.speed = Speed * 2;
+    }
+
+    private void HandleSprintActionCanceld(InputAction.CallbackContext Context)
+    {
+        Agent.speed = Speed;
     }
 
     private void Update()
