@@ -78,7 +78,7 @@ public class SoulsManager : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Q))
         {
             window_Graph.SetActive(!window_Graph.activeSelf);
         }
