@@ -14,7 +14,6 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField]
     private Item FakeItem;
-    public GameObject DebugMarker;
 
     [SerializeField]
     private InputActionAsset InputActions;

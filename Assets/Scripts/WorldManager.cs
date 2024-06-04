@@ -12,6 +12,7 @@ public class WorldManager : MonoBehaviour
 
     private float fixedDeltaTime;
 
+    public GameObject Player;
     public System.Random rand = new System.Random();
 
     private void Awake()

@@ -36,7 +36,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = Input.mousePosition;
-        InventoryManager.Instance.DebugMarker.transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)

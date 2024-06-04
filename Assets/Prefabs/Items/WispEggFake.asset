@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a6aafb7fa7c9914eb34855269d1e9e2, type: 3}
-  m_Name: WispEgg
+  m_Script: {fileID: 11500000, guid: 53259688d1f8f0249bffba267d13f8ee, type: 3}
+  m_Name: WispEggFake
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 1
-  spriteName: WispEgg
-  eggPrefab: {fileID: 2681955293210169971, guid: 9de444c84fbe37e4abf04a3cb789b4ee,
-    type: 3}
+  spriteName: Fire_7
