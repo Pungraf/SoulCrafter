@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UnitEgg : MonoBehaviour, IPickable
+public abstract class UnitEgg : MonoBehaviour, IInteractable
 {
     [SerializeField] private float _hatchingTime;
     [SerializeField] private float _durability;
@@ -75,7 +75,7 @@ public abstract class UnitEgg : MonoBehaviour, IPickable
         Destroy(gameObject);
     }
 
-    public void PickUp()
+    public void Interact()
     {
         eggItem.GenSample = _gens;
         eggItem.EvolvedUnit = evolvedUnitPrefab;
