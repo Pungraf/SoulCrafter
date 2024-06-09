@@ -80,7 +80,8 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         eggItem.GenSample = _gens;
         eggItem.EvolvedUnit = evolvedUnitPrefab;
 
-        InventoryManager.Instance.AddItem(eggItem);
+        InventoryManager.Instance.AddItem(eggItem.InitializeInstance(Gens, EvolvedUnitPrefab));
         Destroy(gameObject);
     }
+
 }

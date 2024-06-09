@@ -26,4 +26,17 @@ public class EggItem : Item, IUsable
         UnitEgg egg = Instantiate(eggPrefab, WorldManager.Instance.Player.transform.position, Quaternion.identity).GetComponent<UnitEgg>();
         egg.Initialize(_genSample, _evolvedUnit, _genSample.MaxHealth, _genSample.HungerTreshold, _genSample.ThirstTreshold);
     }
+    public EggItem InitializeInstance(GenSample genSample, GameObject evolvedUnit)
+    {
+        EggItem instace = ScriptableObject.CreateInstance<EggItem>();
+        instace.IsStackable = IsStackable;
+        instace.MaxStack = MaxStack;
+        instace.SpriteName = SpriteName;
+
+        instace.eggPrefab = eggPrefab;
+        instace.GenSample = genSample;
+        instace.EvolvedUnit = evolvedUnit;
+
+        return instace;
+    }
 }

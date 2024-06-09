@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4403257712775190603}
   - component: {fileID: 7856810170543552312}
   - component: {fileID: 8289518402389173179}
+  - component: {fileID: -1164694184047933503}
   m_Layer: 5
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -93,6 +94,27 @@ MonoBehaviour:
   imageName: 
   countText: {fileID: 27042532264905704}
   image: {fileID: 7856810170543552312}
+--- !u!114 &-1164694184047933503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063750848000861211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602f74cbbbd80034b96f88091a8e7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverBehaviourType: 0
+  hoverBehaviour_Color_Enter: {r: 0, g: 0, b: 0, a: 0}
+  hoverBehaviour_Color_Exit: {r: 0, g: 0, b: 0, a: 0}
+  hoverBehaviour_Image: {fileID: 0}
+  hoverBehaviour_Sprite_Exit: {fileID: 0}
+  hoverBehaviour_Sprite_Enter: {fileID: 0}
+  hoverBehaviour_Move: 0
+  hoverBehaviour_Move_Amount: {x: 0, y: 0}
+  triggerMouseOutFuncOnClick: 0
 --- !u!1 &2279845170197398177
 GameObject:
   m_ObjectHideFlags: 0

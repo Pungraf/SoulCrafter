@@ -1,6 +1,8 @@
+using CodeMonkey.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,6 +14,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [SerializeField] private string imageName;
     [SerializeField] private TextMeshProUGUI countText;
 
+    private Button_UI buttonUI;
+
 
     public Image image;
 
@@ -21,6 +25,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     private void Start()
     {
         RefreshCount();
+        buttonUI = GetComponent<Button_UI>();
+        buttonUI.MouseRightClickFunc = () =>
+        {
+            UseItem();
+        };
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -79,6 +88,24 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 count = 0;
             }
             RefreshCount();
+        }
+    }
+
+    private void UseItem()
+    {
+        if (Item is IUsable)
+        {
+            IUsable usableitem = (IUsable)Item;
+            usableitem.Use();
+            count--;
+            if (count < 1)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            Debug.Log("Item is unusable");
         }
     }
 }

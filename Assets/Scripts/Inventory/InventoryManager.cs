@@ -65,7 +65,7 @@ public class InventoryManager : MonoBehaviour
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot != null &&
                 itemInSlot.GetItem() == item &&
-                itemInSlot.GetItem().IsStackable() &&
+                itemInSlot.GetItem().IsStackable &&
                 (itemInSlot.Count < itemInSlot.GetItem().MaxStack))
             {
                 itemInSlot.Count++;

@@ -24,7 +24,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             GameObject dropped = eventData.pointerDrag;
             InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
-            if (inventoryItem.GetType() == itemInSlot.GetType() && inventoryItem.GetItem().IsStackable())
+            if (inventoryItem.GetType() == itemInSlot.GetType() && inventoryItem.GetItem().IsStackable)
             {
                 if (inventoryItem.Count + itemInSlot.Count <= itemInSlot.GetItem().MaxStack)
                 {
