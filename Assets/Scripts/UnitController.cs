@@ -388,7 +388,7 @@ public abstract class UnitController : MonoBehaviour
                 {
                     distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                 }
-                if (distance < closestTargetDistance)
+                if (distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
                 {
                     closestTargetDistance = distance;
                     potentialFoodTarget = food;
@@ -412,7 +412,7 @@ public abstract class UnitController : MonoBehaviour
                 {
                     distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                 }
-                if(distance < closestTargetDistance)
+                if(distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
                 {
                     closestTargetDistance = distance;
                     potentialHuntTarget = prey;
@@ -468,7 +468,7 @@ public abstract class UnitController : MonoBehaviour
                 {
                     distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                 }
-                if (distance < closestTargetDistance)
+                if (distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
                 {
                     closestTargetDistance = distance;
                     potentialDrinkTarget = drink;
@@ -519,7 +519,7 @@ public abstract class UnitController : MonoBehaviour
                     {
                         distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                     }
-                    if (distance < closestTargetDistance)
+                    if (distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
                     {
                         closestTargetDistance = distance;
                         potentialMatingTarget = unitTarget;
