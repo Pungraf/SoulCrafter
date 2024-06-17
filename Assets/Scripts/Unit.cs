@@ -17,9 +17,12 @@ public abstract class Unit : MonoBehaviour
     public GameObject corpseUnitPrefab;
     public GameObject wastePrefab;
 
-    public Transform targetedTransform;
+    public int genScore;
 
-    private UnitController controller;
+    public Transform targetedTransform;
+    public UnitController controller;
+
+    protected System.Random rand = new System.Random();
 
     [SerializeField] private GenSample gens;
     [SerializeField] private GenSample lastPartnerGenSample;
@@ -69,6 +72,8 @@ public abstract class Unit : MonoBehaviour
         }
 
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
+
+        genScore = rand.Next(50, 100);
     }
 
     // Update is called once per frame

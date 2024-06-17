@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
 
 public abstract class UnitController : MonoBehaviour
 {
@@ -38,6 +37,7 @@ public abstract class UnitController : MonoBehaviour
 
     protected System.Random rand = new System.Random();
 
+    [SerializeField] protected PackManager packManager;
     [SerializeField] protected BehaviourState currentBehaviourState = BehaviourState.None;
     [SerializeField] protected float idleTime = 5f;
     [SerializeField] protected float behaviourTimeLimit = 10f;
@@ -55,6 +55,7 @@ public abstract class UnitController : MonoBehaviour
     {
         CurrentBehaviourState = BehaviourState.None;
         Ticker.Tick_05 += Update_Tick05;
+        packManager = GetComponent<PackManager>();
     }
 
 
@@ -220,6 +221,10 @@ public abstract class UnitController : MonoBehaviour
         else if (unit.IsWasteReady)
         {
             DisposeWastes();
+        }
+        else if(packManager != null && !packManager.HasPack)
+        {
+            packManager.LookForPack();
         }
         else if (unit.Urge >= unit.Gens.UrgeTreshold && unit.IsAdult)
         {
@@ -752,7 +757,14 @@ public abstract class UnitController : MonoBehaviour
     {
         CurrentBehaviourState = BehaviourState.Wandering;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.WalkRadius;
-        randomDirection += transform.position;
+        if(packManager != null && packManager.HasPack && !packManager.IsLeader)
+        {
+            randomDirection += packManager.PackLeader.transform.position;
+        }
+        else
+        {
+            randomDirection += transform.position;
+        }
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, unit.Gens.WalkRadius, navMeshAgent.areaMask);
         Vector3 finalPosition = hit.position;

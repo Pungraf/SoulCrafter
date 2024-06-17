@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3863750351393124155}
   - component: {fileID: 2894623249736813553}
   - component: {fileID: 2024571889775966183}
+  - component: {fileID: -2406493342352893489}
   m_Layer: 7
   m_Name: WolfMaleOffspring
   m_TagString: Untagged
@@ -128,7 +129,9 @@ MonoBehaviour:
   corpseUnitPrefab: {fileID: 0}
   wastePrefab: {fileID: 1476191031177356634, guid: b663d958bcc562e4db07e30c3333ebbf,
     type: 3}
+  genScore: 0
   targetedTransform: {fileID: 0}
+  controller: {fileID: 0}
   gens:
     _species: Wolf
     _isFemale: 0
@@ -206,6 +209,19 @@ MonoBehaviour:
   currentBehaviourState: 0
   idleTime: 5
   behaviourTimeLimit: 10
+--- !u!114 &-2406493342352893489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397707917935130270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11686dfddd0b12d45a5732531439948a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  packSize: 8
 --- !u!1 &5633910479102089292
 GameObject:
   m_ObjectHideFlags: 0

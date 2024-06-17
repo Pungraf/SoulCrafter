@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 761177702870868642}
   - component: {fileID: 1852932068883780919}
   - component: {fileID: 5874370063348858146}
+  - component: {fileID: 4041403611427705813}
   m_Layer: 6
   m_Name: WispMaleOffspring
   m_TagString: Untagged
@@ -227,7 +228,9 @@ MonoBehaviour:
     type: 3}
   wastePrefab: {fileID: 1476191031177356634, guid: b663d958bcc562e4db07e30c3333ebbf,
     type: 3}
+  genScore: 0
   targetedTransform: {fileID: 0}
+  controller: {fileID: 0}
   gens:
     _species: Wisp
     _isFemale: 0
@@ -306,3 +309,16 @@ MonoBehaviour:
   currentBehaviourState: 0
   idleTime: 5
   behaviourTimeLimit: 10
+--- !u!114 &4041403611427705813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207470651662688898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11686dfddd0b12d45a5732531439948a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  packSize: 15
