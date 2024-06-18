@@ -14,6 +14,7 @@ public class PackManager : MonoBehaviour
     private Unit.Species packSpecies;
     [SerializeField]
     private List<PackManager> pack = new List<PackManager>();
+    [SerializeField]
     private PackManager packLeader;
 
     [SerializeField]
@@ -39,8 +40,19 @@ public class PackManager : MonoBehaviour
     public List<PackManager> Pack
     {
         get { return pack; }
-        set { pack = value; }
+        set
+        {
+            if (pack == value) return;
+            pack = value;
+            if (OnPackChange != null)
+            {
+                OnPackChange(pack);
+                pack.RemoveAll(item => item == null);
+            }
+        }
     }
+    public delegate void OnVariableChangeDelegate(List<PackManager> newVal);
+    public event OnVariableChangeDelegate OnPackChange;
 
     public PackManager PackLeader
     {
@@ -57,6 +69,11 @@ public class PackManager : MonoBehaviour
     {
         unit = GetComponent<Unit>();
         packSpecies = unit.species;
+    }
+
+    private void PackChangeHandler(List<PackManager> newPack)
+    {
+        Debug.Log(this.name + " pack leader: " + packLeader + "changed pack members");
     }
 
 
@@ -106,9 +123,9 @@ public class PackManager : MonoBehaviour
         if(potentialLeader != null)
         {
             potentialLeader.Pack.Add(this);
-            pack = potentialLeader.Pack;
             PackLeader = potentialLeader;
             HasPack = true;
+            SubscribePackChnageHandler(potentialLeader);
             return;
         }
 
@@ -126,24 +143,24 @@ public class PackManager : MonoBehaviour
 
         if(newPackLeader != null)
         {
-            freeTargets.Remove(newPackLeader);
             newPackLeader.IsLeader = true;
+            newPackLeader.HasPack = true;
+            newPackLeader.Pack.Clear();
+            newPackLeader.Pack.Add(newPackLeader);
             newPackLeader.PackLeader = newPackLeader;
         }
-        else
-        {
-            return;
-        }
+    }
 
-        foreach (PackManager packUnit in freeTargets)
+    public void UnsubscribePackChnageHandler()
+    {
+        if(PackLeader != null)
         {
-            if(newPackLeader.Pack.Count < newPackLeader.PackSize)
-            {
-                newPackLeader.Pack.Add(packUnit);
-                packUnit.Pack = newPackLeader.Pack;
-                packUnit.hasPack = true;
-                packUnit.PackLeader = newPackLeader;
-            }
+            PackLeader.OnPackChange -= PackChangeHandler;
         }
+    }
+
+    public void SubscribePackChnageHandler(PackManager packLeader)
+    {
+        packLeader.OnPackChange -= PackChangeHandler;
     }
 }

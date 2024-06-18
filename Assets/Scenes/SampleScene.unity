@@ -2206,7 +2206,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -3247,7 +3247,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
@@ -6233,7 +6233,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
@@ -7412,7 +7412,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
@@ -8606,7 +8606,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -10126,7 +10126,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -15197,7 +15197,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
@@ -16160,7 +16160,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -16491,7 +16491,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
@@ -16730,7 +16730,7 @@ PrefabInstance:
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: gens._offspringTime
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}

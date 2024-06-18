@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -784,6 +785,37 @@ public abstract class UnitController : MonoBehaviour
         {
             Unit evolvedUnit = Instantiate(unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
             evolvedUnit.Initialize(unit.Gens, unit.Health, unit.Hunger, unit.Thirst);
+
+            if (packManager.HasPack)
+            {
+                PackManager evolvedPackMember = evolvedUnit.GetComponent<PackManager>();
+                if (packManager.IsLeader)
+                {
+                    evolvedPackMember.IsLeader = true;
+                    evolvedPackMember.HasPack = true;
+                    evolvedPackMember.Pack = new List<PackManager>
+                    {
+                        evolvedPackMember
+                    };
+                    packManager.Pack.Remove(packManager);
+                    foreach (PackManager packMember in packManager.Pack)
+                    {
+                        packMember.PackLeader = evolvedPackMember;
+                        packMember.UnsubscribePackChnageHandler();
+                        evolvedPackMember.Pack.Add(packMember);
+                        packMember.SubscribePackChnageHandler(evolvedPackMember);
+                    }
+                }
+                else
+                {
+                    packManager.PackLeader.Pack.Remove(packManager);
+                    packManager.PackLeader.Pack.Add(evolvedPackMember);
+                    evolvedPackMember.PackLeader = packManager.PackLeader;
+                    evolvedPackMember.HasPack = true;
+                }
+
+
+            }
             Ticker.Tick_05 -= Update_Tick05;
             Destroy(gameObject);
         }
@@ -830,6 +862,22 @@ public abstract class UnitController : MonoBehaviour
                 corpse.Nutritiousness = unit.Gens.MaxHealth / 2f;
             }
             corpse.Initialize();
+        }
+        if(packManager.HasPack)
+        {
+            if(packManager.IsLeader)
+            {
+                foreach(PackManager packMember in packManager.Pack)
+                {
+                    packMember.UnsubscribePackChnageHandler();
+                    packMember.PackLeader = null;
+                    packMember.HasPack = false;
+                }
+            }
+            else
+            {
+                packManager.PackLeader.Pack.Remove(packManager);
+            }
         }
         Ticker.Tick_05 -= Update_Tick05;
         Destroy(gameObject);
