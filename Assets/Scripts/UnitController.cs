@@ -223,7 +223,7 @@ public abstract class UnitController : MonoBehaviour
         {
             DisposeWastes();
         }
-        else if(packManager != null && !packManager.HasPack)
+        else if(packManager != null && (!packManager.HasPack || packManager.IsLeader))
         {
             packManager.LookForPack();
         }

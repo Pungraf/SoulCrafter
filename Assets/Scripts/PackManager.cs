@@ -112,7 +112,7 @@ public class PackManager : MonoBehaviour
                 {
                     distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
                 }
-                if (packUnit.isLeader && packUnit.Pack.Count < packUnit.PackSize && distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
+                if (packUnit.isLeader && packUnit != this && packUnit.Pack.Count < packUnit.PackSize && distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
                 {
                     closestTargetDistance = distance;
                     potentialLeader = packUnit;
@@ -122,10 +122,31 @@ public class PackManager : MonoBehaviour
 
         if(potentialLeader != null)
         {
-            potentialLeader.Pack.Add(this);
-            PackLeader = potentialLeader;
-            HasPack = true;
-            SubscribePackChnageHandler(potentialLeader);
+            if(IsLeader)
+            {
+                if((Pack.Count + potentialLeader.Pack.Count) <= PackSize)
+                {
+                    Debug.Log("Merging pack number of: " + Pack.Count + " with senocd pack iwth: " + potentialLeader.Pack.Count);
+                    MergePacks(potentialLeader);
+                    return;
+                }
+                else
+                {
+                    Debug.Log("Packs are too big to merge.");
+                    return;
+                }
+            }
+            else
+            {
+                potentialLeader.Pack.Add(this);
+                PackLeader = potentialLeader;
+                HasPack = true;
+                SubscribePackChnageHandler(potentialLeader);
+                return;
+            }
+        }
+        if(IsLeader)
+        {
             return;
         }
 
@@ -162,5 +183,29 @@ public class PackManager : MonoBehaviour
     public void SubscribePackChnageHandler(PackManager packLeader)
     {
         packLeader.OnPackChange -= PackChangeHandler;
+    }
+
+    public void MergePacks(PackManager secondLeader)
+    {
+        if(unit.genScore >= secondLeader.unit.genScore)
+        {
+            secondLeader.IsLeader = false;
+            foreach(PackManager packUnit in secondLeader.Pack)
+            {
+                Pack.Add(packUnit);
+                packUnit.packLeader = this;
+            }
+            secondLeader.Pack.Clear();
+        }
+        else
+        {
+            IsLeader = false;
+            foreach (PackManager packUnit in Pack)
+            {
+                secondLeader.Pack.Add(packUnit);
+                packUnit.packLeader = secondLeader;
+            }
+            Pack.Clear();
+        }
     }
 }
