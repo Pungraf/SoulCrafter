@@ -223,7 +223,7 @@ public abstract class UnitController : MonoBehaviour
         {
             DisposeWastes();
         }
-        else if(packManager != null && (!packManager.HasPack || packManager.IsLeader))
+        else if (!packManager.HasPack || (packManager.IsLeader && packManager.Pack.Count < packManager.PackSize))
         {
             packManager.LookForPack();
         }
@@ -758,7 +758,7 @@ public abstract class UnitController : MonoBehaviour
     {
         CurrentBehaviourState = BehaviourState.Wandering;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.WalkRadius;
-        if(packManager != null && packManager.HasPack && !packManager.IsLeader)
+        if(packManager.PackLeader != null && packManager.HasPack && !packManager.IsLeader)
         {
             randomDirection += packManager.PackLeader.transform.position;
         }

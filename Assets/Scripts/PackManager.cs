@@ -155,10 +155,17 @@ public class PackManager : MonoBehaviour
 
         foreach(PackManager packUnit in freeTargets)
         {
-            if(packUnit != null && packUnit.unit.genScore > highestGenValue)
+            try
             {
-                newPackLeader = packUnit;
-                highestGenValue = packUnit.unit.genScore;
+                if (packUnit != null && packUnit.unit.genScore > highestGenValue)
+                {
+                    newPackLeader = packUnit;
+                    highestGenValue = packUnit.unit.genScore;
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.Log("Pack unit, doesnt exist anymore. :" + e);
             }
         }
 
