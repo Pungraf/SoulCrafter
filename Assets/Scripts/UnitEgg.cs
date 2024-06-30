@@ -51,7 +51,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
             _gens = gen;
         }
         _durability = health;
-        _hatchingTime = gen.IncubationTime;
+        _hatchingTime = gen.Incubation;
         evolvedUnitPrefab = evolveUnit;
 
     }
@@ -65,7 +65,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         else
         {
             Unit evolvedUnit = Instantiate(evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-            evolvedUnit.Initialize(Gens, Gens.MaxHealth, Gens.HungerTreshold, Gens.ThirstTreshold);
+            evolvedUnit.Initialize(Gens, Gens.Vitality);
             Destroy(gameObject);
         }
     }

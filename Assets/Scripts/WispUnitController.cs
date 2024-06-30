@@ -7,9 +7,9 @@ public class WispUnitController : UnitController
 {
     protected override void Birth()
     {
-        if (unit.IsAdult && unit.Gens.IsFemale)
+        if (unit.IsAdult && unit.IsFemale)
         {
-            int offspringQuantity = rand.Next((int)unit.Gens.OffspringMaxPopulation);
+            int offspringQuantity = rand.Next((int)unit.Gens.Fertility);
 
             for (int i = 0; i < offspringQuantity; i++)
             {
@@ -23,7 +23,7 @@ public class WispUnitController : UnitController
                 Vector3 spawnPosition = new Vector3(transform.position.x + (float)Math.Cos(theta) * placementRange, transform.position.y, transform.position.z + (float)Math.Sin(theta) * placementRange);
 
                 // 50% chance for gender
-                if (newGen.IsFemale)
+                if (0.5f > rand.NextDouble())
                 {
                     evolvingPrefab = unit.femaleOffspringPrefab;
                 }
@@ -33,7 +33,7 @@ public class WispUnitController : UnitController
                 }
                 //TODO: Spread spawn location around mother
                 offspring = Instantiate(unit.GetComponent<WispUnit>().eggPrefab, spawnPosition, Quaternion.identity).GetComponent<WispEgg>();
-                offspring.Initialize(newGen, evolvingPrefab, newGen.MaxHealth, newGen.HungerTreshold, newGen.ThirstTreshold);
+                offspring.Initialize(newGen, evolvingPrefab, newGen.Vitality);
             }
         }
         unit.IsPregnant = false;

@@ -1,10 +1,12 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Seeker))]
+[RequireComponent(typeof(AIPath))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +15,9 @@ public class PlayerMovement : MonoBehaviour
     private InputAction Movement;
     private InputAction Sprint;
 
-    private NavMeshAgent Agent;
+    public Seeker seeker;
+    public AIPath aIPath;
+
     [SerializeField]
     [Range(0f, 0.99f)]
     private float Smoothing = 0.25f;
@@ -30,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        Agent = GetComponent<NavMeshAgent>();
+        seeker = GetComponent<Seeker>();
+        aIPath = GetComponent<AIPath>();
         PlayerActionMap = InputActions.FindActionMap("Player");
         Movement = PlayerActionMap.FindAction("Move");
         Movement.started += HandleMovementAction;
@@ -47,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        Agent.speed = Speed;
+        aIPath.maxSpeed = Speed;
     }
 
     private void HandleMovementAction(InputAction.CallbackContext Context)
@@ -58,12 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleSprintActionStarted(InputAction.CallbackContext Context)
     {
-        Agent.speed = Speed * 2;
+        aIPath.maxSpeed = Speed * 2;
     }
 
     private void HandleSprintActionCanceld(InputAction.CallbackContext Context)
     {
-        Agent.speed = Speed;
+        aIPath.maxSpeed = Speed;
     }
 
     private void Update()
@@ -84,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         LastDirection = MovementVector;
         TargetDirection = Vector3.Lerp(TargetDirection, MovementVector, Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
 
-        Agent.Move(TargetDirection * Agent.speed * Time.deltaTime);
+        aIPath.Move(TargetDirection * aIPath.maxSpeed * Time.deltaTime);
     }
 
     private void Rotate()

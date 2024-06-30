@@ -1,3 +1,4 @@
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,60 +80,42 @@ public class PackManager : MonoBehaviour
 
     public void LookForPack()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.SenseRadius);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
 
-        PackManager potentialLeader = null;
-        List<PackManager> packTargets = new List<PackManager>();
-        List<PackManager> freeTargets = new List<PackManager>();
-        float closestTargetDistance = float.MaxValue;
-        NavMeshPath path = null;
+        Transform potentialLeaderTransform = null;
+        List<Transform> packTargets = new List<Transform>();
+        List<Transform> freeTargets = new List<Transform>();
 
         foreach (var hitCollider in inSenseRadius)
         {
             //Build lists with proper types
             PackManager sensedUnit = hitCollider.GetComponent<PackManager>();
-            if (sensedUnit != null && sensedUnit.packSpecies == unit.species)
+            if (sensedUnit != null && sensedUnit.packSpecies == unit.species && sensedUnit.isLeader && sensedUnit != this && sensedUnit.Pack.Count < sensedUnit.PackSize)
             {
-                packTargets.Add(sensedUnit);
+                packTargets.Add(sensedUnit.transform);
+            }
+            if (sensedUnit != null && sensedUnit.packSpecies == unit.species && !sensedUnit.hasPack)
+            {
+                freeTargets.Add(sensedUnit.transform);
             }
         }
 
-        foreach (PackManager packUnit in packTargets)
-        {
-            path = new NavMeshPath();
+        potentialLeaderTransform = FindClosestTransformPath(packTargets);
 
-            if (packUnit != null && NavMesh.CalculatePath(transform.position, packUnit.GetComponent<Collider>().ClosestPoint(transform.position), unit.controller.navMeshAgent.areaMask, path))
-            {
-                if(!packUnit.hasPack)
-                {
-                    freeTargets.Add(packUnit);
-                }
-                float distance = Vector3.Distance(transform.position, path.corners[0]);
-                for (int i = 1; i < path.corners.Length; i++)
-                {
-                    distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
-                }
-                if (packUnit.isLeader && packUnit != this && packUnit.Pack.Count < packUnit.PackSize && distance < closestTargetDistance && path.status == NavMeshPathStatus.PathComplete)
-                {
-                    closestTargetDistance = distance;
-                    potentialLeader = packUnit;
-                }
-            }
-        }
-
-        if(potentialLeader != null)
+        if(potentialLeaderTransform != null)
         {
-            if(IsLeader)
+            PackManager potentialLeader = potentialLeaderTransform.GetComponent<PackManager>();
+            if (IsLeader)
             {
                 if((Pack.Count + potentialLeader.Pack.Count) <= PackSize)
                 {
-                    Debug.Log("Merging pack number of: " + Pack.Count + " with senocd pack iwth: " + potentialLeader.Pack.Count);
+                    //Debug.Log("Merging pack number of: " + Pack.Count + " with senocd pack iwth: " + potentialLeader.Pack.Count);
                     MergePacks(potentialLeader);
                     return;
                 }
                 else
                 {
-                    Debug.Log("Packs are too big to merge.");
+                    //Debug.Log("Packs are too big to merge.");
                     return;
                 }
             }
@@ -153,8 +136,9 @@ public class PackManager : MonoBehaviour
         int highestGenValue = 0;
         PackManager newPackLeader = null;
 
-        foreach(PackManager packUnit in freeTargets)
+        foreach(Transform packTransform in freeTargets)
         {
+            PackManager packUnit = packTransform.GetComponent<PackManager>();
             try
             {
                 if (packUnit != null && packUnit.unit.genScore > highestGenValue)
@@ -214,5 +198,26 @@ public class PackManager : MonoBehaviour
             }
             Pack.Clear();
         }
+    }
+
+    public Transform FindClosestTransformPath(List<Transform> transforms)
+    {
+        Transform closestTransform = null;
+        float closestDistance = float.MaxValue;
+        foreach (var targetTransform in transforms)
+        {
+            Path path = ABPath.Construct(transform.position, targetTransform.position);
+            AstarPath.StartPath(path);
+            AstarPath.BlockUntilCalculated(path);
+
+            float distance = path.GetTotalLength();
+
+            if (distance < closestDistance)
+            {
+                closestTransform = targetTransform;
+                closestDistance = distance;
+            }
+        }
+        return closestTransform;
     }
 }

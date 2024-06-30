@@ -27,6 +27,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private GenSample gens;
     [SerializeField] private GenSample lastPartnerGenSample;
 
+    [SerializeField] public bool IsFemale;
     [SerializeField] public Species species;
     [SerializeField] private bool isAdult = true;
     [SerializeField] private float health = 100;
@@ -66,9 +67,9 @@ public abstract class Unit : MonoBehaviour
         //Initialize starting parameters
         Initialize();
 
-        if (gens.IsFemale)
+        if (IsFemale)
         {
-            pregnancyCounter = gens.PregnancyTime;
+            pregnancyCounter = gens.Gestation;
         }
 
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
@@ -91,26 +92,26 @@ public abstract class Unit : MonoBehaviour
         }
         if(IsAdult)
         {
-            controller.navMeshAgent.speed = gens.WalkSpeed;
+            controller.aIPath.maxSpeed = gens.Speed;
             this.health = health;
             this.hunger = hunger;
             this.thirst = thirst;
         }
         else
         {
-            controller.navMeshAgent.speed = gens.WalkSpeed / 2;
-            health = gens.MaxHealth / 2;
+            controller.aIPath.maxSpeed = gens.Speed / 2;
+            health = gens.Vitality / 2;
             Hunger = 50f;
             Thirst = 50f;
         }
 
         if(isAdult)
         {
-            remainingStageLifeTime = gens.LifeTime;
+            remainingStageLifeTime = gens.LifeSpan;
         }
         else
         {
-            remainingStageLifeTime = gens.OffspringTime;
+            remainingStageLifeTime = gens.LifeSpan * 0.05f;
         }
         isReadyToGrowUp = false;
 
@@ -270,7 +271,7 @@ public abstract class Unit : MonoBehaviour
         }
         if (!isAdult)
         {
-            if (Hunger > gens.HungerTreshold / 2)
+            if (Hunger >= 70)
             {
                 isHungry = true;
             }
@@ -279,7 +280,7 @@ public abstract class Unit : MonoBehaviour
                 isHungry = false;
             }
 
-            if (Thirst > gens.ThirstTreshold / 2)
+            if (Thirst > 70)
             {
                 IsThirsty = true;
             }
@@ -297,7 +298,7 @@ public abstract class Unit : MonoBehaviour
                     IsReadyToBear = true;
                 }
             }
-            if (Urge > gens.UrgeTreshold)
+            if (Urge >= 100)
             {
                 isEagerToMate = true;
             }
@@ -306,7 +307,7 @@ public abstract class Unit : MonoBehaviour
                 isEagerToMate = false;
             }
 
-            if (Hunger > gens.HungerTreshold)
+            if (Hunger > 70)
             {
                 isHungry = true;
             }
@@ -315,7 +316,7 @@ public abstract class Unit : MonoBehaviour
                 isHungry = false;
             }
 
-            if (Thirst > gens.ThirstTreshold)
+            if (Thirst > 70)
             {
                 IsThirsty = true;
             }
@@ -333,8 +334,8 @@ public abstract class Unit : MonoBehaviour
 
     private void UpdateParameters()
     {
-        Hunger += Time.deltaTime * gens.HungerResistance;
-        Thirst += Time.deltaTime * gens.ThirstResistance;
+        Hunger += Time.deltaTime * gens.Satiety;
+        Thirst += Time.deltaTime * gens.Hydration;
 
 
         RemainingStageLifeTime -= Time.deltaTime;
@@ -347,7 +348,7 @@ public abstract class Unit : MonoBehaviour
 
         if (IsAdult)
         {
-            Urge += Time.deltaTime;
+            Urge += 10*Time.deltaTime;
             if(isPregnant)
             {
                 pregnancyCounter -= Time.deltaTime;

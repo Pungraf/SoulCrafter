@@ -69,33 +69,21 @@ public class GenManager : MonoBehaviour
     {
         GenSample newGen = new GenSample();
 
-        if(firstSample.Species != secondSample.Species)
-        {
-            Debug.Log("Wrong spiecies gens !");
-            return null;
-        }
-
-        newGen.Species = firstSample.Species;
-        // 50% chance for gender
-        newGen.IsFemale = rand.NextDouble() > 0.5f;
-        newGen.LifeTime = RandomOverRange(firstSample.LifeTime, secondSample.LifeTime, rangeModifier);
-        newGen.MaxHealth = RandomOverRange(firstSample.MaxHealth, secondSample.MaxHealth, rangeModifier);
-        newGen.HungerTreshold = RandomOverRange(firstSample.HungerTreshold, secondSample.HungerTreshold, rangeModifier);
-        newGen.HungerResistance = RandomOverRange(firstSample.HungerResistance, secondSample.HungerResistance, rangeModifier);
-        newGen.ThirstTreshold = RandomOverRange(firstSample.ThirstTreshold, secondSample.ThirstTreshold, rangeModifier);
-        newGen.ThirstResistance = RandomOverRange(firstSample.ThirstResistance, secondSample.ThirstResistance, rangeModifier);
-        newGen.UrgeTreshold = RandomOverRange(firstSample.UrgeTreshold, secondSample.UrgeTreshold, rangeModifier);
-        newGen.WalkRadius = RandomOverRange(firstSample.WalkRadius, secondSample.WalkRadius, rangeModifier);
-        newGen.WalkSpeed = RandomOverRange(firstSample.WalkSpeed, secondSample.WalkSpeed, rangeModifier);
-        newGen.SenseRadius = RandomOverRange(firstSample.SenseRadius, secondSample.SenseRadius, rangeModifier);
-        newGen.InteractionRadius = RandomOverRange(firstSample.InteractionRadius, secondSample.InteractionRadius, rangeModifier);
-        newGen.ConsumingSpeed = RandomOverRange(firstSample.ConsumingSpeed, secondSample.ConsumingSpeed, rangeModifier);
-        newGen.PregnancyTime = RandomOverRange(firstSample.PregnancyTime, secondSample.PregnancyTime, rangeModifier);
-        newGen.OffspringTime = RandomOverRange(firstSample.OffspringTime, secondSample.OffspringTime, rangeModifier);
-        newGen.IncubationTime = RandomOverRange(firstSample.IncubationTime, secondSample.IncubationTime, rangeModifier);
-        newGen.OffspringMaxPopulation = RandomOverRange(firstSample.OffspringMaxPopulation, secondSample.OffspringMaxPopulation, rangeModifier);
-        newGen.Attractivness = RandomOverRange(firstSample.Attractivness, secondSample.Attractivness, rangeModifier);
-        newGen.ReproductionChance = RandomOverRange(firstSample.ReproductionChance, secondSample.ReproductionChance, rangeModifier);
+        newGen.LifeSpan = RandomOverRange(firstSample.LifeSpan, secondSample.LifeSpan, rangeModifier);
+        newGen.Incubation = RandomOverRange(firstSample.Incubation, secondSample.Incubation, rangeModifier);
+        newGen.Vitality = RandomOverRange(firstSample.Vitality, secondSample.Vitality, rangeModifier);
+        newGen.Speed = RandomOverRange(firstSample.Speed, secondSample.Speed, rangeModifier);
+        newGen.Strength = RandomOverRange(firstSample.Strength, secondSample.Strength, rangeModifier);
+        newGen.Satiety = RandomOverRange(firstSample.Satiety, secondSample.Satiety, rangeModifier);
+        newGen.Hydration = RandomOverRange(firstSample.Hydration, secondSample.Hydration, rangeModifier);
+        newGen.Ingestion = RandomOverRange(firstSample.Ingestion, secondSample.Ingestion, rangeModifier);
+        newGen.Urge = RandomOverRange(firstSample.Urge, secondSample.Urge, rangeModifier);
+        newGen.Reach = RandomOverRange(firstSample.Reach, secondSample.Reach, rangeModifier);
+        newGen.Perception = RandomOverRange(firstSample.Perception, secondSample.Perception, rangeModifier);
+        newGen.Fecundity = RandomOverRange(firstSample.Fecundity, secondSample.Fecundity, rangeModifier);
+        newGen.Attractiveness = RandomOverRange(firstSample.Attractiveness, secondSample.Attractiveness, rangeModifier);
+        newGen.Gestation = RandomOverRange(firstSample.Gestation, secondSample.Gestation, rangeModifier);
+        newGen.Fertility = RandomOverRange(firstSample.Fertility, secondSample.Fertility, rangeModifier);
         return newGen;
     }
 

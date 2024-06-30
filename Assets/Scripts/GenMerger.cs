@@ -11,95 +11,79 @@ public class GenMerger: GenSample
         set { _samplesCount = value; }
     }
 
-    public new float LifeTime
+    public new float LifeSpan
     {
-        get { return _lifeTime / _samplesCount; }
-        set { _lifeTime += value; }
+        get { return _lifeSpan / _samplesCount; }
+        set { _lifeSpan += value; }
     }
-    public new float MaxHealth
+    public new float Incubation
     {
-        get { return _maxHealth / _samplesCount; }
-        set { _maxHealth += value; }
+        get { return _incubation / _samplesCount; }
+        set { _incubation += value; }
     }
-    public new float HungerTreshold
+    public new float Vitality
     {
-        get { return _hungerTreshold / _samplesCount; }
-        set { _hungerTreshold += value; }
+        get { return _vitality / _samplesCount; }
+        set { _vitality += value; }
     }
-    public new float HungerResistance
+    public new float Speed
     {
-        get { return _hungerResistance / _samplesCount; }
-        set { _hungerResistance += value; }
+        get { return _speed / _samplesCount; }
+        set { _speed += value; }
     }
-    public new float ThirstTreshold
+    public new float Strength
     {
-        get { return _thirstTreshold / _samplesCount; }
-        set { _thirstTreshold += value; }
+        get { return _strength / _samplesCount; }
+        set { _strength += value; }
     }
-    public new float ThirstResistance
+    public new float Satiety
     {
-        get { return _thirstResistance / _samplesCount; }
-        set { _thirstResistance += value; }
+        get { return _satiety / _samplesCount; }
+        set { _satiety += value; }
     }
-    public new float UrgeTreshold
+    public new float Hydration
     {
-        get { return _urgeTreshold / _samplesCount; }
-        set { _urgeTreshold += value; }
+        get { return _hydration / _samplesCount; }
+        set { _hydration += value; }
     }
-    public new float WalkRadius
+    public new float Ingestion
     {
-        get { return _walkRadius / _samplesCount; }
-        set { _walkRadius += value; }
+        get { return _ingestion / _samplesCount; }
+        set { _ingestion += value; }
     }
-    public new float WalkSpeed
+    public new float Urge
     {
-        get { return _walkSpeed / _samplesCount; }
-        set { _walkSpeed += value; }
+        get { return _urge / _samplesCount; }
+        set { _urge += value; }
     }
-    public new float SenseRadius
+    public new float Reach
     {
-        get { return _senseRadius / _samplesCount; }
-        set { _senseRadius += value; }
+        get { return _reach / _samplesCount; }
+        set { _reach += value; }
     }
-    public new float InteractionRadius
+    public new float Perception
     {
-        get { return _interactionRadius / _samplesCount; }
-        set { _interactionRadius += value; }
+        get { return _perception / _samplesCount; }
+        set { _perception += value; }
     }
-    public new float ConsumingSpeed
+    public new float Fecundity
     {
-        get { return _consumingSpeed / _samplesCount; }
-        set { _consumingSpeed += value; }
+        get { return _fecundity / _samplesCount; }
+        set { _fecundity += value; }
     }
-    public new float PregnancyTime
+    public new float Attractiveness
     {
-        get { return _pregnancyTime / _samplesCount; }
-        set { _pregnancyTime += value; }
+        get { return _attractiveness / _samplesCount; }
+        set { _attractiveness += value; }
     }
-    public new float OffspringTime
+    public new float Gestation
     {
-        get { return _offspringTime / _samplesCount; }
-        set { _offspringTime += value; }
+        get { return _gestation / _samplesCount; }
+        set { _gestation += value; }
     }
-    public new float IncubationTime
+    public new float Fertility
     {
-        get { return _incubationTime / _samplesCount; }
-        set { _incubationTime += value; }
-    }
-    public new float OffspringMaxPopulation
-    {
-        get { return _offspringMaxPopulation / _samplesCount; }
-        set { _offspringMaxPopulation += value; }
-    }
-    public new float Attractivness
-    {
-        get { return _attractivness / _samplesCount; }
-        set { _attractivness += value; }
-    }
-
-    public new float ReproductionChance
-    {
-        get { return _reproductionChance / _samplesCount; }
-        set { _reproductionChance += value; }
+        get { return _fertility / _samplesCount; }
+        set { _fertility += value; }
     }
 }

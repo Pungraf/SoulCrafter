@@ -5,130 +5,104 @@ using UnityEngine;
 [System.Serializable]
 public class GenSample
 {
-    [SerializeField] protected string _species;
+    //Time properties
+    [SerializeField] protected float _lifeSpan;
+    [SerializeField] protected float _incubation;
 
-    [SerializeField] protected bool _isFemale;
-    [SerializeField] protected float _lifeTime;
-    [SerializeField] protected float _maxHealth;
-    [SerializeField] protected float _hungerTreshold;
-    [SerializeField] protected float _hungerResistance;
-    [SerializeField] protected float _thirstTreshold;
-    [SerializeField] protected float _thirstResistance;
-    [SerializeField] protected float _urgeTreshold;
+    //Main properties
+    [SerializeField] protected float _vitality;
+    [SerializeField] protected float _speed;
+    [SerializeField] protected float _strength;
 
-    [SerializeField] protected float _walkRadius;
-    [SerializeField] protected float _walkSpeed;
-    [SerializeField] protected float _senseRadius;
-    [SerializeField] protected float _interactionRadius;
+    //Needs properties
+    [SerializeField] protected float _satiety;
+    [SerializeField] protected float _hydration;
+    [SerializeField] protected float _ingestion;
+    [SerializeField] protected float _urge;
 
-    [SerializeField] protected float _consumingSpeed;
+    //Interaction properties
+    [SerializeField] protected float _reach;
+    [SerializeField] protected float _perception;
 
-    [SerializeField] protected float _pregnancyTime;
-    [SerializeField] protected float _offspringTime;
-    [SerializeField] protected float _incubationTime;
-    [SerializeField] protected float _offspringMaxPopulation;
-    [SerializeField] protected float _attractivness;
-    [SerializeField] protected float _reproductionChance;
+    //Reproduction properties
+    [SerializeField] protected float _fecundity;
+    [SerializeField] protected float _attractiveness;
+    [SerializeField] protected float _gestation;
+    [SerializeField] protected float _fertility;
 
-    public string Species
+    public float LifeSpan
     {
-        get { return _species; }
-        set { _species = value; }
+        get { return _lifeSpan; }
+        set { _lifeSpan = value; }
     }
-    public bool IsFemale
+    public float Incubation
     {
-        get { return _isFemale;}
-        set { _isFemale = value;}
+        get { return _incubation; }
+        set { _incubation = value; }
     }
-    public float LifeTime
+    public float Vitality
     {
-        get { return _lifeTime; }
-        set { _lifeTime = value; }
+        get { return _vitality; }
+        set { _vitality = value; }
     }
-    public float MaxHealth
+    public float Speed
     {
-        get { return _maxHealth; }
-        set { _maxHealth = value; }
+        get { return _speed; }
+        set { _speed = value; }
     }
-    public float HungerTreshold
+    public float Strength
     {
-        get { return _hungerTreshold; }
-        set { _hungerTreshold = value; }
+        get { return _strength; }
+        set { _strength = value; }
     }
-    public float HungerResistance
+    public float Satiety
     {
-        get { return _hungerResistance; }
-        set { _hungerResistance = value;}
+        get { return _satiety; }
+        set { _satiety = value; }
     }
-    public float ThirstTreshold
+    public float Hydration
     {
-        get { return _thirstTreshold; }
-        set { _thirstTreshold = value;}
+        get { return _hydration; }
+        set { _hydration = value; }
     }
-    public float ThirstResistance
+    public float Ingestion
     {
-        get { return _thirstResistance; }
-        set { _thirstResistance = value;}
+        get { return _ingestion; }
+        set { _ingestion = value; }
     }
-    public float UrgeTreshold
+    public float Urge
     {
-        get { return _urgeTreshold; }
-        set { _urgeTreshold = value; }
+        get { return _urge; }
+        set { _urge = value; }
     }
-    public float WalkRadius
+    public float Reach
     {
-        get { return _walkRadius; }
-        set { _walkRadius = value; }
+        get { return _reach; }
+        set { _reach = value; }
     }
-    public float WalkSpeed
-    { 
-        get { return _walkSpeed; }
-        set { _walkSpeed = value; }
-    }
-    public float SenseRadius
+    public float Perception
     {
-        get { return _senseRadius; }
-        set { _senseRadius = value; }   
+        get { return _perception; }
+        set { _perception = value; }
     }
-    public float InteractionRadius
+    public float Fecundity
     {
-        get { return _interactionRadius; }
-        set { _interactionRadius = value; }
+        get { return _fecundity; }
+        set { _fecundity = value; }
     }
-    public float ConsumingSpeed
+    public float Attractiveness
     {
-        get { return _consumingSpeed; }
-        set { _consumingSpeed = value; }
+        get { return _attractiveness; }
+        set { _attractiveness = value; }
     }
-    public float PregnancyTime
+    public float Gestation
     {
-        get { return _pregnancyTime; }
-        set { _pregnancyTime = value;}
+        get { return _gestation; }
+        set { _gestation = value; }
     }
-    public float OffspringTime
+    public float Fertility
     {
-        get { return _offspringTime; }
-        set { _offspringTime = value; }
-    }
-    public float IncubationTime
-    {
-        get { return _incubationTime; }
-        set { _incubationTime = value; }
-    }
-    public float OffspringMaxPopulation
-    {
-        get { return _offspringMaxPopulation; }
-        set { _offspringMaxPopulation = value; }
-    }
-    public float Attractivness
-    {
-        get { return _attractivness; }
-        set { _attractivness = value; }
-    }
-
-    public float ReproductionChance
-    {
-        get { return _reproductionChance; }
-        set { _reproductionChance = value; }
+        get { return _fertility; }
+        set { _fertility = value; }
     }
 }
