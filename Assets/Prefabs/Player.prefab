@@ -76,7 +76,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -94,9 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cfd98087eeafc74f9eeb126a9e2c716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionCollider: {fileID: 0}
+  interactionCollider: {fileID: 4935894012383010960}
   UICamera: {fileID: 0}
-  InputActions: {fileID: 0}
+  InputActions: {fileID: -944628639613478452, guid: 059a8e21dac4f80418628bb7bc079ae6,
+    type: 3}
 --- !u!1 &2187407287308781805
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +112,7 @@ GameObject:
   - component: {fileID: 2583354362395799174}
   - component: {fileID: -5804575646727516327}
   - component: {fileID: 7515250139035867403}
+  - component: {fileID: 7936525584745644178}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -188,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bd7d23b48174d448c7e9a07fb62ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRange: {fileID: 0}
 --- !u!114 &-5804575646727516327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +214,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     useGraphRaycasting: 0
-  traversableTags: -1
+  traversableTags: -9
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
@@ -242,7 +243,7 @@ MonoBehaviour:
   repathRateCompatibility: NaN
   canSearchCompability: 0
   orientation: 0
-  enableRotation: 1
+  enableRotation: 0
   autoRepath:
     mode: 2
     interval: 0.5
@@ -259,6 +260,21 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
+--- !u!114 &7936525584745644178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2187407287308781805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  unwrap: 1
+  splitAtEveryPortal: 0
 --- !u!1 &2191891637815513562
 GameObject:
   m_ObjectHideFlags: 0

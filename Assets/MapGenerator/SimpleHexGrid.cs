@@ -1,3 +1,4 @@
+using Pathfinding;
 using UnityEngine;
 
 public class SimpleHexGrid : MonoBehaviour
@@ -106,7 +107,29 @@ public class SimpleHexGrid : MonoBehaviour
         {
             roundedHeight *= heightMultiplier;
         }
-
+        //Snapping for equal high for every tile in the same type
+        if(roundedHeight <= WaterLevel)
+        {
+            roundedHeight = WaterLevel;
+        }
+        else if( roundedHeight > WaterLevel && roundedHeight <= SandUpToThisHeight) 
+        {
+            roundedHeight = SandUpToThisHeight;
+        }
+        else if(roundedHeight > SandUpToThisHeight && roundedHeight <= GrassUpToThisHeight)
+        {
+            roundedHeight = GrassUpToThisHeight;
+        }
+        else
+        {
+            roundedHeight = GrassUpToThisHeight * 2;
+        }
+        //Snapping border tail to wall
+        if((x == 0 || x == chunkSize -1)|| (z == 0 || z == chunkSize -1))
+        {
+            float wallHeight = GrassUpToThisHeight * 10;
+            roundedHeight = Random.Range(wallHeight, wallHeight * 2);
+        }
         //set the height to double because it goes both up and down
         Hex.transform.localScale = new Vector3(Hex.transform.localScale.x * TileScale, roundedHeight, Hex.transform.localScale.z * TileScale);
 
@@ -122,6 +145,8 @@ public class SimpleHexGrid : MonoBehaviour
 
     void SetHexType(GameObject Hex, float HexHeight)
     {
+        Debug.Log(HexHeight);
+        GraphUpdateScene graphUpdate = Hex.GetComponent<GraphUpdateScene>();
         if (HexHeight <= WaterLevel)
         {
             //water
@@ -134,8 +159,9 @@ public class SimpleHexGrid : MonoBehaviour
             //set the position back to zero
             Hex.transform.position = new Vector3(Hex.transform.position.x, - WaterLevel / 2f, Hex.transform.position.z);
 
-            Hex.layer = LayerMask.NameToLayer("Swimmable");
             Hex.AddComponent<SoulRiver>();
+            graphUpdate.modifyTag = true;
+            graphUpdate.setTag = 3;
         }
 
         if (HexHeight > WaterLevel)
@@ -144,8 +170,8 @@ public class SimpleHexGrid : MonoBehaviour
             {
                 //sand
                 Hex.GetComponentInChildren<MeshRenderer>().material = Sand;
-                //Hex.tag = ("Sand");
-                Hex.layer = LayerMask.NameToLayer("Walkable");
+                graphUpdate.modifyTag = true;
+                graphUpdate.setTag = 1;
             }
         }
 
@@ -155,9 +181,9 @@ public class SimpleHexGrid : MonoBehaviour
             {
                 //grass
                 Hex.GetComponentInChildren<MeshRenderer>().material = Grass;
-                //Hex.tag = ("Grass");
-                Hex.layer = LayerMask.NameToLayer("Walkable");
                 Hex.AddComponent<FertilePlane>().Initialize(plant, 30f, 5);
+                graphUpdate.modifyTag = true;
+                graphUpdate.setTag = 1;
             }
         }
 
@@ -165,8 +191,8 @@ public class SimpleHexGrid : MonoBehaviour
         {
             //rock
             Hex.GetComponentInChildren<MeshRenderer>().material = Stone;
-            //Hex.tag = ("Stone");
-            Hex.layer = LayerMask.NameToLayer("Climmable");
+            graphUpdate.modifyTag = true;
+            graphUpdate.setTag = 2;
         }
     }
 }

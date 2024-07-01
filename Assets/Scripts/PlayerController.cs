@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Collider interactionRange;
     // Start is called before the first frame update
     void Start()
     {

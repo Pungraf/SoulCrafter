@@ -82,14 +82,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         MovementVector.Normalize();
-        if (MovementVector != LastDirection)
-        {
-            LerpTime = 0;
-        }
-        LastDirection = MovementVector;
-        TargetDirection = Vector3.Lerp(TargetDirection, MovementVector, Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
-
-        aIPath.Move(TargetDirection * aIPath.maxSpeed * Time.deltaTime);
+        aIPath.destination = transform.position + MovementVector;
     }
 
     private void Rotate()
