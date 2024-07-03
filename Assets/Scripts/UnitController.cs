@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using static UnityEditor.FilePathAttribute;
 using static UnityEditor.PlayerSettings;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
@@ -45,12 +46,18 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
+    public event EventHandler OnDestinationReached;
+
+    [SerializeField] protected List<BaseBehaviour> behaviourList;
+
     public Seeker seeker;
     public AIPath aIPath;
 
+    NNConstraint constraint = NNConstraint.None;
+
     protected System.Random rand = new System.Random();
 
-    [SerializeField] protected PackManager packManager;
+    [SerializeField] public PackManager packManager;
     [SerializeField] protected BehaviourState currentBehaviourState = BehaviourState.None;
     [SerializeField] protected float idleTime = 5f;
     [SerializeField] protected float behaviourTimeLimit = 10f;
@@ -63,6 +70,13 @@ public abstract class UnitController : MonoBehaviour
         seeker = GetComponent<Seeker>();
         aIPath = GetComponent<AIPath>();
         unit = GetComponent<Unit>();
+
+        var behaviours = GetComponents<BaseBehaviour>();
+        behaviourList.Clear();
+        foreach(BaseBehaviour behaviour in behaviours)
+        {
+            behaviourList.Add(behaviour);
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -70,24 +84,35 @@ public abstract class UnitController : MonoBehaviour
         CurrentBehaviourState = BehaviourState.None;
         Ticker.Tick_05 += Update_Tick05;
         packManager = GetComponent<PackManager>();
+
+        constraint.constrainWalkability = true;
+        constraint.walkable = true;
+        constraint.constrainTags = true;
+        constraint.tags = seeker.traversableTags;
+
+        ChooseBehaviour();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        behaviurCounter -= Time.deltaTime;
-        ExecuteBehaviour();
-
+        if (aIPath.reachedDestination)
+        {
+            BehaviourDestintaionReached();
+        }
+        //behaviurCounter -= Time.deltaTime;
+        //ExecuteBehaviour();
     }
 
-        private void Update_Tick05(object sender, EventArgs e)
+    private void Update_Tick05(object sender, EventArgs e)
     {
-        unit.CheckStatuses();
-        LifeCycleStatusCheck();
-        DeprecatedBehaviour();
+       // unit.CheckStatuses();
+       // LifeCycleStatusCheck();
+        //DeprecatedBehaviour();
     }
 
+    /*
     protected void ExecuteBehaviour()
     {
         switch (CurrentBehaviourState)
@@ -173,10 +198,11 @@ public abstract class UnitController : MonoBehaviour
                 break;
         }
     }
+    */
 
-    protected bool BehaviourDestintaionReached()
+    public void BehaviourDestintaionReached()
     {
-        return aIPath.reachedDestination;
+        OnDestinationReached?.Invoke(this, EventArgs.Empty);
     }
 
     protected void DeprecatedBehaviour()
@@ -306,7 +332,6 @@ public abstract class UnitController : MonoBehaviour
             return potentialPredator;
         }
         return null;
-
     }
 
     protected void RunAway(Transform runAwayTarget)
@@ -314,16 +339,9 @@ public abstract class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.RunningAway;
         unit.targetedTransform = runAwayTarget;
 
-
         Vector3 directionAway = (transform.position - runAwayTarget.position).normalized * unit.Gens.Speed * 10f;
         directionAway += transform.position;
-
-        var constraint = NNConstraint.None;
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-        GraphNode node = AstarPath.active.GetNearest(directionAway,constraint).node;
-        aIPath.destination = (Vector3)node.position;
-        aIPath.SearchPath();
+        MoveUnit(directionAway);
 
     }
     protected bool LookForFood()
@@ -491,13 +509,7 @@ public abstract class UnitController : MonoBehaviour
     {
         CurrentBehaviourState = BehaviourState.Mating;
         unit.targetedTransform = matingTarget;
-
-        var constraint = NNConstraint.None;
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-        GraphNode node = AstarPath.active.GetNearest(matingTarget.position, constraint).node;
-        aIPath.destination = (Vector3)node.position;
-        aIPath.SearchPath();
+        MoveUnit(matingTarget.position);
     }
 
     protected void FemaleMating()
@@ -565,13 +577,7 @@ public abstract class UnitController : MonoBehaviour
     protected void SearchingForFood( Vector3 foodPosition)
     {
         CurrentBehaviourState = BehaviourState.SearchingForFood;
-
-        var constraint = NNConstraint.None;
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-        GraphNode node = AstarPath.active.GetNearest(foodPosition, constraint).node;
-        aIPath.destination = (Vector3)node.position;
-        aIPath.SearchPath();
+        MoveUnit(foodPosition);
     }
 
     IEnumerator Hunt(Transform huntedUnit)
@@ -644,13 +650,7 @@ public abstract class UnitController : MonoBehaviour
     protected void SearchingForDrink(Vector3 drinkPosition)
     {
         CurrentBehaviourState = BehaviourState.SearchingForDrink;
-
-        var constraint = NNConstraint.None;
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-        GraphNode node = AstarPath.active.GetNearest(drinkPosition, constraint).node;
-        aIPath.destination = (Vector3)node.position;
-        aIPath.SearchPath();
+        MoveUnit(drinkPosition);
     }
 
     protected void EatFood(Food food)
@@ -695,14 +695,7 @@ public abstract class UnitController : MonoBehaviour
             randomDirection += transform.position;
         }
 
-        var constraint = NNConstraint.None;
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-
-        GraphNode node = AstarPath.active.GetNearest(randomDirection, constraint).node;
-
-        aIPath.destination = (Vector3)node.position;
-        aIPath.SearchPath();
+        MoveUnit(randomDirection);
     }
 
     protected void Mature()
@@ -813,6 +806,13 @@ public abstract class UnitController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void MoveUnit(Vector3 location)
+    {
+        GraphNode node = AstarPath.active.GetNearest(location, constraint).node;
+        aIPath.destination = (Vector3)node.position;
+        aIPath.SearchPath();
+    }
+
     //Change for statick methoid in controller
     public Transform FindClosestTransformPath(List<Transform> transforms)
     {
@@ -832,5 +832,17 @@ public abstract class UnitController : MonoBehaviour
             }
         }
         return closestTransform;
+    }
+
+    public void ChooseBehaviour()
+    {
+        foreach(BaseBehaviour behaviour in behaviourList)
+        {
+            behaviour.CalculateCurrentBehaviourScore();
+        }
+
+        behaviourList = behaviourList.OrderBy(x => x.currnetBehaviourScore).ToList();
+
+        behaviourList[0].Behave(ChooseBehaviour);
     }
 }

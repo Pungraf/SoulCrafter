@@ -90,9 +90,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 ScreenPos = MouseWorld.GetPosition();
 
         Vector3 lookDirection = ScreenPos - transform.position;
+        Quaternion LookAtRotationY = Quaternion.Euler(transform.rotation.eulerAngles.x,Quaternion.LookRotation(lookDirection).eulerAngles.y, transform.rotation.eulerAngles.z);
+
         if (lookDirection != Vector3.zero)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookDirection), Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
+            transform.rotation = Quaternion.Lerp(transform.rotation, LookAtRotationY, Mathf.Clamp01(LerpTime * TargetLerpSpeed * (1 - Smoothing)));
         }
     }
 }

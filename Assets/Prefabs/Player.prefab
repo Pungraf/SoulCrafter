@@ -157,8 +157,8 @@ MonoBehaviour:
     type: 3}
   seeker: {fileID: 0}
   aIPath: {fileID: 0}
-  Smoothing: 0.25
-  TargetLerpSpeed: 1
+  Smoothing: 0.99
+  TargetLerpSpeed: 0.1
   Speed: 3
 --- !u!114 &193869198772255015
 MonoBehaviour:
@@ -256,7 +256,7 @@ MonoBehaviour:
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
   endReachedDistance: 0.2
-  alwaysDrawGizmos: 0
+  alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
