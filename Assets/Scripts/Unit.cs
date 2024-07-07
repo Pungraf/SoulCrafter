@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
+    [SerializeField] private float counterUpdateSampling = 1f;
     public enum Species
     {
         Wisp,
@@ -27,34 +28,31 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private GenSample gens;
     [SerializeField] private GenSample lastPartnerGenSample;
 
+    //States
     [SerializeField] public bool IsFemale;
     [SerializeField] public Species species;
     [SerializeField] private bool isAdult = true;
-    [SerializeField] private float health = 100;
+    [SerializeField] private bool isPregnant = false;
+
+    //Timers
     [SerializeField] private float remainingStageLifeTime = 0;
+    [SerializeField] private float pregnancyCounter;
+
+    //Parameters
+    [SerializeField] private float health = 100;
     [SerializeField] private float hunger = 0;
     [SerializeField] private float thirst = 0;
     [SerializeField] private float urge = 0;
     [SerializeField] private float waste = 0;
+    [SerializeField] private float anger = 0;
+
     [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
     [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
     [SerializeField] public List<Species> predators = new List<Species>();
 
-    [SerializeField] private bool isHungry;
-    [SerializeField] private bool isThirsty;
-    [SerializeField] private bool isWasteReady;
-    [SerializeField] private bool isEagerToMate;
-    [SerializeField] private bool isReadyToGrowUp;
-    [SerializeField] private bool isReadyToBear;
-
-    [SerializeField] private float pregnancyCounter;
-    //Female gense
-    [SerializeField] private bool isPregnant = false;
-
 
     public static event EventHandler OnAnyUnitSpawn;
     public static event EventHandler OnAnyUnitDead;
-
 
     private void Awake()
     {
@@ -67,20 +65,11 @@ public abstract class Unit : MonoBehaviour
         //Initialize starting parameters
         Initialize();
 
-        if (IsFemale)
-        {
-            pregnancyCounter = gens.Gestation;
-        }
-
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
 
         genScore = rand.Next(50, 100);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateParameters();
+        InvokeRepeating("UpdateParameters", 0f, 1f);
     }
 
     public virtual void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
@@ -94,8 +83,8 @@ public abstract class Unit : MonoBehaviour
         {
             controller.aIPath.maxSpeed = gens.Speed;
             this.health = health;
-            this.hunger = hunger;
-            this.thirst = thirst;
+            this.hunger = 0f;
+            this.thirst = 0f;
         }
         else
         {
@@ -113,7 +102,6 @@ public abstract class Unit : MonoBehaviour
         {
             remainingStageLifeTime = gens.LifeSpan * 0.05f;
         }
-        isReadyToGrowUp = false;
 
     }
 
@@ -131,78 +119,48 @@ public abstract class Unit : MonoBehaviour
     public float Health
     {
         get { return health; }
-        set { health = value; }
+        set { health = Mathf.Clamp(value, 0f, Gens.Vitality); }
 
     }
 
     public float Hunger
     {
         get { return hunger; }
-        set { hunger = value; }
+        set { hunger = Mathf.Clamp(value, 0f, 100f); }
 
     }
 
     public float Thirst
     {
         get { return thirst; }
-        set { thirst = value; }
+        set { thirst = Mathf.Clamp(value, 0f, 100f); }
 
     }
 
     public float Urge
     {
         get { return urge; }
-        set { urge = value; }
+        set { urge = Mathf.Clamp(value, 0f, 100f); }
 
     }
 
     public float Waste
     {
         get { return waste; }
-        set { waste = value; }
+        set { waste = Mathf.Clamp(value, 0f, 100f); }
 
     }
 
-    public bool IsHungry
+    public float Anger
     {
-        get { return isHungry; }
-        set { isHungry = value; }
-    }
-
-    public bool IsThirsty
-    {
-        get { return isThirsty; }
-        set { isThirsty = value; }
-    }
-
-    public bool IsWasteReady
-    {
-        get { return isWasteReady; }
-        set { isWasteReady = value; }
-    }
-
-    public bool IsEagerToMate
-    {
-        get { return isEagerToMate; }
-        set { isEagerToMate = value; }
-    }
-
-    public bool IsReadyToBear
-    {
-        get { return isReadyToBear; }
-        set { isReadyToBear = value; }
+        get { return anger; }
+        set { anger = Mathf.Clamp(value, 0f, 100f); }
     }
 
     public bool IsAdult
     {
         get { return isAdult; }
         set { isAdult = value; }
-    }
-
-    public bool IsReadyToGrowUp
-    {
-        get { return isReadyToGrowUp; }
-        set { isReadyToGrowUp = value; }
     }
 
     public bool IsPregnant
@@ -225,32 +183,23 @@ public abstract class Unit : MonoBehaviour
 
     public void Feed(float amount)
     {
-        hunger -= amount;
-        if (hunger < 0)
-        {
-            hunger = 0;
-        }
+        Hunger += amount;
         //TODO: change all statee variable to 0-1 range;
         Waste += amount / 100;
     }
 
     public void Hydrate(float amount)
     {
-        thirst -= amount;
-        if (thirst < 0)
-        {
-            thirst = 0;
-        }
+        Thirst += amount;
     }
 
     public void Dispose()
     {
         Waste = 0;
-        IsWasteReady = false;
     }
     public void TakeDamage(float amount)
     {
-        health -= amount;
+        Health -= amount;
     }
 
     public void Die()
@@ -259,100 +208,24 @@ public abstract class Unit : MonoBehaviour
         controller.Death();
     }
 
-    public void CheckStatuses()
-    {
-        if (RemainingStageLifeTime <= 0)
-        {
-            isReadyToGrowUp = true;
-        }
-        if(Waste >= 1f)
-        {
-            IsWasteReady = true;
-        }
-        if (!isAdult)
-        {
-            if (Hunger >= 70)
-            {
-                isHungry = true;
-            }
-            else
-            {
-                isHungry = false;
-            }
-
-            if (Thirst > 70)
-            {
-                IsThirsty = true;
-            }
-            else
-            {
-                IsThirsty = false;
-            }
-        }
-        else
-        {
-            if (IsPregnant)
-            {
-                if (pregnancyCounter <= 0)
-                {
-                    IsReadyToBear = true;
-                }
-            }
-            if (Urge >= 100)
-            {
-                isEagerToMate = true;
-            }
-            else
-            {
-                isEagerToMate = false;
-            }
-
-            if (Hunger > 70)
-            {
-                isHungry = true;
-            }
-            else
-            {
-                isHungry = false;
-            }
-
-            if (Thirst > 70)
-            {
-                IsThirsty = true;
-            }
-            else
-            {
-                IsThirsty = false;
-            }
-        }
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
     private void UpdateParameters()
     {
-        Hunger += Time.deltaTime * gens.Satiety;
-        Thirst += Time.deltaTime * gens.Hydration;
-
-
-        RemainingStageLifeTime -= Time.deltaTime;
-
-
-        if (hunger >= 100 || Thirst >= 100)
-        {
-            Health -= Time.deltaTime * 10;
-        }
-
+        Hunger -= gens.Satiety / counterUpdateSampling;
+        Thirst -= gens.Hydration / counterUpdateSampling;
         if (IsAdult)
         {
-            Urge += 10*Time.deltaTime;
-            if(isPregnant)
+            Urge += gens.Urge / counterUpdateSampling;
+            if (isPregnant)
             {
-                pregnancyCounter -= Time.deltaTime;
+                PregnancyCounter -= counterUpdateSampling;
             }
+        }
+
+        RemainingStageLifeTime -= counterUpdateSampling;
+
+        if (Hunger <= 0 || Thirst <= 0)
+        {
+            TakeDamage(10 * counterUpdateSampling);
         }
     }
 }

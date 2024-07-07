@@ -6,13 +6,10 @@ using UnityEngine;
 
 public class IdleBehaviour : BaseBehaviour
 {
-    private void Start()
-    {
-        _unitController.OnDestinationReached += BehaviourComplete;
-    }
-
     public override void Behave(Action onBehaviourComplete)
     {
+        BehaviourStart(onBehaviourComplete);
+
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed * 10f;
         if (_unitController.packManager.PackLeader != null && _unitController.packManager.HasPack && !_unitController.packManager.IsLeader)
         {
@@ -22,10 +19,8 @@ public class IdleBehaviour : BaseBehaviour
         {
             randomDirection += transform.position;
         }
-
+        isAwatingPathCallback = true;
         _unitController.MoveUnit(randomDirection);
-
-        BehaviourStart(onBehaviourComplete);
     }
 
     protected override int CalculateBehaviourScore()

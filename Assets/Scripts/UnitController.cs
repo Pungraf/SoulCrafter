@@ -46,9 +46,9 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    public event EventHandler OnDestinationReached;
+    [SerializeField] protected Brain _brain;
 
-    [SerializeField] protected List<BaseBehaviour> behaviourList;
+    public event EventHandler OnDestinationReached;
 
     public Seeker seeker;
     public AIPath aIPath;
@@ -70,13 +70,6 @@ public abstract class UnitController : MonoBehaviour
         seeker = GetComponent<Seeker>();
         aIPath = GetComponent<AIPath>();
         unit = GetComponent<Unit>();
-
-        var behaviours = GetComponents<BaseBehaviour>();
-        behaviourList.Clear();
-        foreach(BaseBehaviour behaviour in behaviours)
-        {
-            behaviourList.Add(behaviour);
-        }
     }
     // Start is called before the first frame update
     void Start()
@@ -216,6 +209,7 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
+    /*
     protected void FindeActivity()
     {
         //Sense dangers
@@ -275,27 +269,7 @@ public abstract class UnitController : MonoBehaviour
             packManager.LookForPack();
         }
     }
-
-    protected void LifeCycleStatusCheck()
-    {
-        if (unit.IsAdult)
-        {
-            if (unit.IsPregnant)
-            {
-                if (unit.IsReadyToBear)
-                {
-                    Birth();
-                    unit.IsReadyToBear = false;
-                    unit.IsPregnant = false;
-                }
-            }
-        }
-
-        if (unit.IsReadyToGrowUp)
-        {
-            Mature();
-        }
-    }
+    */
 
     protected bool SensedDanger()
     {
@@ -613,7 +587,7 @@ public abstract class UnitController : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
             }
         }
-        FindeActivity();
+        //FindeActivity();
     }
 
     IEnumerator Attack(Transform targetUnit)
@@ -836,13 +810,11 @@ public abstract class UnitController : MonoBehaviour
 
     public void ChooseBehaviour()
     {
-        foreach(BaseBehaviour behaviour in behaviourList)
-        {
-            behaviour.CalculateCurrentBehaviourScore();
-        }
+        _brain.GetFirstBehaviour().Behave(ChooseBehaviour);
+    }
 
-        behaviourList = behaviourList.OrderBy(x => x.currnetBehaviourScore).ToList();
-
-        behaviourList[0].Behave(ChooseBehaviour);
+    public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour)
+    {
+        _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
     }
 }
