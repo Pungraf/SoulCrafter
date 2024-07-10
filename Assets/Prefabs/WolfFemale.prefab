@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 2024571889775966183}
   - component: {fileID: -1519916361889138376}
   - component: {fileID: 3800007222919490127}
-  - component: {fileID: 8395841488861560810}
   - component: {fileID: 7243870761530189310}
+  - component: {fileID: 8184207032454287042}
   m_Layer: 7
   m_Name: WolfFemale
   m_TagString: Untagged
@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf1b831b90315f449623864b4ba3644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  counterUpdateSampling: 1
   femaleOffspringPrefab: {fileID: 1397707917935130270, guid: 1dfa3408d0defa64f861f9bdb1dd60de,
     type: 3}
   maleOffspringPrefab: {fileID: 1397707917935130270, guid: 67c138da2e7d9be48869a741376f76ee,
@@ -148,23 +149,18 @@ MonoBehaviour:
   IsFemale: 1
   species: 1
   isAdult: 1
-  health: 100
+  isPregnant: 0
   remainingStageLifeTime: 0
+  pregnancyCounter: 0
+  health: 100
   hunger: 0
   thirst: 0
   urge: 0
   waste: 0
+  anger: 0
   edibleFood: 01000000
   foodChainSpecies: 00000000
   predators: 
-  isHungry: 0
-  isThirsty: 0
-  isWasteReady: 0
-  isEagerToMate: 0
-  isReadyToGrowUp: 0
-  isReadyToBear: 0
-  pregnancyCounter: 0
-  isPregnant: 0
 --- !u!114 &2024571889775966183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +174,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugSphere: {fileID: 0}
+  _brain: {fileID: 0}
   seeker: {fileID: 0}
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
   currentBehaviourState: 0
+  currentBehaviour: 0
   idleTime: 5
   behaviourTimeLimit: 10
   behaviurCounter: 0
@@ -230,7 +228,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &8395841488861560810
+--- !u!114 &7243870761530189310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +237,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397707917935130270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  unwrap: 1
+  splitAtEveryPortal: 0
+--- !u!114 &8184207032454287042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397707917935130270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ca8d643c5f01446a18acacb6706f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
@@ -272,21 +285,6 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
---- !u!114 &7243870761530189310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1397707917935130270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  unwrap: 1
-  splitAtEveryPortal: 0
 --- !u!1 &5633910479102089292
 GameObject:
   m_ObjectHideFlags: 0

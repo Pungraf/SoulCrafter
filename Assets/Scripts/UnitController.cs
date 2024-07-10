@@ -13,7 +13,7 @@ using static UnityEditor.PlayerSettings;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 [RequireComponent(typeof(Seeker))]
-[RequireComponent(typeof(AIPath))]
+[RequireComponent(typeof(AIUnit))]
 [RequireComponent(typeof(FunnelModifier))]
 public abstract class UnitController : MonoBehaviour
 {
@@ -46,29 +46,47 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
+    public BaseBehaviour.Behaviour CurrentBehaviour
+    {
+        get { return currentBehaviour; }
+        set {
+            //Debug.Log(value);
+            currentBehaviour = value;
+            }
+    }
+
     [SerializeField] protected Brain _brain;
+    public Brain Brain
+    { 
+        get { return _brain; }
+    }
 
     public event EventHandler OnDestinationReached;
 
     public Seeker seeker;
-    public AIPath aIPath;
+    public AIUnit aIPath;
 
     NNConstraint constraint = NNConstraint.None;
 
-    protected System.Random rand = new System.Random();
+    public System.Random Rand = new System.Random();
 
     [SerializeField] public PackManager packManager;
     [SerializeField] protected BehaviourState currentBehaviourState = BehaviourState.None;
+    [SerializeField] protected BaseBehaviour.Behaviour currentBehaviour = BaseBehaviour.Behaviour.None;
     [SerializeField] protected float idleTime = 5f;
     [SerializeField] protected float behaviourTimeLimit = 10f;
 
     public float behaviurCounter;
     protected Unit unit;
+    public Unit Unit
+    {
+        get { return unit; }
+    }
 
     protected void Awake()
     {
         seeker = GetComponent<Seeker>();
-        aIPath = GetComponent<AIPath>();
+        aIPath = GetComponent<AIUnit>();
         unit = GetComponent<Unit>();
     }
     // Start is called before the first frame update
@@ -83,17 +101,16 @@ public abstract class UnitController : MonoBehaviour
         constraint.constrainTags = true;
         constraint.tags = seeker.traversableTags;
 
+        aIPath.OnDestinationReached += BehaviourDestintaionReached;
+
         ChooseBehaviour();
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (aIPath.reachedDestination)
-        {
-            BehaviourDestintaionReached();
-        }
         //behaviurCounter -= Time.deltaTime;
         //ExecuteBehaviour();
     }
@@ -104,6 +121,8 @@ public abstract class UnitController : MonoBehaviour
        // LifeCycleStatusCheck();
         //DeprecatedBehaviour();
     }
+
+
 
     /*
     protected void ExecuteBehaviour()
@@ -193,7 +212,7 @@ public abstract class UnitController : MonoBehaviour
     }
     */
 
-    public void BehaviourDestintaionReached()
+    public void BehaviourDestintaionReached(object sender, EventArgs e)
     {
         OnDestinationReached?.Invoke(this, EventArgs.Empty);
     }
@@ -255,7 +274,7 @@ public abstract class UnitController : MonoBehaviour
         // 50% chance for idle behaviours
         else
         {
-            if (rand.NextDouble() > 0.5f)
+            if (Rand.NextDouble() > 0.5f)
             {
                 IdleBehaviour(idleTime);
             }
@@ -463,7 +482,7 @@ public abstract class UnitController : MonoBehaviour
     {
         if(currentBehaviourState == BehaviourState.Mating && unit.IsFemale)
         {
-            double randomDouble = rand.NextDouble();
+            double randomDouble = Rand.NextDouble();
             
             if (randomDouble < offeredMatting.Gens.Attractiveness)
             {
@@ -532,7 +551,7 @@ public abstract class UnitController : MonoBehaviour
         currentBehaviourState = BehaviourState.Copulating;
         behaviurCounter = idleTime;
         unit.Urge = 0;
-        if (unit.IsFemale && unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity > rand.NextDouble())
+        if (unit.IsFemale && unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity > Rand.NextDouble())
         {
             unit.PregnancyCounter = unit.Gens.Gestation;
             unit.IsPregnant = true;
@@ -713,8 +732,7 @@ public abstract class UnitController : MonoBehaviour
 
 
             }
-            Ticker.Tick_05 -= Update_Tick05;
-            Destroy(gameObject);
+            DestroyAndUnsubscribe();
         }
     }
 
@@ -722,14 +740,14 @@ public abstract class UnitController : MonoBehaviour
     {
         if (unit.IsAdult && unit.IsFemale)
         {
-            int offspringQuantity = rand.Next(1,(int)unit.Gens.Fertility);
+            int offspringQuantity = Rand.Next(1,(int)unit.Gens.Fertility);
 
             for(int i = 0; i < offspringQuantity; i++)
             {
                 Unit offspring;
                 GenSample newGen = GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f);
                 // 50% chance for gender
-                if (0.5f > rand.NextDouble())
+                if (0.5f > Rand.NextDouble())
                 {
                     offspring = Instantiate(unit.femaleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 }
@@ -738,7 +756,7 @@ public abstract class UnitController : MonoBehaviour
                     offspring = Instantiate(unit.maleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
                 }
                
-                offspring.Initialize(newGen, newGen.Vitality);
+                offspring.Initialize(newGen, newGen.Vitality, 50f, 50f);
             }
         }
         unit.IsPregnant = false;
@@ -776,8 +794,7 @@ public abstract class UnitController : MonoBehaviour
                 packManager.PackLeader.Pack.Remove(packManager);
             }
         }
-        Ticker.Tick_05 -= Update_Tick05;
-        Destroy(gameObject);
+        DestroyAndUnsubscribe();
     }
 
     public void MoveUnit(Vector3 location)
@@ -810,11 +827,16 @@ public abstract class UnitController : MonoBehaviour
 
     public void ChooseBehaviour()
     {
-        _brain.GetFirstBehaviour().Behave(ChooseBehaviour);
-    }
+        _brain.GetFirstBehaviour().Behave(ChooseBehaviour);         }
 
     public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour)
     {
         _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
+    }
+
+    public void DestroyAndUnsubscribe()
+    {
+        Ticker.Tick_05 -= Update_Tick05;
+        Destroy(gameObject);
     }
 }

@@ -9,7 +9,7 @@ public class WispUnitController : UnitController
     {
         if (unit.IsAdult && unit.IsFemale)
         {
-            int offspringQuantity = rand.Next((int)unit.Gens.Fertility);
+            int offspringQuantity = Rand.Next((int)unit.Gens.Fertility);
 
             for (int i = 0; i < offspringQuantity; i++)
             {
@@ -23,7 +23,7 @@ public class WispUnitController : UnitController
                 Vector3 spawnPosition = new Vector3(transform.position.x + (float)Math.Cos(theta) * placementRange, transform.position.y, transform.position.z + (float)Math.Sin(theta) * placementRange);
 
                 // 50% chance for gender
-                if (0.5f > rand.NextDouble())
+                if (0.5f > Rand.NextDouble())
                 {
                     evolvingPrefab = unit.femaleOffspringPrefab;
                 }

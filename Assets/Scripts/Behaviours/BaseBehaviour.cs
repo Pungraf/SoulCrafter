@@ -8,20 +8,28 @@ public abstract class BaseBehaviour : MonoBehaviour
 {
     public enum Behaviour
     {
+        None,
         Idle,
-        Feed
+        Feed,
+        Mate,
+        Copulate
     }
 
     public int currnetBehaviourScore;
+
+    [SerializeField] protected float behaviourTimeLimit;
 
     protected Unit _unit;
     protected UnitController _unitController;
     protected Action onBehaviourComplete;
     protected float criticalScoreValue = 100f;
-    protected String followUpBehaviourName;
     protected bool isAwatingPathCallback = false;
-    //TODO: Change for event ?
     [SerializeField] protected bool isActive = false;
+
+    public bool IsActive
+    {
+        get { return isActive; }
+    }
 
     public Behaviour behaviourType;
 
@@ -49,15 +57,21 @@ public abstract class BaseBehaviour : MonoBehaviour
     {
         isAwatingPathCallback = false;
         isActive = true;
+        _unitController.CurrentBehaviour = behaviourType;
         this.onBehaviourComplete = OnBehaviourComplete;
+        Invoke("DeprecatedBehaviour", behaviourTimeLimit);
     }
 
     protected void BehaviourComplete(object sender, EventArgs e)
     {
         if(isActive && isAwatingPathCallback)
         {
+            CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _unitController.CurrentBehaviour = Behaviour.None;
+            _unit.targetedTransform = null;
+            _unitController.aIPath.SetPath(null);
             onBehaviourComplete();
         }
     }
@@ -65,19 +79,37 @@ public abstract class BaseBehaviour : MonoBehaviour
     {
         if (isActive)
         {
+            CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _unitController.CurrentBehaviour = Behaviour.None;
+            _unit.targetedTransform = null;
+            _unitController.aIPath.SetPath(null);
             onBehaviourComplete();
         }
     }
 
-    protected void BehaviourComplete(Behaviour behaviour)
+    public void BehaviourComplete(Behaviour behaviour, bool keepTarget = false)
     {
         if (isActive)
         {
+            CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _unitController.CurrentBehaviour = Behaviour.None;
+            if (!keepTarget)
+            {
+                _unit.targetedTransform = null;
+            }
+            _unitController.aIPath.SetPath(null);
             _unitController.ChooseBehaviour(behaviour);
         }
+    }
+
+    protected void DeprecatedBehaviour()
+    {
+        Debug.Log("Deprecated: " + behaviourType);
+        //_unitController.aIPath.
+        BehaviourComplete();
     }
 }

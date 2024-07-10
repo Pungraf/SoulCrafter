@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 
 public class FeedBehaviour : BaseBehaviour
 {
+    private bool isConsuming = false;
     public override void Behave(Action onBehaviourComplete)
     {
         BehaviourStart(onBehaviourComplete);
-
         if (_unit.Hunger <= _unit.Thirst)
         {
             if(!LookForFood() && _unit.Thirst < 10f)
@@ -21,7 +21,7 @@ public class FeedBehaviour : BaseBehaviour
             }
             else
             {
-                if(!isAwatingPathCallback)
+                if(!isAwatingPathCallback && !isConsuming)
                 {
                     BehaviourComplete(Behaviour.Idle);
                 }
@@ -38,11 +38,12 @@ public class FeedBehaviour : BaseBehaviour
             }
             else
             {
-                if (!isAwatingPathCallback)
+                if (!isAwatingPathCallback && !isConsuming)
                 {
                     BehaviourComplete(Behaviour.Idle);
                 }
             }
+
         }
     }
 
@@ -117,11 +118,13 @@ public class FeedBehaviour : BaseBehaviour
     IEnumerator Eat(Food food)
     {
         _unitController.CurrentBehaviourState = UnitController.BehaviourState.Eating;
+        isConsuming = true;
         while(food != null && _unit.Hunger < 95f)
         {
             food.Eat(_unit);
             yield return new WaitForSeconds(1f);
         }
+        isConsuming = false;
         BehaviourComplete();
     }
 
@@ -175,12 +178,14 @@ public class FeedBehaviour : BaseBehaviour
 
     IEnumerator Drink(Drink drink)
     {
+        isConsuming = true;
         _unitController.CurrentBehaviourState = UnitController.BehaviourState.Drinking;
         while (drink != null && _unit.Thirst < 95f)
         {
             drink.Drinking(_unit);
             yield return new WaitForSeconds(1f);
         }
+        isConsuming = false;
         BehaviourComplete();
     }
 }

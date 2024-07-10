@@ -6,9 +6,9 @@ public class WispUnit : Unit
 {
     public GameObject eggPrefab;
 
-    public override void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
+    public override void Initialize()
     {
-        base.Initialize(gen, health, hunger, thirst);
+        base.Initialize();
         transform.SetParent(SoulsManager.Instance.WispsHolder);
     }
 }

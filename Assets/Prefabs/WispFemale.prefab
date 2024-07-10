@@ -1,5 +1,135 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1196594694835383564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9071516135642559687}
+  - component: {fileID: 1019040303640426692}
+  - component: {fileID: 1193353082269597268}
+  - component: {fileID: 7826517074322638720}
+  - component: {fileID: 1605429271132722344}
+  - component: {fileID: 5402527109478883120}
+  - component: {fileID: 6042087696029396463}
+  m_Layer: 6
+  m_Name: Brain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9071516135642559687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8291344813399346514}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1019040303640426692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c780851109877164d958699a9539dc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavioursList: []
+--- !u!114 &1193353082269597268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c47c0587cd3e0644be4baa12dc273a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 15
+  isActive: 0
+  behaviourType: 1
+--- !u!114 &7826517074322638720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f535d3cadd5cb4498b9f5f91a929b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 30
+  isActive: 0
+  behaviourType: 2
+--- !u!114 &1605429271132722344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb3317ce88fdcb4587efcc01149d8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 30
+  isActive: 0
+  behaviourType: 3
+--- !u!114 &5402527109478883120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9457aebef3f3671469d627834aae1e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 0
+  isActive: 0
+  behaviourType: 0
+--- !u!114 &6042087696029396463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc847cf94ebbfa44a9da53df61f62cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 5
+  isActive: 0
+  behaviourType: 4
 --- !u!1 &4369711067705793705
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,8 +243,8 @@ GameObject:
   - component: {fileID: 7805208632879594182}
   - component: {fileID: 433160548321929799}
   - component: {fileID: 7104644205306310164}
-  - component: {fileID: 2213462580471797054}
   - component: {fileID: 4853908541447164001}
+  - component: {fileID: 2772710067953562544}
   m_Layer: 6
   m_Name: WispFemale
   m_TagString: Untagged
@@ -136,6 +266,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1105466783390221476}
+  - {fileID: 9071516135642559687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4055756387150831899
@@ -200,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccced80c5462b43479194c94e4a35bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  counterUpdateSampling: 1
   femaleOffspringPrefab: {fileID: 7207470651662688898, guid: 559470e82a229a34f9fb8ba2f63be034,
     type: 3}
   maleOffspringPrefab: {fileID: 7207470651662688898, guid: 6927238bb3f158d4a9f43c34002f0f5b,
@@ -247,23 +379,18 @@ MonoBehaviour:
   IsFemale: 1
   species: 0
   isAdult: 1
-  health: 100
+  isPregnant: 0
   remainingStageLifeTime: 0
+  pregnancyCounter: 0
+  health: 100
   hunger: 0
   thirst: 0
   urge: 0
   waste: 0
+  anger: 0
   edibleFood: 00000000
   foodChainSpecies: 
   predators: 01000000
-  isHungry: 0
-  isThirsty: 0
-  isWasteReady: 0
-  isEagerToMate: 0
-  isReadyToGrowUp: 0
-  isReadyToBear: 0
-  pregnancyCounter: 0
-  isPregnant: 0
   eggPrefab: {fileID: 2681955293210169971, guid: 9de444c84fbe37e4abf04a3cb789b4ee,
     type: 3}
 --- !u!114 &7805208632879594182
@@ -280,10 +407,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugSphere: {fileID: 4394306357408115904, guid: 5eadfe234d5b2d340b99c81cfdedd41c,
     type: 3}
+  _brain: {fileID: 1019040303640426692}
   seeker: {fileID: 0}
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
   currentBehaviourState: 0
+  currentBehaviour: 0
   idleTime: 5
   behaviourTimeLimit: 10
   behaviurCounter: 0
@@ -332,7 +461,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &2213462580471797054
+--- !u!114 &4853908541447164001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -341,7 +470,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7207470651662688898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  unwrap: 1
+  splitAtEveryPortal: 0
+--- !u!114 &2772710067953562544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207470651662688898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ca8d643c5f01446a18acacb6706f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
@@ -369,23 +513,8 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
-  endReachedDistance: 1
+  endReachedDistance: 0.2
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
---- !u!114 &4853908541447164001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7207470651662688898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  unwrap: 1
-  splitAtEveryPortal: 0

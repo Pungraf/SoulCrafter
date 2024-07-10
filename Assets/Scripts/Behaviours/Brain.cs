@@ -6,8 +6,9 @@ using UnityEngine;
 public class Brain : MonoBehaviour
 {
     [SerializeField] protected List<BaseBehaviour> behavioursList;
+    private UnitController _unitController;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         var behaviours = GetComponents<BaseBehaviour>();
         behavioursList.Clear();
@@ -15,6 +16,11 @@ public class Brain : MonoBehaviour
         {
             behavioursList.Add(behaviour);
         }
+    }
+
+    private void Start()
+    {
+        _unitController = GetComponentInParent<UnitController>();
     }
 
     public BaseBehaviour GetFirstBehaviour()
@@ -38,5 +44,18 @@ public class Brain : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void ForceNextBehaviour(BaseBehaviour.Behaviour behaviourType, bool keepTarget = false)
+    {
+        foreach (BaseBehaviour behaviour in behavioursList)
+        {
+            if (behaviour.IsActive)
+            {
+                behaviour.BehaviourComplete(behaviourType, keepTarget);
+                return;
+            }
+        }
+        _unitController.ChooseBehaviour();
     }
 }

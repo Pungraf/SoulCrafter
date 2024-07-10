@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -72,37 +73,56 @@ public abstract class Unit : MonoBehaviour
         InvokeRepeating("UpdateParameters", 0f, 1f);
     }
 
-    public virtual void Initialize(GenSample gen = null, float health = 100, float hunger = 0, float thirst = 0)
+    public virtual void Initialize()
     {
-
-        if(gen != null)
+        if (Gens == null)
         {
-            gens = gen;
+            Debug.LogError("Gen sample miisng !");
+            return;
         }
-        if(IsAdult)
+        if (IsAdult)
         {
             controller.aIPath.maxSpeed = gens.Speed;
-            this.health = health;
-            this.hunger = 0f;
-            this.thirst = 0f;
+            RemainingStageLifeTime = gens.LifeSpan;
+            if(Health == 0)
+            {
+                Health = Gens.Vitality;
+            }
+            if(Hunger == 0)
+            {
+                Hunger = 50f;
+            }
+            if(Thirst == 0)
+            {
+                Thirst = 50f;
+            }
         }
         else
         {
             controller.aIPath.maxSpeed = gens.Speed / 2;
-            health = gens.Vitality / 2;
-            Hunger = 50f;
-            Thirst = 50f;
+            Health = gens.Vitality / 2;
+            RemainingStageLifeTime = gens.LifeSpan * 0.05f;
+            if (Hunger == 0)
+            {
+                Hunger = 50f;
+            }
+            if (Thirst == 0)
+            {
+                Thirst = 50f;
+            }
         }
 
-        if(isAdult)
-        {
-            remainingStageLifeTime = gens.LifeSpan;
-        }
-        else
-        {
-            remainingStageLifeTime = gens.LifeSpan * 0.05f;
-        }
+    }
 
+    public virtual void Initialize(GenSample gen, float health, float hunger = 50f, float thirst = 50f)
+    {
+        if (gen != null)
+        {
+            gens = gen;
+        }
+        Health = health;
+        Hunger = hunger;
+        Thirst = thirst;
     }
 
     // Accesors
@@ -212,6 +232,8 @@ public abstract class Unit : MonoBehaviour
     {
         Hunger -= gens.Satiety / counterUpdateSampling;
         Thirst -= gens.Hydration / counterUpdateSampling;
+        RemainingStageLifeTime -= counterUpdateSampling;
+
         if (IsAdult)
         {
             Urge += gens.Urge / counterUpdateSampling;
@@ -220,8 +242,6 @@ public abstract class Unit : MonoBehaviour
                 PregnancyCounter -= counterUpdateSampling;
             }
         }
-
-        RemainingStageLifeTime -= counterUpdateSampling;
 
         if (Hunger <= 0 || Thirst <= 0)
         {

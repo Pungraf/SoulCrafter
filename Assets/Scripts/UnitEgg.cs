@@ -44,13 +44,13 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
     }
 
     // TODO: create IInitializableUnit interface
-    public virtual void Initialize(GenSample gen, GameObject evolveUnit, float health = 100, float hunger = 0, float thirst = 0)
+    public virtual void Initialize(GenSample gen, GameObject evolveUnit, float durability)
     {
         if (gen != null)
         {
             _gens = gen;
         }
-        _durability = health;
+        _durability = durability;
         _hatchingTime = gen.Incubation;
         evolvedUnitPrefab = evolveUnit;
 

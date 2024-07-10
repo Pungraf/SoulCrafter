@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WispEgg : UnitEgg
 {
-    public override void Initialize(GenSample gen, GameObject evolveUnit, float health = 100, float hunger = 0, float thirst = 0)
+    public override void Initialize(GenSample gen, GameObject evolveUnit, float durablity)
     {
-        base.Initialize(gen, evolveUnit, health, hunger, thirst);
+        base.Initialize(gen, evolveUnit, durablity);
         transform.SetParent(SoulsManager.Instance.WispsHolder);
     }
 }
