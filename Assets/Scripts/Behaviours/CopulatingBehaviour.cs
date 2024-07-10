@@ -38,7 +38,6 @@ public class CopulatingBehaviour : BaseBehaviour
 
     private void Copulate()
     {
-        Debug.Log("Copulated: " + transform.parent.name);
         //TODO: Add animation
         _unit.Urge = 0f;
         if (_unit.IsFemale)

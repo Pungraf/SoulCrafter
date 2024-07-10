@@ -71,7 +71,6 @@ public abstract class BaseBehaviour : MonoBehaviour
             isActive = false;
             _unitController.CurrentBehaviour = Behaviour.None;
             _unit.targetedTransform = null;
-            _unitController.aIPath.SetPath(null);
             onBehaviourComplete();
         }
     }
@@ -84,7 +83,6 @@ public abstract class BaseBehaviour : MonoBehaviour
             isActive = false;
             _unitController.CurrentBehaviour = Behaviour.None;
             _unit.targetedTransform = null;
-            _unitController.aIPath.SetPath(null);
             onBehaviourComplete();
         }
     }
@@ -101,15 +99,12 @@ public abstract class BaseBehaviour : MonoBehaviour
             {
                 _unit.targetedTransform = null;
             }
-            _unitController.aIPath.SetPath(null);
             _unitController.ChooseBehaviour(behaviour);
         }
     }
 
     protected void DeprecatedBehaviour()
     {
-        Debug.Log("Deprecated: " + behaviourType);
-        //_unitController.aIPath.
         BehaviourComplete();
     }
 }

@@ -41,7 +41,6 @@ public class MatingBehaviour : BaseBehaviour
                 MatingBehaviour matingTargetBehaviour = (MatingBehaviour)potentialMatingTarget.GetComponent<UnitController>().Brain.GetBehaviourByType(Behaviour.Mate);
                 if (matingTargetBehaviour != null && matingTargetBehaviour.ProposeMating(_unit))
                 {
-                    Debug.Log(potentialMatingTarget.transform);
                     MaleMating(potentialMatingTarget.transform);
                     return;
                 }
@@ -70,7 +69,6 @@ public class MatingBehaviour : BaseBehaviour
     }
     protected void MaleMating(Transform matingTarget)
     {
-        Debug.Log("Male mating");
         _unitController.MoveUnit(matingTarget.position);
         matingTarget.GetComponent<Unit>().targetedTransform = _unit.transform;
         _unit.targetedTransform = matingTarget;
@@ -102,7 +100,10 @@ public class MatingBehaviour : BaseBehaviour
     {
         if (isActive && isAwatingPathCallback && !_unit.IsFemale)
         {
-            Debug.Log("Copulation performed by:" + transform.parent.name);
+            if(Vector3.Distance(_unit.transform.position, _unit.targetedTransform.position) > _unit.Gens.Reach)
+            {
+                return;
+            }
             isAwatingPathCallback = false;
             _unitController.Brain.ForceNextBehaviour(Behaviour.Copulate, true);
         }
