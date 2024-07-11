@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CopulatingBehaviour))]
+[RequireComponent(typeof(BirthBehaviour))]
 public class MatingBehaviour : BaseBehaviour
 {
     protected override void Start()
