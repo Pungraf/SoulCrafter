@@ -12,7 +12,8 @@ public abstract class BaseBehaviour : MonoBehaviour
         Idle,
         Feed,
         Mate,
-        Copulate
+        Copulate,
+        RunningAway
     }
 
     public int currnetBehaviourScore;

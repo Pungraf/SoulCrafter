@@ -8348,6 +8348,7 @@ MonoBehaviour:
   spritesList:
   - {fileID: 21300000, guid: 487ca9c97a2121c49b97711625081a3b, type: 3}
   - {fileID: 21300000, guid: 86d981a8742aea349ad18e8b929ca7ff, type: 3}
+  - {fileID: 21300000, guid: 7a48619bff2c6c748b9d7fca6957a7f8, type: 3}
 --- !u!4 &1646000928
 Transform:
   m_ObjectHideFlags: 0

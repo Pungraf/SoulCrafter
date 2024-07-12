@@ -51,6 +51,7 @@ public abstract class UnitController : MonoBehaviour
         seeker = GetComponent<Seeker>();
         aIPath = GetComponent<AIUnit>();
         unit = GetComponent<Unit>();
+        _brain = GetComponentInChildren<Brain>();
     }
     // Start is called before the first frame update
     void Start()
@@ -215,23 +216,6 @@ public abstract class UnitController : MonoBehaviour
 
         aIPath.enabled = true;
     }
-
-
-    protected void DisposeWastes()
-    {
-        Destroy(Instantiate(unit.wastePrefab, unit.transform.position, Quaternion.identity), 1f);
-
-        RaycastHit hit;
-        FertilePlane fertilePlane;
-        Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
-        if(hit.collider != null && hit.transform.TryGetComponent(out fertilePlane))
-        {
-            fertilePlane.Fertilize(unit.Waste);
-        }
-        unit.Dispose();
-    }
-
-
     public void Death()
     {
         if(unit.corpseUnitPrefab != null)
