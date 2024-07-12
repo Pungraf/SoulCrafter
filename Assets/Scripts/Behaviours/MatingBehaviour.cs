@@ -31,7 +31,7 @@ public class MatingBehaviour : BaseBehaviour
             foreach (var hitCollider in inSenseRadius)
             {
                 UnitController sensedUnit = hitCollider.GetComponent<UnitController>();
-                if (sensedUnit != null && sensedUnit != _unit && sensedUnit.CurrentBehaviour == Behaviour.Mate && sensedUnit.Unit.IsFemale)
+                if (sensedUnit != null && sensedUnit.Unit.IsFemale && sensedUnit.CurrentBehaviour == Behaviour.Mate && sensedUnit.Unit.targetedTransform == null)
                 {
                     unitTargets.Add(sensedUnit.transform);
                 }

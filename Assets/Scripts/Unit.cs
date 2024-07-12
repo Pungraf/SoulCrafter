@@ -13,6 +13,7 @@ public abstract class Unit : MonoBehaviour
         Wolf
     }
 
+    public GameObject eggPrefab;
     public GameObject femaleOffspringPrefab;
     public GameObject maleOffspringPrefab;
     public GameObject evolvedUnitPrefab;
@@ -236,10 +237,13 @@ public abstract class Unit : MonoBehaviour
 
         if (IsAdult)
         {
-            Urge += gens.Urge / counterUpdateSampling;
             if (isPregnant)
             {
                 PregnancyCounter -= counterUpdateSampling;
+            }
+            else
+            {
+                Urge += gens.Urge / counterUpdateSampling;
             }
         }
 

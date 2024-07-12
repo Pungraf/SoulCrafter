@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WispUnit : Unit
 {
-    public GameObject eggPrefab;
-
     public override void Initialize()
     {
         base.Initialize();

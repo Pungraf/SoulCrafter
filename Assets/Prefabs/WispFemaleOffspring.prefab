@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 1105466783390221476}
   - component: {fileID: 2946774447280446750}
   - component: {fileID: 8645604257269117948}
-  - component: {fileID: 1869803040392632795}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -180,20 +179,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1869803040392632795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4369711067705793705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 468f57b2a7b8ff84c88a96253453270a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatingSpeed: 1
-  floatingAmp: 0.5
 --- !u!1 &7207470651662688898
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterUpdateSampling: 1
+  eggPrefab: {fileID: 0}
   femaleOffspringPrefab: {fileID: 0}
   maleOffspringPrefab: {fileID: 0}
   evolvedUnitPrefab: {fileID: 7207470651662688898, guid: 80610df0743f0e94ebeb1bd9299f887f,
@@ -310,7 +296,7 @@ MonoBehaviour:
   targetedTransform: {fileID: 0}
   controller: {fileID: 0}
   gens:
-    _lifeSpan: 200
+    _lifeSpan: 2000
     _incubation: 60
     _vitality: 100
     _speed: 3
@@ -356,7 +342,6 @@ MonoBehaviour:
   edibleFood: 00000000
   foodChainSpecies: 
   predators: 01000000
-  eggPrefab: {fileID: 0}
 --- !u!114 &5874370063348858146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,17 +354,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a80ea90088921d4bac904c7c48be2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugSphere: {fileID: 4394306357408115904, guid: 5eadfe234d5b2d340b99c81cfdedd41c,
-    type: 3}
   _brain: {fileID: 2464629455918508502}
   seeker: {fileID: 0}
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
-  currentBehaviourState: 0
   currentBehaviour: 0
-  idleTime: 5
-  behaviourTimeLimit: 10
-  behaviurCounter: 0
 --- !u!114 &4152230996623526578
 MonoBehaviour:
   m_ObjectHideFlags: 0

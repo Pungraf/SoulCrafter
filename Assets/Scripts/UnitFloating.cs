@@ -21,15 +21,8 @@ public class UnitFloating : MonoBehaviour
     void Update()
     {
         Vector3 newPosition = new Vector3();
-        if (unitController.CurrentBehaviourState == UnitController.BehaviourState.Copulating)
-        {
-            newPosition = new Vector3(this.transform.position.x, currentYPosition + (floatingAmp * 2) * Mathf.Sin((floatingSpeed * 4 ) * Time.time), this.transform.position.z);
-        }
-        else
-        {
-            newPosition = new Vector3(this.transform.position.x, currentYPosition + floatingAmp * Mathf.Sin(floatingSpeed * Time.time), this.transform.position.z);
+        newPosition = new Vector3(this.transform.position.x, currentYPosition + floatingAmp * Mathf.Sin(floatingSpeed * Time.time), this.transform.position.z);
 
-        }
         this.transform.position = newPosition;
     }
 }

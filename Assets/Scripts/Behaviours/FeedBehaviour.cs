@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(DisposeBehaviour))]
 public class FeedBehaviour : BaseBehaviour
 {
     private bool isConsuming = false;
@@ -110,14 +111,12 @@ public class FeedBehaviour : BaseBehaviour
 
     protected void SearchingForFood(Vector3 foodPosition)
     {
-        _unitController.CurrentBehaviourState = UnitController.BehaviourState.SearchingForFood;
         isAwatingPathCallback = true;
         _unitController.MoveUnit(foodPosition);
     }
 
     IEnumerator Eat(Food food)
     {
-        _unitController.CurrentBehaviourState = UnitController.BehaviourState.Eating;
         isConsuming = true;
         while(food != null && _unit.Hunger < 95f)
         {
@@ -171,7 +170,6 @@ public class FeedBehaviour : BaseBehaviour
 
     protected void SearchingForDrink(Vector3 drinkPosition)
     {
-        _unitController.CurrentBehaviourState = UnitController.BehaviourState.SearchingForDrink;
         isAwatingPathCallback = true;
         _unitController.MoveUnit(drinkPosition);
     }
@@ -179,7 +177,6 @@ public class FeedBehaviour : BaseBehaviour
     IEnumerator Drink(Drink drink)
     {
         isConsuming = true;
-        _unitController.CurrentBehaviourState = UnitController.BehaviourState.Drinking;
         while (drink != null && _unit.Thirst < 95f)
         {
             drink.Drinking(_unit);

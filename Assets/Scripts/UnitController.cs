@@ -17,42 +17,10 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 [RequireComponent(typeof(FunnelModifier))]
 public abstract class UnitController : MonoBehaviour
 {
-    //Debug
-    public GameObject debugSphere;
-
-    public enum BehaviourState
-    {
-        None,
-        Idle,
-        SearchingForFood,
-        Eating,
-        SearchingForDrink,
-        Drinking,
-        Wandering,
-        Mating,
-        Copulating,
-        Disposing,
-        Hunting,
-        RunningAway
-    }
-    public BehaviourState CurrentBehaviourState
-    {
-        get { return currentBehaviourState; }
-        set
-        {
-            currentBehaviourState = value;
-            behaviurCounter = behaviourTimeLimit;
-            unit.targetedTransform = null;
-        }
-    }
-
     public BaseBehaviour.Behaviour CurrentBehaviour
     {
         get { return currentBehaviour; }
-        set {
-            //Debug.Log(value);
-            currentBehaviour = value;
-            }
+        set { currentBehaviour = value; }
     }
 
     [SerializeField] protected Brain _brain;
@@ -71,12 +39,7 @@ public abstract class UnitController : MonoBehaviour
     public System.Random Rand = new System.Random();
 
     [SerializeField] public PackManager packManager;
-    [SerializeField] protected BehaviourState currentBehaviourState = BehaviourState.None;
     [SerializeField] protected BaseBehaviour.Behaviour currentBehaviour = BaseBehaviour.Behaviour.None;
-    [SerializeField] protected float idleTime = 5f;
-    [SerializeField] protected float behaviourTimeLimit = 10f;
-
-    public float behaviurCounter;
     protected Unit unit;
     public Unit Unit
     {
@@ -92,8 +55,6 @@ public abstract class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurrentBehaviourState = BehaviourState.None;
-        Ticker.Tick_05 += Update_Tick05;
         packManager = GetComponent<PackManager>();
 
         constraint.constrainWalkability = true;
@@ -104,192 +65,12 @@ public abstract class UnitController : MonoBehaviour
         aIPath.OnDestinationReached += BehaviourDestintaionReached;
 
         ChooseBehaviour();
-
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        //behaviurCounter -= Time.deltaTime;
-        //ExecuteBehaviour();
-    }
-
-    private void Update_Tick05(object sender, EventArgs e)
-    {
-       // unit.CheckStatuses();
-       // LifeCycleStatusCheck();
-        //DeprecatedBehaviour();
-    }
-
-
-
-    /*
-    protected void ExecuteBehaviour()
-    {
-        switch (CurrentBehaviourState)
-        {
-            case BehaviourState.None:
-                FindeActivity();
-                break;
-            case BehaviourState.Idle:
-                behaviurCounter -= Time.deltaTime;
-                if (behaviurCounter <= 0)
-                {
-                    FindeActivity();
-                }
-                break;
-            case BehaviourState.Wandering:
-                if (BehaviourDestintaionReached())
-                {
-                    FindeActivity();
-                }
-                break;
-            case BehaviourState.SearchingForFood:
-                if (BehaviourDestintaionReached())
-                {
-                    FindeActivity();
-                }
-                break;
-            case BehaviourState.Eating:
-                if (unit.targetedTransform != null)
-                {
-                    unit.targetedTransform.TryGetComponent<Food>(out Food currnetFood);
-                    if (currnetFood != null && unit.Hunger > 1)
-                    {
-                        currnetFood.Eat(unit);
-                        break;
-                    }
-                }
-                currentBehaviourState = BehaviourState.None;
-                break;
-            case BehaviourState.SearchingForDrink:
-                if (BehaviourDestintaionReached())
-                {
-                    FindeActivity();
-                }
-                break;
-            case BehaviourState.Drinking:
-                if (unit.targetedTransform != null)
-                {
-                    unit.targetedTransform.TryGetComponent<Drink>(out Drink currnetDrink);
-                    if (currnetDrink != null && unit.Thirst > 1)
-                    {
-                        currnetDrink.Drinking(unit);
-                        break;
-                    }
-                }
-                currentBehaviourState = BehaviourState.None;
-                break;
-            case BehaviourState.Mating:
-                if (unit.IsFemale)
-                {
-                    break;
-                }
-                else
-                {
-                    if (BehaviourDestintaionReached())
-                    {
-                        if (CheckForValidPartner())
-                        {
-                            Copulating();
-                        }
-                        else
-                        {
-                            FindeActivity();
-                        }
-                    }
-                }
-                break;
-            case BehaviourState.Copulating:
-                break;
-            case BehaviourState.Disposing:
-                break;
-            case BehaviourState.Hunting:
-
-                break;
-        }
-    }
-    */
 
     public void BehaviourDestintaionReached(object sender, EventArgs e)
     {
         OnDestinationReached?.Invoke(this, EventArgs.Empty);
     }
-
-    protected void DeprecatedBehaviour()
-    {
-        if (behaviurCounter <= 0)
-        {
-            if(!SensedDanger())
-            {
-                Wandering();
-            }
-        }
-    }
-
-    /*
-    protected void FindeActivity()
-    {
-        //Sense dangers
-        if (SensedDanger())
-        {
-            return;
-        }
-
-        // Critical behaviuors
-        if (unit.IsHungry || unit.IsThirsty)
-        {
-            if (unit.IsHungry)
-            {
-                if (!LookForFood() && unit.IsThirsty)
-                {
-                    if (!LookForDrink())
-                    {
-                        Wandering();
-                    }
-                }
-            }
-            else
-            {
-                if (!LookForDrink() && unit.IsHungry)
-                {
-                    if (!LookForFood())
-                    {
-                        Wandering();
-                    }
-                }
-            }
-        }
-        // Secondary behaviours
-        else if (unit.IsWasteReady)
-        {
-            DisposeWastes();
-        }
-        
-        else if (unit.Urge >= 100 && unit.IsAdult)
-        {
-            lookForValidMatingPartners();
-        }
-        // 50% chance for idle behaviours
-        else
-        {
-            if (Rand.NextDouble() > 0.5f)
-            {
-                IdleBehaviour(idleTime);
-            }
-            else
-            {
-                Wandering();
-            }
-        }
-        if (!packManager.HasPack || (packManager.IsLeader && packManager.Pack.Count < packManager.PackSize))
-        {
-            packManager.LookForPack();
-        }
-    }
-    */
-
     protected bool SensedDanger()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
@@ -329,7 +110,6 @@ public abstract class UnitController : MonoBehaviour
 
     protected void RunAway(Transform runAwayTarget)
     {
-        currentBehaviourState = BehaviourState.RunningAway;
         unit.targetedTransform = runAwayTarget;
 
         Vector3 directionAway = (transform.position - runAwayTarget.position).normalized * unit.Gens.Speed * 10f;
@@ -340,24 +120,7 @@ public abstract class UnitController : MonoBehaviour
     protected bool LookForFood()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.Reach);
-
-        foreach (var hitCollider in inInteractRadius)
-        {
-            Food food = hitCollider.GetComponent<Food>();
-            if (food != null)
-            {
-                if(unit.edibleFood.Contains(food.foodType))
-                {
-                    EatFood(hitCollider.GetComponent<Food>());
-                    return true;
-                }
-            }
-
-        }
-
         Transform potentialHuntTarget = null;
-        Transform potentialFoodTarget = null;
         List<Transform> preyTargets = new List<Transform>();
         List<Transform> foodTargets = new List<Transform>();
 
@@ -377,14 +140,6 @@ public abstract class UnitController : MonoBehaviour
                 foodTargets.Add(sensedTransform);
             }
         }
-
-        //Search for closest food
-        potentialFoodTarget = FindClosestTransformPath(foodTargets);
-        if(potentialFoodTarget != null)
-        {
-            SearchingForFood(potentialFoodTarget.GetComponent<Collider>().ClosestPoint(transform.position));
-            return true;
-        }
         //Search for closest prey
         potentialHuntTarget = FindClosestTransformPath(preyTargets);
         if(potentialHuntTarget != null)
@@ -395,187 +150,8 @@ public abstract class UnitController : MonoBehaviour
         return false;
     }
 
-    protected bool LookForDrink()
-    {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.Reach);
-
-        foreach (var hitCollider in inInteractRadius)
-        {
-            if (hitCollider.GetComponent<Drink>() != null)
-            {
-                Drink(hitCollider.GetComponent<Drink>());
-                return true;
-            }
-        }
-
-        Transform potentialDrinkTarget = null;
-        List<Transform> drinkTargets = new List<Transform>();
-
-        foreach (var hitCollider in inSenseRadius)
-        {
-            //Build list with proper type
-            Drink sensedDrink = hitCollider.GetComponent<Drink>();
-            if (sensedDrink != null)
-            {
-                drinkTargets.Add(sensedDrink.transform);
-            }
-        }
-
-        //Search for closest Drink
-        potentialDrinkTarget = FindClosestTransformPath(drinkTargets);
-
-        if (potentialDrinkTarget != null)
-        {
-            SearchingForDrink(potentialDrinkTarget.GetComponent<Collider>().ClosestPoint(transform.position));
-            return true;
-        }
-
-        return false;
-    }
-
-    protected void lookForValidMatingPartners()
-    {
-        if (unit.IsFemale)
-        {
-            FemaleMating();
-            return;
-        }
-        else
-        {
-            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
-
-            Transform potentialMatingTarget = null;
-            List<Transform> unitTargets = new List<Transform>();
-
-            foreach (var hitCollider in inSenseRadius)
-            {
-                UnitController sensedUnit = hitCollider.GetComponent<UnitController>();
-                if (sensedUnit != null && sensedUnit.currentBehaviourState == BehaviourState.Mating && sensedUnit.unit.IsFemale)
-                {
-                    unitTargets.Add(sensedUnit.transform);
-                }
-            }
-            
-            potentialMatingTarget = FindClosestTransformPath(unitTargets);
-            if (potentialMatingTarget != null)
-            {
-                if (potentialMatingTarget.GetComponent<UnitController>().ProposeMating(unit))
-                {
-                    potentialMatingTarget.GetComponent<Unit>().targetedTransform = transform;
-                    MaleMating(potentialMatingTarget.transform);
-                    return;
-                }
-            }
-        }
-
-        Wandering();
-    }
-
-    protected void IdleBehaviour(float time)
-    {
-        CurrentBehaviourState = BehaviourState.Idle;
-        behaviurCounter = time;
-    }
-
-    public bool ProposeMating(Unit offeredMatting)
-    {
-        if(currentBehaviourState == BehaviourState.Mating && unit.IsFemale)
-        {
-            double randomDouble = Rand.NextDouble();
-            
-            if (randomDouble < offeredMatting.Gens.Attractiveness)
-            {
-                behaviurCounter = behaviourTimeLimit;
-                return true;
-            }
-            else
-            {
-                offeredMatting.Urge = 0;
-                return false;
-            }
-        }
-        return false;
-    }
-
-    protected void MaleMating(Transform matingTarget)
-    {
-        CurrentBehaviourState = BehaviourState.Mating;
-        unit.targetedTransform = matingTarget;
-        MoveUnit(matingTarget.position);
-    }
-
-    protected void FemaleMating()
-    { 
-        if(!unit.IsPregnant)
-        {
-            CurrentBehaviourState = BehaviourState.Mating;
-        }
-    }
-
-    protected bool CheckForValidPartner()
-    {
-        //Change validation from layer
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, unit.Gens.Reach, 1 << LayerMask.NameToLayer(unit.species.ToString()));
-        
-        foreach (var hitCollider in inInteractRadius)
-        {
-            UnitController potentialCopulateTarget = hitCollider.GetComponent<UnitController>();
-            if (potentialCopulateTarget != null)
-            {
-                try
-                {
-                    if (potentialCopulateTarget.transform != transform && potentialCopulateTarget.unit.targetedTransform == transform)
-                    {
-                        return true;
-                    }
-                }
-                catch(Exception e) 
-                {
-                    if (e.Message == "Object reference not set to an instance of an object")
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        Debug.LogError(e.Message);
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public void Copulating()
-    {
-        currentBehaviourState = BehaviourState.Copulating;
-        behaviurCounter = idleTime;
-        unit.Urge = 0;
-        if (unit.IsFemale && unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity > Rand.NextDouble())
-        {
-            unit.PregnancyCounter = unit.Gens.Gestation;
-            unit.IsPregnant = true;
-        }
-        else
-        {
-            if(unit.targetedTransform != null)
-            {
-                unit.targetedTransform.GetComponent<UnitController>().Copulating();
-                unit.targetedTransform.GetComponent<Unit>().LastPartnerGenSample = unit.Gens;
-            }
-            
-        }
-    }
-
-    protected void SearchingForFood( Vector3 foodPosition)
-    {
-        CurrentBehaviourState = BehaviourState.SearchingForFood;
-        MoveUnit(foodPosition);
-    }
-
     IEnumerator Hunt(Transform huntedUnit)
     {
-        CurrentBehaviourState = BehaviourState.Hunting;
         Unit huntTarget = huntedUnit.GetComponent<Unit>();
         unit.targetedTransform = huntTarget.transform;
         while(huntTarget != null)
@@ -640,29 +216,9 @@ public abstract class UnitController : MonoBehaviour
         aIPath.enabled = true;
     }
 
-    protected void SearchingForDrink(Vector3 drinkPosition)
-    {
-        CurrentBehaviourState = BehaviourState.SearchingForDrink;
-        MoveUnit(drinkPosition);
-    }
-
-    protected void EatFood(Food food)
-    {
-        currentBehaviourState = BehaviourState.Eating;
-        unit.targetedTransform = food.transform;
-    }
-
-    protected void Drink(Drink drink)
-    {
-        currentBehaviourState = BehaviourState.Drinking;
-        unit.targetedTransform = drink.transform;
-    }
 
     protected void DisposeWastes()
     {
-        currentBehaviourState = BehaviourState.Disposing;
-        behaviurCounter = 1f;
-
         Destroy(Instantiate(unit.wastePrefab, unit.transform.position, Quaternion.identity), 1f);
 
         RaycastHit hit;
@@ -675,93 +231,6 @@ public abstract class UnitController : MonoBehaviour
         unit.Dispose();
     }
 
-    protected void Wandering()
-    {
-        CurrentBehaviourState = BehaviourState.Wandering;
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * unit.Gens.Speed * 10f;
-        if(packManager.PackLeader != null && packManager.HasPack && !packManager.IsLeader)
-        {
-            randomDirection += packManager.PackLeader.transform.position;
-        }
-        else
-        {
-            randomDirection += transform.position;
-        }
-
-        MoveUnit(randomDirection);
-    }
-
-    protected void Mature()
-    {
-        if(unit.evolvedUnitPrefab == null)
-        {
-            Death();
-        }
-        else
-        {
-            Unit evolvedUnit = Instantiate(unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-            evolvedUnit.Initialize(unit.Gens, unit.Health, unit.Hunger, unit.Thirst);
-
-            if (packManager.HasPack)
-            {
-                PackManager evolvedPackMember = evolvedUnit.GetComponent<PackManager>();
-                if (packManager.IsLeader)
-                {
-                    evolvedPackMember.IsLeader = true;
-                    evolvedPackMember.HasPack = true;
-                    evolvedPackMember.Pack = new List<PackManager>
-                    {
-                        evolvedPackMember
-                    };
-                    packManager.Pack.Remove(packManager);
-                    foreach (PackManager packMember in packManager.Pack)
-                    {
-                        packMember.PackLeader = evolvedPackMember;
-                        packMember.UnsubscribePackChnageHandler();
-                        evolvedPackMember.Pack.Add(packMember);
-                        packMember.SubscribePackChnageHandler(evolvedPackMember);
-                    }
-                }
-                else
-                {
-                    packManager.PackLeader.Pack.Remove(packManager);
-                    packManager.PackLeader.Pack.Add(evolvedPackMember);
-                    evolvedPackMember.PackLeader = packManager.PackLeader;
-                    evolvedPackMember.HasPack = true;
-                }
-
-
-            }
-            DestroyAndUnsubscribe();
-        }
-    }
-
-    protected virtual void Birth()
-    {
-        if (unit.IsAdult && unit.IsFemale)
-        {
-            int offspringQuantity = Rand.Next(1,(int)unit.Gens.Fertility);
-
-            for(int i = 0; i < offspringQuantity; i++)
-            {
-                Unit offspring;
-                GenSample newGen = GenManager.Instance.InheritGens(unit.Gens, unit.LastPartnerGenSample, 0.1f);
-                // 50% chance for gender
-                if (0.5f > Rand.NextDouble())
-                {
-                    offspring = Instantiate(unit.femaleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-                }
-                else
-                {
-                    offspring = Instantiate(unit.maleOffspringPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-                }
-               
-                offspring.Initialize(newGen, newGen.Vitality, 50f, 50f);
-            }
-        }
-        unit.IsPregnant = false;
-        unit.LastPartnerGenSample = null;
-    }
 
     public void Death()
     {
@@ -836,7 +305,6 @@ public abstract class UnitController : MonoBehaviour
 
     public void DestroyAndUnsubscribe()
     {
-        Ticker.Tick_05 -= Update_Tick05;
         Destroy(gameObject);
     }
 }
