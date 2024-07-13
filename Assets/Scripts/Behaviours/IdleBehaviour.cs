@@ -10,6 +10,11 @@ public class IdleBehaviour : BaseBehaviour
     {
         BehaviourStart(onBehaviourComplete);
 
+        if(_unit.IsAgressive)
+        {
+            _unit.Anger += 1f;
+        }
+
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed * 10f;
         if (_unitController.packManager.PackLeader != null && _unitController.packManager.HasPack && !_unitController.packManager.IsLeader)
         {

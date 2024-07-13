@@ -34,6 +34,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] public bool IsFemale;
     [SerializeField] public Species species;
     [SerializeField] private bool isAdult = true;
+    [SerializeField] private bool isAgressive = false;
     [SerializeField] private bool isPregnant = false;
 
     //Timers
@@ -140,7 +141,14 @@ public abstract class Unit : MonoBehaviour
     public float Health
     {
         get { return health; }
-        set { health = Mathf.Clamp(value, 0f, Gens.Vitality); }
+        set
+        {
+            health = Mathf.Clamp(value, 0f, Gens.Vitality); 
+            if(health <= 0f)
+            {
+                controller.Death();
+            }
+        }
 
     }
 
@@ -184,6 +192,12 @@ public abstract class Unit : MonoBehaviour
         set { isAdult = value; }
     }
 
+    public bool IsAgressive
+    {
+        get { return isAgressive; }
+        set { isAgressive = value; }
+    }
+
     public bool IsPregnant
     {
         get { return isPregnant;}
@@ -221,6 +235,10 @@ public abstract class Unit : MonoBehaviour
     public void TakeDamage(float amount)
     {
         Health -= amount;
+        if(IsAgressive)
+        {
+            Anger += 10f;
+        }
     }
 
     public void Die()

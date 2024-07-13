@@ -106,6 +106,11 @@ public class FeedBehaviour : BaseBehaviour
             return true;
         }
 
+        if (_unit.IsAgressive)
+        {
+            _unit.Anger += 10f;
+        }
+
         return false;
     }
 
@@ -124,6 +129,12 @@ public class FeedBehaviour : BaseBehaviour
             yield return new WaitForSeconds(1f);
         }
         isConsuming = false;
+
+        if (_unit.IsAgressive)
+        {
+            _unit.Anger -= 1f;
+        }
+
         BehaviourComplete();
     }
 

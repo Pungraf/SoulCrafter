@@ -40,6 +40,11 @@ public class CopulatingBehaviour : BaseBehaviour
     {
         //TODO: Add animation
         _unit.Urge = 0f;
+        if (_unit.IsAgressive)
+        {
+            _unit.Anger = 0f;
+        }
+
         if (_unit.IsFemale)
         {
             if(_unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity > _unitController.Rand.NextDouble())
