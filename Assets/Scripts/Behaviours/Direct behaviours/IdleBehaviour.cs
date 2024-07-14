@@ -16,9 +16,9 @@ public class IdleBehaviour : BaseBehaviour
         }
 
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed * 10f;
-        if (_unitController.packManager.PackLeader != null && _unitController.packManager.HasPack && !_unitController.packManager.IsLeader)
+        if (_unitController.PackManager.PackLeader != null && _unitController.PackManager.HasPack && !_unitController.PackManager.IsLeader)
         {
-            randomDirection += _unitController.packManager.PackLeader.transform.position;
+            randomDirection += _unitController.PackManager.PackLeader.transform.position;
         }
         else
         {

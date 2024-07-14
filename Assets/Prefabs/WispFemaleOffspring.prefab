@@ -364,6 +364,7 @@ MonoBehaviour:
   IsFemale: 1
   species: 0
   isAdult: 0
+  isAgressive: 0
   isPregnant: 0
   remainingStageLifeTime: 0
   pregnancyCounter: 0

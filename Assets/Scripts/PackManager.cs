@@ -81,7 +81,6 @@ public class PackManager : MonoBehaviour
     public void LookForPack()
     {
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
-
         Transform potentialLeaderTransform = null;
         List<Transform> packTargets = new List<Transform>();
         List<Transform> freeTargets = new List<Transform>();
@@ -109,13 +108,11 @@ public class PackManager : MonoBehaviour
             {
                 if((Pack.Count + potentialLeader.Pack.Count) <= PackSize)
                 {
-                    //Debug.Log("Merging pack number of: " + Pack.Count + " with senocd pack iwth: " + potentialLeader.Pack.Count);
                     MergePacks(potentialLeader);
                     return;
                 }
                 else
                 {
-                    //Debug.Log("Packs are too big to merge.");
                     return;
                 }
             }

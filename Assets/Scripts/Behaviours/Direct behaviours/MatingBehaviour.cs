@@ -101,7 +101,7 @@ public class MatingBehaviour : BaseBehaviour
     {
         if (isActive && isAwatingPathCallback && !_unit.IsFemale)
         {
-            if(Vector3.Distance(_unit.transform.position, _unit.targetedTransform.position) > _unit.Gens.Reach)
+            if(_unit.targetedTransform != null && Vector3.Distance(_unit.transform.position, _unit.targetedTransform.position) > _unit.Gens.Reach)
             {
                 return;
             }

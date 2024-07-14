@@ -14,7 +14,7 @@ public class BirthBehaviour : BaseBehaviour
 
             for (int i = 0; i < offspringQuantity; i++)
             {
-                WispEgg offspring;
+                UnitEgg offspring;
                 GameObject evolvingPrefab;
                 GenSample newGen = GenManager.Instance.InheritGens(_unit.Gens, _unit.LastPartnerGenSample, 0.1f);
 
@@ -33,7 +33,7 @@ public class BirthBehaviour : BaseBehaviour
                     evolvingPrefab = _unit.maleOffspringPrefab;
                 }
                 //TODO: Spread spawn location around mother
-                offspring = Instantiate(_unit.GetComponent<WispUnit>().eggPrefab, spawnPosition, Quaternion.identity).GetComponent<WispEgg>();
+                offspring = Instantiate(_unit.eggPrefab, spawnPosition, Quaternion.identity).GetComponent<UnitEgg>();
                 offspring.Initialize(newGen, evolvingPrefab, newGen.Vitality);
             }
 

@@ -38,7 +38,12 @@ public abstract class UnitController : MonoBehaviour
 
     public System.Random Rand = new System.Random();
 
-    [SerializeField] public PackManager packManager;
+    [SerializeField] protected PackManager packManager;
+    public PackManager PackManager
+    {
+        get { return packManager; }
+    }
+
     [SerializeField] protected BaseBehaviour.Behaviour currentBehaviour = BaseBehaviour.Behaviour.None;
     protected Unit unit;
     public Unit Unit
@@ -65,6 +70,8 @@ public abstract class UnitController : MonoBehaviour
 
         aIPath.OnDestinationReached += BehaviourDestintaionReached;
 
+
+        InvokeRepeating("SearchForPack", 5f, 10f);
         ChooseBehaviour();
     }
 
@@ -123,7 +130,6 @@ public abstract class UnitController : MonoBehaviour
         {
             Path path = ABPath.Construct(transform.position, targetTransform.position);
             AstarPath.StartPath(path);
-            AstarPath.BlockUntilCalculated(path);
 
             float distance = path.GetTotalLength();
             if (distance < closestDistance)
@@ -142,6 +148,18 @@ public abstract class UnitController : MonoBehaviour
     public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour)
     {
         _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
+    }
+
+    protected void SearchForPack()
+    {
+        if (!packManager.HasPack || (packManager.IsLeader && packManager.Pack.Count < packManager.PackSize))
+        {
+            PackManager.LookForPack();
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void DestroyAndUnsubscribe()

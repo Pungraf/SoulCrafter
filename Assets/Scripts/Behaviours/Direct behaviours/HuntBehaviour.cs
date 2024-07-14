@@ -88,7 +88,10 @@ public class HuntBehaviour : BaseBehaviour
             if (percent >= .5f && !hasAppliedDamage)
             {
                 hasAppliedDamage = true;
-                targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength);
+                if (targetUnit != null)
+                {
+                    targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength);
+                }
             }
             percent += Time.deltaTime * attackSpeed;
             float interpolation = (-Mathf.Pow(percent, 2) + percent) * 4;

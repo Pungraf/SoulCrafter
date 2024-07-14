@@ -16,10 +16,10 @@ public class EvolveBehaviour : BaseBehaviour
             Unit evolvedUnit = Instantiate(_unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
             evolvedUnit.Initialize(_unit.Gens, _unit.Health, _unit.Hunger, _unit.Thirst);
 
-            if (_unitController.packManager.HasPack)
+            if (_unitController.PackManager.HasPack)
             {
                 PackManager evolvedPackMember = evolvedUnit.GetComponent<PackManager>();
-                if (_unitController.packManager.IsLeader)
+                if (_unitController.PackManager.IsLeader)
                 {
                     evolvedPackMember.IsLeader = true;
                     evolvedPackMember.HasPack = true;
@@ -27,8 +27,8 @@ public class EvolveBehaviour : BaseBehaviour
                     {
                         evolvedPackMember
                     };
-                    _unitController.packManager.Pack.Remove(_unitController.packManager);
-                    foreach (PackManager packMember in _unitController.packManager.Pack)
+                    _unitController.PackManager.Pack.Remove(_unitController.PackManager);
+                    foreach (PackManager packMember in _unitController.PackManager.Pack)
                     {
                         packMember.PackLeader = evolvedPackMember;
                         packMember.UnsubscribePackChnageHandler();
@@ -38,9 +38,9 @@ public class EvolveBehaviour : BaseBehaviour
                 }
                 else
                 {
-                    _unitController.packManager.PackLeader.Pack.Remove(_unitController.packManager);
-                    _unitController.packManager.PackLeader.Pack.Add(evolvedPackMember);
-                    evolvedPackMember.PackLeader = _unitController.packManager.PackLeader;
+                    _unitController.PackManager.PackLeader.Pack.Remove(_unitController.PackManager);
+                    _unitController.PackManager.PackLeader.Pack.Add(evolvedPackMember);
+                    evolvedPackMember.PackLeader = _unitController.PackManager.PackLeader;
                     evolvedPackMember.HasPack = true;
                 }
 

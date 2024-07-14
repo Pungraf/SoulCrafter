@@ -233,6 +233,7 @@ MonoBehaviour:
   IsFemale: 0
   species: 0
   isAdult: 1
+  isAgressive: 0
   isPregnant: 0
   remainingStageLifeTime: 0
   pregnancyCounter: 0
@@ -527,7 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 0
-  isActive: 0
+  isActive: 1
   behaviourType: 0
 --- !u!114 &7101076129439949128
 MonoBehaviour:
