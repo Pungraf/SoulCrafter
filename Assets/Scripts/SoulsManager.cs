@@ -9,6 +9,10 @@ public class SoulsManager : MonoBehaviour
 {
     public static SoulsManager Instance { get; private set; }
 
+    public bool UpdateSoulsNumbers;
+    public int WispsCount;
+    public int WolfsCount;
+
     [SerializeField] private GameObject window_Graph;
     [SerializeField] private float populationSamplingTime;
 
@@ -40,7 +44,17 @@ public class SoulsManager : MonoBehaviour
         Instance = this;
     }
 
-        // Start is called before the first frame update
+    private void Update()
+    {
+        if(UpdateSoulsNumbers)
+        {
+            WispsCount = WispsHolder.childCount;
+            WolfsCount = WolfsHolder.childCount;
+            UpdateSoulsNumbers = false;
+        }
+    }
+
+    // Start is called before the first frame update
     void Start()
     {
         Unit.OnAnyUnitSpawn += Unit_OnAnyUnitSpawn;

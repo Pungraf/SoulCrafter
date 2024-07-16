@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public abstract class Food : MonoBehaviour
 {
     public enum FoodType
     {
@@ -17,26 +17,7 @@ public class Food : MonoBehaviour
 
     private float currentLifeTime;
     [SerializeField] private float currentNutritiousness;
-
-    private void Start()
-    {
-        Initialize();
-        Ticker.Tick_05 += Update_Tick05;
-    }
-
-    private void Update()
-    {
-        currentLifeTime -= Time.deltaTime;
-    }
-
-    protected void Update_Tick05(object sender, EventArgs e)
-    {
-        if (currentLifeTime <= 0)
-        {
-            Ticker.Tick_05 -= Update_Tick05;
-            Destroy(gameObject);
-        }
-    }
+    [SerializeField] private float updateFrequency;
 
     public void Eat(Unit eatingUnit)
     {
@@ -50,7 +31,6 @@ public class Food : MonoBehaviour
         else
         {
             eatingUnit.Feed(currentNutritiousness);
-            Ticker.Tick_05 -= Update_Tick05;
             Destroy(gameObject);
         }
         
@@ -65,5 +45,16 @@ public class Food : MonoBehaviour
     {
         currentLifeTime = maxLifeTime;
         currentNutritiousness = nutritiousness;
+        InvokeRepeating("InokeUpdate", 1f, updateFrequency);
+    }
+
+    protected virtual void InokeUpdate()
+    {
+        currentLifeTime -= updateFrequency;
+        currentNutritiousness += updateFrequency;
+        if(currentLifeTime < 0f)
+        {
+            Destroy(gameObject);
+        }
     }
 }

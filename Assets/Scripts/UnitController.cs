@@ -130,6 +130,11 @@ public abstract class UnitController : MonoBehaviour
         {
             Path path = ABPath.Construct(transform.position, targetTransform.position);
             AstarPath.StartPath(path);
+            //TODO: change for paid multipath search
+            while(!path.IsDone())
+            {
+
+            }
 
             float distance = path.GetTotalLength();
             if (distance < closestDistance)

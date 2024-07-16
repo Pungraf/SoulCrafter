@@ -202,7 +202,7 @@ public class SimpleHexGrid : MonoBehaviour
             {
                 //grass
                 Hex.GetComponentInChildren<MeshRenderer>().material = Grass;
-                Hex.AddComponent<FertilePlane>().Initialize(plant, 30f, 5);
+                Hex.AddComponent<FertilePlane>().Initialize(plant);
                 graphUpdate.modifyTag = true;
                 graphUpdate.setTag = 1;
             }
