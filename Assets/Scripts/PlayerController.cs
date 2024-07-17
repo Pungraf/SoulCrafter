@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private PlayerPackManager packManager;
+    public PlayerPackManager PackManager { get { return packManager; } }
     // Start is called before the first frame update
     void Start()
     {
         WorldManager.Instance.Player = this.gameObject;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        packManager = GetComponent<PlayerPackManager>();
     }
 }

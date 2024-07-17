@@ -75,7 +75,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         Destroy(gameObject);
     }
 
-    public void Interact()
+    public void Interact(PlayerController player)
     {
         eggItem.GenSample = _gens;
         eggItem.EvolvedUnit = evolvedUnitPrefab;

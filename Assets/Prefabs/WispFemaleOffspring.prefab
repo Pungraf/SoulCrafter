@@ -225,13 +225,13 @@ GameObject:
   - component: {fileID: 761177702870868642}
   - component: {fileID: 1852932068883780919}
   - component: {fileID: 5874370063348858146}
-  - component: {fileID: 4152230996623526578}
   - component: {fileID: 7104644205306310164}
   - component: {fileID: 4853908541447164001}
   - component: {fileID: 2772710067953562544}
+  - component: {fileID: 7453023412876319813}
   m_Layer: 6
   m_Name: WispFemaleOffspring
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -366,23 +366,6 @@ MonoBehaviour:
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
   currentBehaviour: 0
---- !u!114 &4152230996623526578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7207470651662688898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11686dfddd0b12d45a5732531439948a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasPack: 0
-  isLeader: 0
-  pack: []
-  packLeader: {fileID: 0}
-  packSize: 15
 --- !u!114 &7104644205306310164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,3 +451,20 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
+--- !u!114 &7453023412876319813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207470651662688898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9117a22c8cd9e62479dd11b3a36e8993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasPack: 0
+  isLeader: 0
+  pack: []
+  packLeader: {fileID: 0}
+  packSize: 10

@@ -15,7 +15,7 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 [RequireComponent(typeof(Seeker))]
 [RequireComponent(typeof(AIUnit))]
 [RequireComponent(typeof(FunnelModifier))]
-public abstract class UnitController : MonoBehaviour
+public abstract class UnitController : MonoBehaviour, IInteractable
 {
     public BaseBehaviour.Behaviour CurrentBehaviour
     {
@@ -38,8 +38,8 @@ public abstract class UnitController : MonoBehaviour
 
     public System.Random Rand = new System.Random();
 
-    [SerializeField] protected PackManager packManager;
-    public PackManager PackManager
+    [SerializeField] protected UnitPackManager packManager;
+    public UnitPackManager PackManager
     {
         get { return packManager; }
     }
@@ -61,7 +61,7 @@ public abstract class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        packManager = GetComponent<PackManager>();
+        packManager = GetComponent<UnitPackManager>();
 
         constraint.constrainWalkability = true;
         constraint.walkable = true;
@@ -133,7 +133,6 @@ public abstract class UnitController : MonoBehaviour
             //TODO: change for paid multipath search
             while(!path.IsDone())
             {
-
             }
 
             float distance = path.GetTotalLength();
@@ -170,5 +169,10 @@ public abstract class UnitController : MonoBehaviour
     public void DestroyAndUnsubscribe()
     {
         Destroy(gameObject);
+    }
+
+    public void Interact(PlayerController player)
+    {
+        packManager.JoinPlayer(player.PackManager);
     }
 }

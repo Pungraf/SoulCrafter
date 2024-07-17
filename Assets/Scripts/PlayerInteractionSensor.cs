@@ -12,6 +12,7 @@ public class PlayerInteractionSensor : MonoBehaviour
     private InputActionAsset InputActions;
     private InputActionMap PlayerActionMap;
     private InputAction Interact;
+    private PlayerController playerController;
 
     private bool actionPanelIsActive = false;
     private Transform closestTransform;
@@ -25,6 +26,8 @@ public class PlayerInteractionSensor : MonoBehaviour
         Interact.Enable();
         PlayerActionMap.Enable();
         InputActions.Enable();
+
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,7 +42,7 @@ public class PlayerInteractionSensor : MonoBehaviour
     {
         if(actionPanelIsActive && closestTransform != null)
         {
-            closestTransform.GetComponent<IInteractable>().Interact();
+            closestTransform.GetComponent<IInteractable>().Interact(playerController);
         }
     }
 
@@ -51,16 +54,19 @@ public class PlayerInteractionSensor : MonoBehaviour
 
         foreach(Collider collider in hitColliders)
         {
-            if (collider.transform.GetComponent<IInteractable>() == null) continue;
-            if(collider.transform != transform && Vector3.Distance(transform.position, collider.transform.position) < closestDistance)
+            Transform colTransform = collider.transform;
+            if (colTransform.GetComponent<IInteractable>() == null) continue;
+            if (colTransform.CompareTag("Unit") && playerController.PackManager.Pack.Contains(colTransform.GetComponent<PackManager>())) continue;
+            if (colTransform != transform && Vector3.Distance(transform.position, colTransform.position) < closestDistance)
             {
-                closestTransform = collider.transform;
+                closestTransform = colTransform;
             }
         }
 
         return closestTransform;
     }
 
+    //TODO: changer for Ticker Update ( Performance )
     private void Update()
     {
         if(actionPanelIsActive)
@@ -75,7 +81,14 @@ public class PlayerInteractionSensor : MonoBehaviour
                 else
                 {
                     closestTransform = newClosestTransform;
-                    UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Pick Up");
+                    if (closestTransform.CompareTag("Unit") && !playerController.PackManager.Pack.Contains(closestTransform.GetComponent<PackManager>()))
+                    {
+                        UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Take over");
+                    }
+                    else if(closestTransform.CompareTag("Pickable"))
+                    {
+                        UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Pick Up");
+                    }
                 }
             }
             else

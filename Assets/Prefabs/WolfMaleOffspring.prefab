@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 3863750351393124155}
   - component: {fileID: 2894623249736813553}
   - component: {fileID: 2024571889775966183}
-  - component: {fileID: -2406493342352893489}
   - component: {fileID: 3800007222919490127}
   - component: {fileID: 7243870761530189310}
   - component: {fileID: 8184207032454287042}
+  - component: {fileID: 1007786522913250475}
   m_Layer: 7
   m_Name: WolfMaleOffspring
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,23 +152,6 @@ MonoBehaviour:
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
   currentBehaviour: 0
---- !u!114 &-2406493342352893489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1397707917935130270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11686dfddd0b12d45a5732531439948a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasPack: 0
-  isLeader: 0
-  pack: []
-  packLeader: {fileID: 0}
-  packSize: 8
 --- !u!114 &3800007222919490127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +237,23 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
+--- !u!114 &1007786522913250475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397707917935130270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9117a22c8cd9e62479dd11b3a36e8993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasPack: 0
+  isLeader: 0
+  pack: []
+  packLeader: {fileID: 0}
+  packSize: 10
 --- !u!1 &5633910479102089292
 GameObject:
   m_ObjectHideFlags: 0
