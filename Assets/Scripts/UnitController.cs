@@ -51,6 +51,13 @@ public abstract class UnitController : MonoBehaviour, IInteractable
         get { return unit; }
     }
 
+    protected bool isControlled;
+    public bool IsControlled
+    {
+        get { return isControlled; }
+        set { isControlled = value; }
+    }
+
     protected void Awake()
     {
         seeker = GetComponent<Seeker>();
@@ -152,6 +159,11 @@ public abstract class UnitController : MonoBehaviour, IInteractable
     public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour)
     {
         _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
+    }
+
+    public void ForceBehaviour(BaseBehaviour.Behaviour behaviour)
+    {
+        _brain.CurrentBehaviour.BehaviourComplete(behaviour);
     }
 
     protected void SearchForPack()

@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Brain : MonoBehaviour
 {
+    private BaseBehaviour currentBehaviour;
+    public BaseBehaviour CurrentBehaviour
+    {
+        get { return currentBehaviour; }
+        set { currentBehaviour = value; }
+    }
     [SerializeField] protected List<BaseBehaviour> behavioursList;
     private UnitController _unitController;
     // Start is called before the first frame update

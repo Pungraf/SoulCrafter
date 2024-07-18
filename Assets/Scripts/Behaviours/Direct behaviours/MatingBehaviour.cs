@@ -53,7 +53,7 @@ public class MatingBehaviour : BaseBehaviour
 
     protected override int CalculateBehaviourScore()
     {
-        if(!_unit.IsPregnant)
+        if(!_unit.IsPregnant && !_unitController.IsControlled)
         {
             return (int)_unit.Urge;
         }

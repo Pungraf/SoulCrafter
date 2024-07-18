@@ -56,7 +56,7 @@ public class PlayerInteractionSensor : MonoBehaviour
         {
             Transform colTransform = collider.transform;
             if (colTransform.GetComponent<IInteractable>() == null) continue;
-            if (colTransform.CompareTag("Unit") && playerController.PackManager.Pack.Contains(colTransform.GetComponent<PackManager>())) continue;
+            if (colTransform.CompareTag("Unit") && playerController.PackManager.Pack.Contains(colTransform.GetComponent<UnitPackManager>())) continue;
             if (colTransform != transform && Vector3.Distance(transform.position, colTransform.position) < closestDistance)
             {
                 closestTransform = colTransform;
@@ -81,7 +81,7 @@ public class PlayerInteractionSensor : MonoBehaviour
                 else
                 {
                     closestTransform = newClosestTransform;
-                    if (closestTransform.CompareTag("Unit") && !playerController.PackManager.Pack.Contains(closestTransform.GetComponent<PackManager>()))
+                    if (closestTransform.CompareTag("Unit") && !playerController.PackManager.Pack.Contains(closestTransform.GetComponent<UnitPackManager>()))
                     {
                         UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Take over");
                     }

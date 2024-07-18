@@ -14,7 +14,8 @@ public abstract class BaseBehaviour : MonoBehaviour
         Mate,
         Copulate,
         RunningAway,
-        Hunting
+        Hunting,
+        Move
     }
 
     public int currnetBehaviourScore;
@@ -23,6 +24,7 @@ public abstract class BaseBehaviour : MonoBehaviour
 
     protected Unit _unit;
     protected UnitController _unitController;
+    protected Brain _brain;
     protected Action onBehaviourComplete;
     protected float criticalScoreValue = 100f;
     protected bool isAwatingPathCallback = false;
@@ -39,6 +41,7 @@ public abstract class BaseBehaviour : MonoBehaviour
     {
         _unit = GetComponentInParent<Unit>();
         _unitController = GetComponentInParent<UnitController>();
+        _brain = GetComponent<Brain>();
     }
 
     protected virtual void Start()
@@ -60,6 +63,7 @@ public abstract class BaseBehaviour : MonoBehaviour
         isAwatingPathCallback = false;
         isActive = true;
         _unitController.CurrentBehaviour = behaviourType;
+        _brain.CurrentBehaviour = this;
         this.onBehaviourComplete = OnBehaviourComplete;
         Invoke("DeprecatedBehaviour", behaviourTimeLimit);
     }
@@ -71,6 +75,7 @@ public abstract class BaseBehaviour : MonoBehaviour
             CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _brain.CurrentBehaviour = null;
             _unitController.CurrentBehaviour = Behaviour.None;
             _unit.targetedTransform = null;
             onBehaviourComplete();
@@ -83,6 +88,7 @@ public abstract class BaseBehaviour : MonoBehaviour
             CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _brain.CurrentBehaviour = null;
             _unitController.CurrentBehaviour = Behaviour.None;
             _unit.targetedTransform = null;
             onBehaviourComplete();
@@ -96,6 +102,7 @@ public abstract class BaseBehaviour : MonoBehaviour
             CancelInvoke("DeprecatedBehaviour");
             isAwatingPathCallback = false;
             isActive = false;
+            _brain.CurrentBehaviour = null;
             _unitController.CurrentBehaviour = Behaviour.None;
             if (!keepTarget)
             {

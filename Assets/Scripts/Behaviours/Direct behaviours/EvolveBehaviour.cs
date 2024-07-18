@@ -18,7 +18,7 @@ public class EvolveBehaviour : BaseBehaviour
 
             if (_unitController.PackManager.HasPack)
             {
-                PackManager evolvedPackMember = evolvedUnit.GetComponent<PackManager>();
+                UnitPackManager evolvedPackMember = evolvedUnit.GetComponent<UnitPackManager>();
                 if (_unitController.PackManager.IsLeader)
                 {
                     evolvedPackMember.IsLeader = true;
@@ -43,8 +43,7 @@ public class EvolveBehaviour : BaseBehaviour
                     evolvedPackMember.PackLeader = _unitController.PackManager.PackLeader;
                     evolvedPackMember.HasPack = true;
                 }
-
-
+                evolvedPackMember.UnitController.IsControlled = _unitController.IsControlled;
             }
             _unitController.DestroyAndUnsubscribe();
         }

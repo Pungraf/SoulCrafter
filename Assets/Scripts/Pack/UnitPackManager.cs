@@ -8,6 +8,10 @@ public class UnitPackManager : PackManager
 
     private Unit unit;
     private UnitController unitController;
+    public UnitController UnitController
+    {
+        get { return unitController; }
+    }
     private Unit.Species packSpecies;
 
     public Unit.Species PackSpecies
@@ -15,7 +19,7 @@ public class UnitPackManager : PackManager
         get { return packSpecies; }
     }
 
-    private void Start()
+    private void Awake()
     {
         unit = GetComponent<Unit>();
         unitController = GetComponent<UnitController>();
@@ -164,5 +168,6 @@ public class UnitPackManager : PackManager
         PackLeader = playerPackManager;
         PackLeader.Pack.Add(this);
         HasPack = true;
+        unitController.IsControlled = true;
     }
 }
