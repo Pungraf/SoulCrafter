@@ -110,6 +110,6 @@ public class PlayerController : MonoBehaviour
 
     private void CommandeDisband()
     {
-        Debug.Log("Disband commanded");
+        PackManager.DisbandPack();
     }
 }

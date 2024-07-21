@@ -65,7 +65,16 @@ public abstract class PackManager : MonoBehaviour
         Debug.Log(this.name + " pack leader: " + packLeader + "changed pack members");
     }
 
-
+    public void DisbandPack()
+    {
+        foreach (PackManager packMember in Pack)
+        {
+            packMember.UnsubscribePackChnageHandler();
+            packMember.PackLeader = null;
+            packMember.HasPack = false;
+        }
+        Pack.Clear();
+    }
 
     public void UnsubscribePackChnageHandler()
     {

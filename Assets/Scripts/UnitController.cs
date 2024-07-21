@@ -106,12 +106,7 @@ public abstract class UnitController : MonoBehaviour, IInteractable
         {
             if(packManager.IsLeader)
             {
-                foreach(PackManager packMember in packManager.Pack)
-                {
-                    packMember.UnsubscribePackChnageHandler();
-                    packMember.PackLeader = null;
-                    packMember.HasPack = false;
-                }
+                packManager.DisbandPack();
             }
             else
             {
