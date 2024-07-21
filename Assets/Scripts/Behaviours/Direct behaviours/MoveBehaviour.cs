@@ -9,10 +9,15 @@ public class MoveBehaviour : BaseBehaviour
     {
         BehaviourStart(onBehaviourComplete);
 
-        Vector3 destination = MouseWorld.GetPosition();
+        if(behaviourLocation == null)
+        {
+            Debug.LogError("Invalid Move target !");
+            BehaviourComplete();
+            return;
+        }
 
         isAwatingPathCallback = true;
-        _unitController.MoveUnit(destination);
+        _unitController.MoveUnit(behaviourLocation);
     }
 
     protected override int CalculateBehaviourScore()

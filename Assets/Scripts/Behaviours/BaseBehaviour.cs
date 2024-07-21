@@ -30,6 +30,13 @@ public abstract class BaseBehaviour : MonoBehaviour
     protected bool isAwatingPathCallback = false;
     [SerializeField] protected bool isActive = false;
 
+    protected Vector3 behaviourLocation;
+    public Vector3 BehaviourLocation
+    {
+        get { return behaviourLocation; }
+        set { behaviourLocation = value; }
+    }
+
     public bool IsActive
     {
         get { return isActive; }
@@ -50,6 +57,11 @@ public abstract class BaseBehaviour : MonoBehaviour
     }
 
     public abstract void Behave(Action onBehaviourComplete);
+    public virtual void Behave(Action onBehaviourComplete, Vector3 behaviourLocation)
+    {
+        this.behaviourLocation = behaviourLocation;
+        Behave(onBehaviourComplete);
+    }
 
     public void CalculateCurrentBehaviourScore()
     {
@@ -109,6 +121,19 @@ public abstract class BaseBehaviour : MonoBehaviour
                 _unit.targetedTransform = null;
             }
             _unitController.ChooseBehaviour(behaviour);
+        }
+    }
+
+    public void BehaviourComplete(Behaviour behaviour, Vector3 behaviourLocation)
+    {
+        if (isActive)
+        {
+            CancelInvoke("DeprecatedBehaviour");
+            isAwatingPathCallback = false;
+            isActive = false;
+            _brain.CurrentBehaviour = null;
+            _unitController.CurrentBehaviour = Behaviour.None;
+            _unitController.ChooseBehaviour(behaviour, behaviourLocation);
         }
     }
 

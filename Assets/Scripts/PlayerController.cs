@@ -80,14 +80,27 @@ public class PlayerController : MonoBehaviour
         {
             if(packManager != null)
             {
-                packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Move);
+                Vector3 destination = MouseWorld.GetPosition();
+                packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Move, destination);
             }
         }
     }
 
     private void CommandeGather()
     {
-        Debug.Log("Gather commanded");
+        if (PackManager.Pack.Count == 0)
+        {
+            Debug.Log("No members to move");
+            return;
+        }
+        foreach (UnitPackManager packMember in PackManager.Pack)
+        {
+            if (packManager != null)
+            {
+                Vector3 destination = transform.position;
+                packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Move, destination);
+            }
+        }
     }
 
     private void CommandeStay()
