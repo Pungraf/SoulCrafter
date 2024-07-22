@@ -170,4 +170,10 @@ public class UnitPackManager : PackManager
         HasPack = true;
         unitController.IsControlled = true;
     }
+
+    public override void DisbandPack()
+    {
+        UnitController.Brain.ClearAllPeristentBehaviours();
+        base.DisbandPack();
+    }
 }

@@ -49,6 +49,7 @@ public class Brain : MonoBehaviour
                 return behaviour;
             }
         }
+        Debug.LogWarning("Unit dont know " + type.ToString() + " behaviour");
         return null;
     }
 
@@ -63,5 +64,13 @@ public class Brain : MonoBehaviour
             }
         }
         _unitController.ChooseBehaviour();
+    }
+
+    public void ClearAllPeristentBehaviours()
+    {
+        foreach (BaseBehaviour behaviour in behavioursList)
+        {
+            behaviour.ClearPersistentData();
+        }
     }
 }

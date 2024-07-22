@@ -23,12 +23,12 @@ public class EvolveBehaviour : BaseBehaviour
                 {
                     evolvedPackMember.IsLeader = true;
                     evolvedPackMember.HasPack = true;
-                    evolvedPackMember.Pack = new List<PackManager>
+                    evolvedPackMember.Pack = new List<UnitPackManager>
                     {
                         evolvedPackMember
                     };
                     _unitController.PackManager.Pack.Remove(_unitController.PackManager);
-                    foreach (PackManager packMember in _unitController.PackManager.Pack)
+                    foreach (UnitPackManager packMember in _unitController.PackManager.Pack)
                     {
                         packMember.PackLeader = evolvedPackMember;
                         packMember.UnsubscribePackChnageHandler();

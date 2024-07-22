@@ -15,7 +15,8 @@ public abstract class BaseBehaviour : MonoBehaviour
         Copulate,
         RunningAway,
         Hunting,
-        Move
+        Move,
+        Guarding
     }
 
     public int currnetBehaviourScore;
@@ -79,6 +80,8 @@ public abstract class BaseBehaviour : MonoBehaviour
         this.onBehaviourComplete = OnBehaviourComplete;
         Invoke("DeprecatedBehaviour", behaviourTimeLimit);
     }
+
+    public virtual void ClearPersistentData() { }
 
     protected void BehaviourComplete(object sender, EventArgs e)
     {

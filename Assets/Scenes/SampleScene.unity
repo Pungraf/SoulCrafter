@@ -2455,6 +2455,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
+        type: 3}
+      propertyPath: gens._satiety
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
+        type: 3}
+      propertyPath: gens._hydration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7207470651662688898, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: m_Name
@@ -3910,6 +3920,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
+        type: 3}
+      propertyPath: gens._satiety
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
+        type: 3}
+      propertyPath: gens._hydration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7207470651662688898, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: m_Name
@@ -8360,6 +8380,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
+        type: 3}
+      propertyPath: gens._satiety
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852932068883780919, guid: 559470e82a229a34f9fb8ba2f63be034,
+        type: 3}
+      propertyPath: gens._hydration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7207470651662688898, guid: 559470e82a229a34f9fb8ba2f63be034,
         type: 3}
       propertyPath: m_Name
@@ -10639,6 +10669,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
+        type: 3}
+      propertyPath: gens._satiety
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852932068883780919, guid: 6927238bb3f158d4a9f43c34002f0f5b,
+        type: 3}
+      propertyPath: gens._hydration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7207470651662688898, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: m_Name

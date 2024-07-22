@@ -12,7 +12,7 @@ public abstract class PackManager : MonoBehaviour
     [SerializeField]
     private bool isLeader;
     [SerializeField]
-    private List<PackManager> pack = new List<PackManager>();
+    private List<UnitPackManager> pack = new List<UnitPackManager>();
     [SerializeField]
     private PackManager packLeader;
 
@@ -36,7 +36,7 @@ public abstract class PackManager : MonoBehaviour
         get { return packSize; }
     }
 
-    public List<PackManager> Pack
+    public List<UnitPackManager> Pack
     {
         get { return pack; }
         set
@@ -50,7 +50,7 @@ public abstract class PackManager : MonoBehaviour
             }
         }
     }
-    public delegate void OnVariableChangeDelegate(List<PackManager> newVal);
+    public delegate void OnVariableChangeDelegate(List<UnitPackManager> newVal);
     public event OnVariableChangeDelegate OnPackChange;
 
     public PackManager PackLeader
@@ -60,18 +60,19 @@ public abstract class PackManager : MonoBehaviour
     }
 
 
-    private void PackChangeHandler(List<PackManager> newPack)
+    private void PackChangeHandler(List<UnitPackManager> newPack)
     {
         Debug.Log(this.name + " pack leader: " + packLeader + "changed pack members");
     }
 
-    public void DisbandPack()
+    public virtual void DisbandPack()
     {
-        foreach (PackManager packMember in Pack)
+        foreach (UnitPackManager packMember in Pack)
         {
             packMember.UnsubscribePackChnageHandler();
             packMember.PackLeader = null;
             packMember.HasPack = false;
+            packMember.UnitController.Brain.ClearAllPeristentBehaviours();
         }
         Pack.Clear();
     }

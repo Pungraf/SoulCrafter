@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
         {
             if(packManager != null)
             {
+                packMember.UnitController.Brain.ClearAllPeristentBehaviours();
                 Vector3 destination = MouseWorld.GetPosition();
                 packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Move, destination);
             }
@@ -90,13 +91,14 @@ public class PlayerController : MonoBehaviour
     {
         if (PackManager.Pack.Count == 0)
         {
-            Debug.Log("No members to move");
+            Debug.Log("No members to Gather");
             return;
         }
         foreach (UnitPackManager packMember in PackManager.Pack)
         {
             if (packManager != null)
             {
+                packMember.UnitController.Brain.ClearAllPeristentBehaviours();
                 Vector3 destination = transform.position;
                 packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Move, destination);
             }
@@ -105,7 +107,20 @@ public class PlayerController : MonoBehaviour
 
     private void CommandeStay()
     {
-        Debug.Log("Stay commanded");
+        if (PackManager.Pack.Count == 0)
+        {
+            Debug.Log("No members to Guard");
+            return;
+        }
+        foreach (UnitPackManager packMember in PackManager.Pack)
+        {
+            if (packManager != null)
+            {
+                packMember.UnitController.Brain.ClearAllPeristentBehaviours();
+                Vector3 destination = MouseWorld.GetPosition();
+                packMember.UnitController.ForceBehaviour(BaseBehaviour.Behaviour.Guarding, destination);
+            }
+        }
     }
 
     private void CommandeDisband()

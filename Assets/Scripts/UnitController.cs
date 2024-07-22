@@ -153,11 +153,29 @@ public abstract class UnitController : MonoBehaviour, IInteractable
 
     public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour)
     {
-        _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
+        BaseBehaviour choosedBehaviour = _brain.GetBehaviourByType(behaviour);
+        if(choosedBehaviour != null)
+        {
+            _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour);
+        }
+        else
+        {
+            Debug.LogWarning("Null behaviour, next behaviour choosed");
+            ChooseBehaviour();
+        }
     }
     public void ChooseBehaviour(BaseBehaviour.Behaviour behaviour, Vector3 behaviourLocation)
     {
-        _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour, behaviourLocation);
+        BaseBehaviour choosedBehaviour = _brain.GetBehaviourByType(behaviour);
+        if (choosedBehaviour != null)
+        {
+            _brain.GetBehaviourByType(behaviour).Behave(ChooseBehaviour, behaviourLocation);
+        }
+        else
+        {
+            Debug.LogWarning("Null behaviour, next behaviour choosed");
+            ChooseBehaviour();
+        }
     }
 
     public void ForceBehaviour(BaseBehaviour.Behaviour behaviour, Vector3 behaviourLoaction)
