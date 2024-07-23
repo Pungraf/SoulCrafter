@@ -235,6 +235,7 @@ MonoBehaviour:
   aIPath: {fileID: 0}
   packManager: {fileID: 0}
   currentBehaviour: 0
+  baseTraversableTagMask: 01
 --- !u!114 &7104644205306310164
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -65,7 +65,8 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         else
         {
             Unit evolvedUnit = Instantiate(evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-            evolvedUnit.Initialize(Gens, Gens.Vitality);
+            UnitController evolvedUnitController = evolvedUnit.controller;
+            evolvedUnit.Initialize(Gens, Gens.Vitality, evolvedUnitController.seeker.traversableTags);
             Destroy(gameObject);
         }
     }

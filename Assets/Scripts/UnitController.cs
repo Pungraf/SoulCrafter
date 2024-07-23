@@ -51,6 +51,9 @@ public abstract class UnitController : MonoBehaviour, IInteractable
         get { return unit; }
     }
 
+    [SerializeField]
+    protected List<byte> baseTraversableTagMask = new List<byte>();
+
     protected bool isControlled;
     public bool IsControlled
     {
@@ -80,11 +83,67 @@ public abstract class UnitController : MonoBehaviour, IInteractable
 
         InvokeRepeating("SearchForPack", 5f, 10f);
         ChooseBehaviour();
+        GetTileTagNumberBeneath();
     }
 
     public void BehaviourDestintaionReached(object sender, EventArgs e)
     {
         OnDestinationReached?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetTraversableMask(List<byte> mask)
+    {
+        seeker.traversableTags = ConvertToBitmask(mask);
+    }
+
+    public void SetTraversableMask(int mask)
+    {
+        seeker.traversableTags = mask;
+    }
+
+    public void RemoveTraversableTag(int tagIndex)
+    {
+        if((seeker.traversableTags & (1 << tagIndex)) != 0)
+        {
+            seeker.traversableTags ^= 1 << tagIndex;
+        }
+    }
+
+    public void AddTraversableTag(int tagIndex)
+    {
+        seeker.traversableTags |= 1 << tagIndex;
+    }
+
+    public void ResetTraversableTag()
+    {
+        SetTraversableMask(baseTraversableTagMask);
+    }
+
+    protected int ConvertToBitmask(List<byte> mask)
+    {
+        int bitmask = 0;
+        foreach(byte tag in mask)
+        {
+            bitmask |= (1 << tag);
+        }
+        return bitmask;
+    }
+
+    public int GetTileTagNumberBeneath()
+    {
+        int tagNumber = 0;
+        Ray ray = new Ray(transform.position + Vector3.up, Vector3.down);
+        RaycastHit hit;
+        int layerNumber = LayerMask.NameToLayer("MapTerrain");
+        if (Physics.Raycast(ray, out hit, 10f, 1 << layerNumber))
+        {
+            GraphUpdateScene tileGraph = hit.transform.GetComponent<GraphUpdateScene>();
+            if(tileGraph != null)
+            {
+                tagNumber = tileGraph.setTag;
+            }
+        }
+        return tagNumber;
     }
 
     public void Death()

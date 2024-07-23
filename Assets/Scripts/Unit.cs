@@ -75,6 +75,8 @@ public abstract class Unit : MonoBehaviour
         InvokeRepeating("UpdateParameters", 0f, 1f);
     }
 
+
+    //TODO: redo initialization types from bron to evlolved !
     public virtual void Initialize()
     {
         if (Gens == null)
@@ -89,6 +91,7 @@ public abstract class Unit : MonoBehaviour
             if(Health == 0)
             {
                 Health = Gens.Vitality;
+                controller.ResetTraversableTag();
             }
             if(Hunger == 0)
             {
@@ -103,6 +106,7 @@ public abstract class Unit : MonoBehaviour
         {
             controller.aIPath.maxSpeed = gens.Speed / 2;
             Health = gens.Vitality / 2;
+            controller.ResetTraversableTag();
             RemainingStageLifeTime = gens.LifeSpan * 0.05f;
             if (Hunger == 0)
             {
@@ -113,10 +117,9 @@ public abstract class Unit : MonoBehaviour
                 Thirst = 50f;
             }
         }
-
     }
 
-    public virtual void Initialize(GenSample gen, float health, float hunger = 50f, float thirst = 50f)
+    public virtual void Initialize(GenSample gen, float health, int traversableMask, float hunger = 50f, float thirst = 50f)
     {
         if (gen != null)
         {
@@ -125,6 +128,7 @@ public abstract class Unit : MonoBehaviour
         Health = health;
         Hunger = hunger;
         Thirst = thirst;
+        controller.SetTraversableMask(traversableMask);
     }
 
     // Accesors

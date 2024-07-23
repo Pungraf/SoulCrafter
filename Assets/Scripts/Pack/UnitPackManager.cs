@@ -169,11 +169,36 @@ public class UnitPackManager : PackManager
         PackLeader.Pack.Add(this);
         HasPack = true;
         unitController.IsControlled = true;
+        //4 is traversable tag of Player restricted area
+        UnitController.ResetTraversableTag();
+        UnitController.AddTraversableTag(4);
+    }
+
+    public void DisbandPlayer()
+    {
+        UnsubscribePackChnageHandler();
+        PackLeader = null;
+        HasPack = false;
+        UnitController.Brain.ClearAllPeristentBehaviours();
+        if(UnitController.GetTileTagNumberBeneath() == 4)
+        {
+            //Set only Player restricted area as walkable
+            UnitController.SetTraversableMask(new List<byte>() { 4 });
+        }
+        else
+        {
+            UnitController.ResetTraversableTag();
+        }
     }
 
     public override void DisbandPack()
     {
-        UnitController.Brain.ClearAllPeristentBehaviours();
+        foreach (UnitPackManager packMember in Pack)
+        {
+            packMember.UnitController.Brain.ClearAllPeristentBehaviours();
+            packMember.PackLeader = null;
+            packMember.HasPack = false;
+        }
         base.DisbandPack();
     }
 }

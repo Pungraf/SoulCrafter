@@ -67,13 +67,6 @@ public abstract class PackManager : MonoBehaviour
 
     public virtual void DisbandPack()
     {
-        foreach (UnitPackManager packMember in Pack)
-        {
-            packMember.UnsubscribePackChnageHandler();
-            packMember.PackLeader = null;
-            packMember.HasPack = false;
-            packMember.UnitController.Brain.ClearAllPeristentBehaviours();
-        }
         Pack.Clear();
     }
 
