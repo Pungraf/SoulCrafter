@@ -179,6 +179,7 @@ public class UnitPackManager : PackManager
         UnsubscribePackChnageHandler();
         PackLeader = null;
         HasPack = false;
+        unitController.IsControlled = false;
         UnitController.Brain.ClearAllPeristentBehaviours();
         if(UnitController.GetTileTagNumberBeneath() == 4)
         {

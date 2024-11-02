@@ -54,12 +54,17 @@ public abstract class UnitController : MonoBehaviour, IInteractable
     [SerializeField]
     protected List<byte> baseTraversableTagMask = new List<byte>();
 
-    protected bool isControlled;
+    [SerializeField] protected bool isControlled;
     public bool IsControlled
     {
         get { return isControlled; }
-        set { isControlled = value; }
+        set {
+                unitUI.SetControlledUI(value);
+                isControlled = value; 
+            }
     }
+
+    protected UnitUI unitUI;
 
     protected void Awake()
     {
@@ -67,16 +72,14 @@ public abstract class UnitController : MonoBehaviour, IInteractable
         aIPath = GetComponent<AIUnit>();
         unit = GetComponent<Unit>();
         _brain = GetComponentInChildren<Brain>();
+        unitUI = GetComponent<UnitUI>();
     }
     // Start is called before the first frame update
     void Start()
     {
         packManager = GetComponent<UnitPackManager>();
 
-        constraint.constrainWalkability = true;
-        constraint.walkable = true;
-        constraint.constrainTags = true;
-        constraint.tags = seeker.traversableTags;
+        UpdateTraversableConstrain();
 
         aIPath.OnDestinationReached += BehaviourDestintaionReached;
 
@@ -94,11 +97,13 @@ public abstract class UnitController : MonoBehaviour, IInteractable
     public void SetTraversableMask(List<byte> mask)
     {
         seeker.traversableTags = ConvertToBitmask(mask);
+        UpdateTraversableConstrain();
     }
 
     public void SetTraversableMask(int mask)
     {
         seeker.traversableTags = mask;
+        UpdateTraversableConstrain();
     }
 
     public void RemoveTraversableTag(int tagIndex)
@@ -106,17 +111,28 @@ public abstract class UnitController : MonoBehaviour, IInteractable
         if((seeker.traversableTags & (1 << tagIndex)) != 0)
         {
             seeker.traversableTags ^= 1 << tagIndex;
+            UpdateTraversableConstrain();
         }
     }
 
     public void AddTraversableTag(int tagIndex)
     {
         seeker.traversableTags |= 1 << tagIndex;
+        UpdateTraversableConstrain();
     }
 
     public void ResetTraversableTag()
     {
         SetTraversableMask(baseTraversableTagMask);
+        UpdateTraversableConstrain();
+    }
+
+    public void UpdateTraversableConstrain()
+    {
+        constraint.constrainWalkability = true;
+        constraint.walkable = true;
+        constraint.constrainTags = true;
+        constraint.tags = seeker.traversableTags;
     }
 
     protected int ConvertToBitmask(List<byte> mask)
