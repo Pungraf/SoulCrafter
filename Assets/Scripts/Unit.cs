@@ -7,6 +7,8 @@ using UnityEngine.Assertions.Must;
 public abstract class Unit : MonoBehaviour
 {
     [SerializeField] private float counterUpdateSampling = 1f;
+    [SerializeField] private int sleepHour = 22;
+    [SerializeField] private int wakeupHour = 6;
     public enum Species
     {
         Wisp,
@@ -48,6 +50,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private float urge = 0;
     [SerializeField] private float waste = 0;
     [SerializeField] private float anger = 0;
+    [SerializeField] private float energy = 100;
 
     [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
     [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
@@ -72,6 +75,7 @@ public abstract class Unit : MonoBehaviour
 
         genScore = rand.Next(50, 100);
 
+        TimeManager.OnHourChanged += HourChanged;
         InvokeRepeating("UpdateParameters", 0f, 1f);
     }
 
@@ -190,6 +194,12 @@ public abstract class Unit : MonoBehaviour
         set { anger = Mathf.Clamp(value, 0f, 100f); }
     }
 
+    public float Energy
+    {
+        get { return energy; }
+        set { energy = Mathf.Clamp(value, 0f, 100f); }
+    }
+
     public bool IsAdult
     {
         get { return isAdult; }
@@ -245,6 +255,20 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+    private void HourChanged(int hour)
+    {
+        if(hour == sleepHour)
+        {
+            Energy = 0f;
+            Debug.Log(this.name + "Time to sleep");
+        }
+        else if( hour == wakeupHour)
+        {
+            Energy = 100f;
+            Debug.Log(this.name + "Time to wakeup");
+        }
+    }
+
     public void Die()
     {
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
@@ -273,5 +297,10 @@ public abstract class Unit : MonoBehaviour
         {
             TakeDamage(10 * counterUpdateSampling);
         }
+    }
+
+    public void Unsubscribe()
+    {
+        TimeManager.OnHourChanged -= HourChanged;
     }
 }

@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+    public static TimeManager Instance { get; private set; }
+
+    public static event Action<int> OnHourChanged;
+
     [SerializeField] private Texture2D skyboxNight;
     [SerializeField] private Texture2D skyboxSunrise;
     [SerializeField] private Texture2D skyboxDay;
@@ -39,6 +43,18 @@ public class TimeManager : MonoBehaviour
     { get { return days; } set { days = value; } }
 
     private float tempSecond;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one TimeManager! " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     public void Update()
     {
@@ -79,6 +95,7 @@ public class TimeManager : MonoBehaviour
 
     private void OnHoursChange(int value)
     {
+        OnHourChanged?.Invoke(value);
         if (value == 6)
         {
             StartCoroutine(LerpSkybox(skyboxNight, skyboxSunrise, 10f));

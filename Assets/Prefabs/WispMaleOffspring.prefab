@@ -244,6 +244,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterUpdateSampling: 1
+  sleepHour: 22
+  wakeupHour: 6
   eggPrefab: {fileID: 0}
   femaleOffspringPrefab: {fileID: 0}
   maleOffspringPrefab: {fileID: 0}
@@ -301,6 +303,7 @@ MonoBehaviour:
   urge: 0
   waste: 0
   anger: 0
+  energy: 100
   edibleFood: 00000000
   foodChainSpecies: 
   predators: 01000000
@@ -322,6 +325,7 @@ MonoBehaviour:
   packManager: {fileID: 0}
   currentBehaviour: 0
   baseTraversableTagMask: 01
+  isControlled: 0
 --- !u!114 &7352816569957259741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +457,7 @@ GameObject:
   - component: {fileID: 7882715607485167456}
   - component: {fileID: 6539820642128374885}
   - component: {fileID: 1099584994714152256}
+  - component: {fileID: 8931968455597033551}
   m_Layer: 6
   m_Name: Brain
   m_TagString: Untagged
@@ -584,3 +589,19 @@ MonoBehaviour:
   behaviourTimeLimit: 15
   isActive: 0
   behaviourType: 7
+--- !u!114 &8931968455597033551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8789657522273715139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e6f1f776e14114a8d675328a0e5897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 10
+  isActive: 0
+  behaviourType: 9

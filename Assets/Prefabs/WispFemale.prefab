@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 4034954141984693037}
   - component: {fileID: 9207445101368682849}
   - component: {fileID: 2392536847840992158}
+  - component: {fileID: 2451713369558087976}
   m_Layer: 6
   m_Name: Brain
   m_TagString: Untagged
@@ -217,6 +218,22 @@ MonoBehaviour:
   behaviourType: 8
   IsGuarding: 0
   GuardingLocation: {x: 0, y: 0, z: 0}
+--- !u!114 &2451713369558087976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196594694835383564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e6f1f776e14114a8d675328a0e5897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currnetBehaviourScore: 0
+  behaviourTimeLimit: 10
+  isActive: 0
+  behaviourType: 9
 --- !u!1 &1385285943078213757
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,6 +478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterUpdateSampling: 1
+  sleepHour: 22
+  wakeupHour: 6
   eggPrefab: {fileID: 2681955293210169971, guid: 9de444c84fbe37e4abf04a3cb789b4ee,
     type: 3}
   femaleOffspringPrefab: {fileID: 7207470651662688898, guid: 559470e82a229a34f9fb8ba2f63be034,
@@ -520,6 +539,7 @@ MonoBehaviour:
   urge: 0
   waste: 0
   anger: 0
+  energy: 100
   edibleFood: 00000000
   foodChainSpecies: 
   predators: 01000000
@@ -541,6 +561,7 @@ MonoBehaviour:
   packManager: {fileID: 0}
   currentBehaviour: 0
   baseTraversableTagMask: 01
+  isControlled: 0
 --- !u!114 &7104644205306310164
 MonoBehaviour:
   m_ObjectHideFlags: 0

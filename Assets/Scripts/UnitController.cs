@@ -277,6 +277,7 @@ public abstract class UnitController : MonoBehaviour, IInteractable
 
     public void DestroyAndUnsubscribe()
     {
+        unit.Unsubscribe();
         Destroy(gameObject);
     }
 
