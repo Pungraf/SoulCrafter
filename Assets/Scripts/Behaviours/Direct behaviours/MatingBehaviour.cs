@@ -109,4 +109,10 @@ public class MatingBehaviour : BaseBehaviour
             _unitController.Brain.ForceNextBehaviour(Behaviour.Copulate, true);
         }
     }
+
+    protected override void DeprecatedBehaviour()
+    {
+        _unit.Urge = 0;
+        base.DeprecatedBehaviour();
+    }
 }

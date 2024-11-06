@@ -141,7 +141,7 @@ public abstract class BaseBehaviour : MonoBehaviour
         }
     }
 
-    protected void DeprecatedBehaviour()
+    protected virtual void DeprecatedBehaviour()
     {
         BehaviourComplete();
     }

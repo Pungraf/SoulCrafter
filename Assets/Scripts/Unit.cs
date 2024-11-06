@@ -260,12 +260,10 @@ public abstract class Unit : MonoBehaviour
         if(hour == sleepHour)
         {
             Energy = 0f;
-            Debug.Log(this.name + "Time to sleep");
         }
         else if( hour == wakeupHour)
         {
             Energy = 100f;
-            Debug.Log(this.name + "Time to wakeup");
         }
     }
 
