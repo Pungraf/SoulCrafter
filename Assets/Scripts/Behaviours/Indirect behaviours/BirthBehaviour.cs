@@ -43,11 +43,11 @@ public class BirthBehaviour : BaseBehaviour
         BehaviourComplete();
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         if(_unit.IsPregnant && _unit.PregnancyCounter < 0)
         {
-            return (int)criticalScoreValue;
+            return criticalScoreValue;
         }
         return -1;
     }

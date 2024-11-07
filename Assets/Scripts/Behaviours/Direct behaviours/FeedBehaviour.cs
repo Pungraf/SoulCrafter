@@ -13,7 +13,7 @@ public class FeedBehaviour : BaseBehaviour
         BehaviourStart(onBehaviourComplete);
         if (_unit.Hunger <= _unit.Thirst)
         {
-            if(!LookForFood() && _unit.Thirst < 10f)
+            if(!LookForFood() && _unit.Thirst < 0.1f)
             {
                 if(!LookForDrink())
                 {
@@ -30,7 +30,7 @@ public class FeedBehaviour : BaseBehaviour
         }
         else
         {
-            if (!LookForDrink() && _unit.Hunger < 10f)
+            if (!LookForDrink() && _unit.Hunger < 0.1f)
             {
                 if(!LookForFood())
                 {
@@ -48,19 +48,19 @@ public class FeedBehaviour : BaseBehaviour
         }
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
-        float finalScore = 100f - _unit.Hunger;
+        float finalScore = 1f - _unit.Hunger;
         if(_unit.Thirst < _unit.Hunger)
         {
-            finalScore = 100f - _unit.Thirst;
+            finalScore = 1f - _unit.Thirst;
         }
 
-        if(finalScore > 90)
+        if(finalScore > 0.9)
         {
             finalScore += criticalScoreValue;
         }
-        return (int)finalScore;
+        return finalScore;
     }
 
     protected bool LookForFood()
@@ -106,11 +106,6 @@ public class FeedBehaviour : BaseBehaviour
             return true;
         }
 
-        if (_unit.IsAgressive)
-        {
-            _unit.Anger += 10f;
-        }
-
         return false;
     }
 
@@ -123,7 +118,7 @@ public class FeedBehaviour : BaseBehaviour
     IEnumerator Eat(Food food)
     {
         isConsuming = true;
-        while(food != null && _unit.Hunger < 95f)
+        while(food != null && _unit.Hunger < 0.95f)
         {
             food.Eat(_unit);
             yield return new WaitForSeconds(1f);
@@ -188,7 +183,7 @@ public class FeedBehaviour : BaseBehaviour
     IEnumerator Drink(Drink drink)
     {
         isConsuming = true;
-        while (drink != null && _unit.Thirst < 95f)
+        while (drink != null && _unit.Thirst < 0.95f)
         {
             drink.Drinking(_unit);
             yield return new WaitForSeconds(1f);

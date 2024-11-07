@@ -19,11 +19,11 @@ public class RunawayBehaviour : BaseBehaviour
         BehaviourComplete();
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         if(SensedDanger())
         {
-            return (int)criticalScoreValue;
+            return criticalScoreValue;
         }
         else
         {

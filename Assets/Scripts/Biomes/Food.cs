@@ -45,10 +45,10 @@ public abstract class Food : MonoBehaviour
     {
         currentLifeTime = maxLifeTime;
         currentNutritiousness = nutritiousness;
-        InvokeRepeating("InokeUpdate", 1f, updateFrequency);
+        InvokeRepeating("InvokeUpdate", 1f, updateFrequency);
     }
 
-    protected virtual void InokeUpdate()
+    protected virtual void InvokeUpdate()
     {
         currentLifeTime -= updateFrequency;
         currentNutritiousness += updateFrequency;

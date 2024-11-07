@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccced80c5462b43479194c94e4a35bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counterUpdateSampling: 1
   sleepHour: 22
   wakeupHour: 6
   eggPrefab: {fileID: 0}
@@ -259,20 +258,20 @@ MonoBehaviour:
   targetedTransform: {fileID: 0}
   controller: {fileID: 0}
   gens:
-    _lifeSpan: 2000
-    _incubation: 60
+    _lifeSpan: 7
+    _incubation: 1
     _vitality: 100
     _speed: 3
     _strength: 1
-    _satiety: 0.4
-    _hydration: 0.4
-    _ingestion: 10
-    _urge: 5
+    _satiety: 2
+    _hydration: 2
+    _ingestion: 0.02
+    _urge: 2
     _reach: 2
     _perception: 50
     _fecundity: 0.7
     _attractiveness: 0.7
-    _gestation: 120
+    _gestation: 2
     _fertility: 5
   lastPartnerGenSample:
     _lifeSpan: 0
@@ -295,7 +294,7 @@ MonoBehaviour:
   isAdult: 0
   isAgressive: 0
   isPregnant: 0
-  remainingStageLifeTime: 0
+  remainingStageLifeTime: 1
   pregnancyCounter: 0
   health: 100
   hunger: 0
@@ -303,7 +302,7 @@ MonoBehaviour:
   urge: 0
   waste: 0
   anger: 0
-  energy: 100
+  energy: 1
   edibleFood: 00000000
   foodChainSpecies: 
   predators: 01000000

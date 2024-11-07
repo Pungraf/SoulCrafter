@@ -6,7 +6,8 @@ using UnityEngine.Assertions.Must;
 
 public abstract class Unit : MonoBehaviour
 {
-    [SerializeField] private float counterUpdateSampling = 1f;
+    private static float sekPerDay = 1440f;
+    private static float counterUpdateSampling = 1f;
     [SerializeField] private int sleepHour = 22;
     [SerializeField] private int wakeupHour = 6;
     public enum Species
@@ -40,7 +41,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private bool isPregnant = false;
 
     //Timers
-    [SerializeField] private float remainingStageLifeTime = 0;
+    [SerializeField] private float remainingStageLifeTime = 0f;
     [SerializeField] private float pregnancyCounter;
 
     //Parameters
@@ -50,7 +51,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] private float urge = 0;
     [SerializeField] private float waste = 0;
     [SerializeField] private float anger = 0;
-    [SerializeField] private float energy = 100;
+    [SerializeField] private float energy = 1f;
 
     [SerializeField] public List<Food.FoodType> edibleFood = new List<Food.FoodType>();
     [SerializeField] public List<Species> foodChainSpecies = new List<Species>();
@@ -73,10 +74,11 @@ public abstract class Unit : MonoBehaviour
 
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
 
+        // TODO: calculate based on gens
         genScore = rand.Next(50, 100);
 
         TimeManager.OnHourChanged += HourChanged;
-        InvokeRepeating("UpdateParameters", 0f, 1f);
+        InvokeRepeating("UpdateParameters", 0f, counterUpdateSampling);
     }
 
 
@@ -99,11 +101,11 @@ public abstract class Unit : MonoBehaviour
             }
             if(Hunger == 0)
             {
-                Hunger = 50f;
+                Hunger = 0.5f;
             }
             if(Thirst == 0)
             {
-                Thirst = 50f;
+                Thirst = 0.5f;
             }
         }
         else
@@ -114,16 +116,16 @@ public abstract class Unit : MonoBehaviour
             RemainingStageLifeTime = gens.LifeSpan * 0.05f;
             if (Hunger == 0)
             {
-                Hunger = 50f;
+                Hunger = 0.5f;
             }
             if (Thirst == 0)
             {
-                Thirst = 50f;
+                Thirst = 0.5f;
             }
         }
     }
 
-    public virtual void Initialize(GenSample gen, float health, int traversableMask, float hunger = 50f, float thirst = 50f)
+    public virtual void Initialize(GenSample gen, float health, int traversableMask, float hunger = 0.5f, float thirst = 0.5f)
     {
         if (gen != null)
         {
@@ -163,41 +165,41 @@ public abstract class Unit : MonoBehaviour
     public float Hunger
     {
         get { return hunger; }
-        set { hunger = Mathf.Clamp(value, 0f, 100f); }
+        set { hunger = Mathf.Clamp(value, 0f, 1f); }
 
     }
 
     public float Thirst
     {
         get { return thirst; }
-        set { thirst = Mathf.Clamp(value, 0f, 100f); }
+        set { thirst = Mathf.Clamp(value, 0f, 1f); }
 
     }
 
     public float Urge
     {
         get { return urge; }
-        set { urge = Mathf.Clamp(value, 0f, 100f); }
+        set { urge = Mathf.Clamp(value, 0f, 1f); }
 
     }
 
     public float Waste
     {
         get { return waste; }
-        set { waste = Mathf.Clamp(value, 0f, 100f); }
+        set { waste = Mathf.Clamp(value, 0f, 1f); }
 
     }
 
     public float Anger
     {
         get { return anger; }
-        set { anger = Mathf.Clamp(value, 0f, 100f); }
+        set { anger = Mathf.Clamp(value, 0f, 1f); }
     }
 
     public float Energy
     {
         get { return energy; }
-        set { energy = Mathf.Clamp(value, 0f, 100f); }
+        set { energy = Mathf.Clamp(value, 0f, 1f); }
     }
 
     public bool IsAdult
@@ -233,8 +235,7 @@ public abstract class Unit : MonoBehaviour
     public void Feed(float amount)
     {
         Hunger += amount;
-        //TODO: change all statee variable to 0-1 range;
-        Waste += amount / 100;
+        Waste += amount;
     }
 
     public void Hydrate(float amount)
@@ -246,13 +247,19 @@ public abstract class Unit : MonoBehaviour
     {
         Waste = 0;
     }
-    public void TakeDamage(float amount)
+    public bool TakeDamage(float amount)
     {
         Health -= amount;
         if(IsAgressive)
         {
-            Anger += 10f;
+            Anger += 0.1f;
         }
+        //Notife if was killed by damage
+        if(Health <= 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void HourChanged(int hour)
@@ -263,7 +270,7 @@ public abstract class Unit : MonoBehaviour
         }
         else if( hour == wakeupHour)
         {
-            Energy = 100f;
+            Energy = 1f;
         }
     }
 
@@ -275,25 +282,34 @@ public abstract class Unit : MonoBehaviour
 
     private void UpdateParameters()
     {
-        Hunger -= gens.Satiety / counterUpdateSampling;
-        Thirst -= gens.Hydration / counterUpdateSampling;
-        RemainingStageLifeTime -= counterUpdateSampling;
+        Hunger -= gens.Satiety * counterUpdateSampling / sekPerDay;
+        Thirst -= gens.Hydration * counterUpdateSampling / sekPerDay;
+        RemainingStageLifeTime -= counterUpdateSampling / sekPerDay;
 
         if (IsAdult)
         {
             if (isPregnant)
             {
-                PregnancyCounter -= counterUpdateSampling;
+                PregnancyCounter -= counterUpdateSampling / sekPerDay;
             }
             else
             {
-                Urge += gens.Urge / counterUpdateSampling;
+                Urge += gens.Urge * counterUpdateSampling / sekPerDay;
             }
         }
 
         if (Hunger <= 0 || Thirst <= 0)
         {
-            TakeDamage(10 * counterUpdateSampling);
+            TakeDamage(1f * counterUpdateSampling);
+        }
+
+        if(IsAgressive && (Hunger <= 0.5f || Thirst <= 0.5f))
+        {
+            Anger += 0.01f;
+        }
+        else
+        {
+            Anger -= 0.01f;
         }
     }
 

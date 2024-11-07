@@ -34,9 +34,9 @@ public class HuntBehaviour : BaseBehaviour
         BehaviourComplete(Behaviour.Idle);
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
-        return (int)_unit.Anger;
+        return _unit.Anger;
     }
 
     IEnumerator Hunt(Transform huntedUnit)
@@ -90,7 +90,10 @@ public class HuntBehaviour : BaseBehaviour
                 hasAppliedDamage = true;
                 if (targetUnit != null)
                 {
-                    targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength);
+                    if(targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength))
+                    {
+                        _unit.Anger = 0f;
+                    }
                 }
             }
             percent += Time.deltaTime * attackSpeed;

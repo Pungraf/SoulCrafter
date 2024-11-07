@@ -23,8 +23,12 @@ public class DisposeBehaviour : BaseBehaviour
         BehaviourComplete();
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
-        return (int)(_unit.Waste * 10);
+        if(_unit.Waste >= 1f)
+        {
+            return _unit.Waste + criticalScoreValue;
+        }
+        return _unit.Waste;
     }
 }

@@ -23,6 +23,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private Light globalLight;
 
     [SerializeField] private TextMeshProUGUI hourText;
+    [SerializeField] private TextMeshProUGUI dayText;
 
     private int minutes;
 
@@ -40,7 +41,7 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField]
     public int Days
-    { get { return days; } set { days = value; } }
+    { get { return days + 1; } set { days = value; } }
 
     private float tempSecond;
 
@@ -79,6 +80,8 @@ public class TimeManager : MonoBehaviour
         {
             Hours = 0;
             Days++;
+
+            dayText.text = "Day: " + Days;
         }
         string hoursFormatFill = "";
         string minutesFormatFill = "";

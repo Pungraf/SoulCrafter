@@ -49,11 +49,11 @@ public class EvolveBehaviour : BaseBehaviour
         }
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         if(_unit.RemainingStageLifeTime <= 0)
         {
-            return (int)criticalScoreValue * 2;
+            return criticalScoreValue * 2;
         }
         else
         {

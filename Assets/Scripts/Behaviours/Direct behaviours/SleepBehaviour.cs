@@ -10,9 +10,13 @@ public class SleepBehaviour : BaseBehaviour
         BehaviourStart(onBehaviourComplete);
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
-        return (int)(100 - _unit.Energy);
+        if(_unit.Energy == 0)
+        {
+            return (1 - _unit.Energy) + criticalScoreValue / 2f;
+        }
+        return 1 - _unit.Energy;
     }
 
     protected override void DeprecatedBehaviour()

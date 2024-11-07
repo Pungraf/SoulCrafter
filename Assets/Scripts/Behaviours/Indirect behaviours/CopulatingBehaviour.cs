@@ -30,7 +30,7 @@ public class CopulatingBehaviour : BaseBehaviour
         }
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         //Only direct driven
         return -1;

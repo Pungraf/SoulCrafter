@@ -20,7 +20,7 @@ public class MoveBehaviour : BaseBehaviour
         _unitController.MoveUnit(behaviourLocation);
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         //Only commanded behaviour
         return -1;

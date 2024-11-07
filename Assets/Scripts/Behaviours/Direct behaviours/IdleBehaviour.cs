@@ -9,12 +9,6 @@ public class IdleBehaviour : BaseBehaviour
     public override void Behave(Action onBehaviourComplete)
     {
         BehaviourStart(onBehaviourComplete);
-
-        if(_unit.IsAgressive)
-        {
-            _unit.Anger += 1f;
-        }
-
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed * 10f;
         if (_unitController.PackManager.PackLeader != null && _unitController.PackManager.HasPack && !_unitController.PackManager.IsLeader)
         {
@@ -32,8 +26,8 @@ public class IdleBehaviour : BaseBehaviour
         _unitController.MoveUnit(randomDirection);
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
-        return 10;
+        return 0.1f;
     }
 }

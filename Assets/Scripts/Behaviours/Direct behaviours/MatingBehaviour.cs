@@ -51,11 +51,11 @@ public class MatingBehaviour : BaseBehaviour
         BehaviourComplete(Behaviour.Idle);
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         if(!_unit.IsPregnant && !_unitController.IsControlled)
         {
-            return (int)_unit.Urge;
+            return _unit.Urge;
         }
         //Do net performe while pregnant
         return -1;

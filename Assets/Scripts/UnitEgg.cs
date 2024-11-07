@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class UnitEgg : MonoBehaviour, IInteractable
 {
+    private static float sekPerDay = 1440f;
+    private static float counterUpdateSampling = 1f;
+
     [SerializeField] private float _hatchingTime;
     [SerializeField] private float _durability;
     [SerializeField] private EggItem eggItem;
@@ -17,18 +20,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        _hatchingTime -= Time.deltaTime;
-
-        if(_hatchingTime <= 0 )
-        {
-            Mature();
-        }
+        InvokeRepeating("UpdateParameters", 0f, counterUpdateSampling);
     }
 
     public GenSample Gens
@@ -85,4 +77,13 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         Destroy(gameObject);
     }
 
+    private void UpdateParameters()
+    {
+        _hatchingTime -= counterUpdateSampling / sekPerDay;
+
+        if (_hatchingTime <= 0)
+        {
+            Mature();
+        }
+    }
 }

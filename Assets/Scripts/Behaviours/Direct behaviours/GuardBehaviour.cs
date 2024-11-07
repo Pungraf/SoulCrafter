@@ -20,7 +20,7 @@ public class GuardBehaviour : BaseBehaviour
         IsGuarding = true;
     }
 
-    protected override int CalculateBehaviourScore()
+    protected override float CalculateBehaviourScore()
     {
         if (IsGuarding)
         {

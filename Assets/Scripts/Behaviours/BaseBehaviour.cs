@@ -20,7 +20,7 @@ public abstract class BaseBehaviour : MonoBehaviour
         Sleep
     }
 
-    public int currnetBehaviourScore;
+    public float currnetBehaviourScore;
 
     [SerializeField] protected float behaviourTimeLimit;
 
@@ -28,7 +28,7 @@ public abstract class BaseBehaviour : MonoBehaviour
     protected UnitController _unitController;
     protected Brain _brain;
     protected Action onBehaviourComplete;
-    protected float criticalScoreValue = 100f;
+    protected float criticalScoreValue = 1f;
     protected bool isAwatingPathCallback = false;
     [SerializeField] protected bool isActive = false;
 
@@ -70,7 +70,7 @@ public abstract class BaseBehaviour : MonoBehaviour
         currnetBehaviourScore = CalculateBehaviourScore();
     }
 
-    protected abstract int CalculateBehaviourScore();
+    protected abstract float CalculateBehaviourScore();
 
     protected void BehaviourStart(Action OnBehaviourComplete)
     {
