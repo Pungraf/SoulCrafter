@@ -27,8 +27,8 @@ public class DisposeBehaviour : BaseBehaviour
     {
         if(_unit.Waste >= 1f)
         {
-            return _unit.Waste + criticalScoreValue;
+            return _unit.Waste * behaviourPriority + criticalScoreValue;
         }
-        return _unit.Waste;
+        return _unit.Waste * behaviourPriority;
     }
 }

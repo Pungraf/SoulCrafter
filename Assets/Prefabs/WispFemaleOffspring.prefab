@@ -66,6 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 1
 --- !u!114 &4716546206995917352
@@ -82,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 30
+  behaviourPriority: 2
   isActive: 0
   behaviourType: 2
 --- !u!114 &4833885417301799543
@@ -98,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 0
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 0
 --- !u!114 &4844763061261238731
@@ -114,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 0
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 0
 --- !u!114 &2086475171874263193
@@ -130,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 5
 --- !u!114 &5313835468453195348
@@ -146,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 7
 --- !u!114 &1138268429714795332
@@ -162,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 10
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 9
 --- !u!1 &4369711067705793705

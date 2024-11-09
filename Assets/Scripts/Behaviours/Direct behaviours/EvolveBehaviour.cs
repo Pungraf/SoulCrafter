@@ -53,7 +53,7 @@ public class EvolveBehaviour : BaseBehaviour
     {
         if(_unit.RemainingStageLifeTime <= 0)
         {
-            return criticalScoreValue * 2;
+            return criticalScoreValue * 2 * behaviourPriority;
         }
         else
         {

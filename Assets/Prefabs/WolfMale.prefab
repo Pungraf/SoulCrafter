@@ -77,7 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf1b831b90315f449623864b4ba3644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counterUpdateSampling: 1
   sleepHour: 22
   wakeupHour: 6
   eggPrefab: {fileID: 0}
@@ -510,6 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 1
 --- !u!114 &5348483794263142221
@@ -526,6 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 30
+  behaviourPriority: 2
   isActive: 0
   behaviourType: 2
 --- !u!114 &4720927061418056677
@@ -542,6 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 30
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 3
 --- !u!114 &6731163747411029924
@@ -558,6 +560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 0
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 0
 --- !u!114 &4098147592277342792
@@ -574,6 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 5
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 4
 --- !u!114 &2343444297477872471
@@ -590,6 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 1
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 0
 --- !u!114 &7084865574096018379
@@ -606,6 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 0
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 0
 --- !u!114 &2622166419199949204
@@ -622,6 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 5
 --- !u!114 &3159575542590083920
@@ -638,6 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 30
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 6
 --- !u!114 &1818964567699999761
@@ -654,6 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 15
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 7
 --- !u!114 &1249171284929898415
@@ -670,6 +679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 5
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 8
   IsGuarding: 0
@@ -688,5 +698,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currnetBehaviourScore: 0
   behaviourTimeLimit: 10
+  behaviourPriority: 1
   isActive: 0
   behaviourType: 9

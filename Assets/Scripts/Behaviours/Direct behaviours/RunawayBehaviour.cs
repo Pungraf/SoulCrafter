@@ -23,7 +23,7 @@ public class RunawayBehaviour : BaseBehaviour
     {
         if(SensedDanger())
         {
-            return criticalScoreValue;
+            return criticalScoreValue * behaviourPriority;
         }
         else
         {

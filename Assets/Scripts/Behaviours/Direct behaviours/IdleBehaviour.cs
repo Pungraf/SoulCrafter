@@ -28,6 +28,6 @@ public class IdleBehaviour : BaseBehaviour
 
     protected override float CalculateBehaviourScore()
     {
-        return 0.1f;
+        return 0.1f * behaviourPriority;
     }
 }

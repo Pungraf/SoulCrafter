@@ -23,6 +23,7 @@ public abstract class BaseBehaviour : MonoBehaviour
     public float currnetBehaviourScore;
 
     [SerializeField] protected float behaviourTimeLimit;
+    [SerializeField] protected float behaviourPriority = 1f;
 
     protected Unit _unit;
     protected UnitController _unitController;

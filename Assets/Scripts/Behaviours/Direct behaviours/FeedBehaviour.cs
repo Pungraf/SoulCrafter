@@ -17,14 +17,28 @@ public class FeedBehaviour : BaseBehaviour
             {
                 if(!LookForDrink())
                 {
-                    BehaviourComplete(Behaviour.Idle);
+                    if(_unit.IsAgressive)
+                    {
+                        BehaviourComplete(Behaviour.Hunting);
+                    }
+                    else
+                    {
+                        BehaviourComplete(Behaviour.Idle);
+                    }
                 }
             }
             else
             {
                 if(!isAwatingPathCallback && !isConsuming)
                 {
-                    BehaviourComplete(Behaviour.Idle);
+                    if (_unit.IsAgressive)
+                    {
+                        BehaviourComplete(Behaviour.Hunting);
+                    }
+                    else
+                    {
+                        BehaviourComplete(Behaviour.Idle);
+                    }
                 }
             }
         }
@@ -34,14 +48,28 @@ public class FeedBehaviour : BaseBehaviour
             {
                 if(!LookForFood())
                 {
-                    BehaviourComplete(Behaviour.Idle);
+                    if (_unit.IsAgressive)
+                    {
+                        BehaviourComplete(Behaviour.Hunting);
+                    }
+                    else
+                    {
+                        BehaviourComplete(Behaviour.Idle);
+                    }
                 }
             }
             else
             {
                 if (!isAwatingPathCallback && !isConsuming)
                 {
-                    BehaviourComplete(Behaviour.Idle);
+                    if (_unit.IsAgressive)
+                    {
+                        BehaviourComplete(Behaviour.Hunting);
+                    }
+                    else
+                    {
+                        BehaviourComplete(Behaviour.Idle);
+                    }
                 }
             }
 
@@ -60,7 +88,7 @@ public class FeedBehaviour : BaseBehaviour
         {
             finalScore += criticalScoreValue;
         }
-        return finalScore;
+        return finalScore * behaviourPriority;
     }
 
     protected bool LookForFood()

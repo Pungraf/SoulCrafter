@@ -214,10 +214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodType: 0
-  maxLifeTime: 2000
+  maxLifeTime: 100
   nutritiousness: 2
   currentNutritiousness: 0
-  updateFrequency: 10
 --- !u!65 &1646209488878271911
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class GuardBehaviour : BaseBehaviour
     {
         if (IsGuarding)
         {
-            return (int)criticalScoreValue;
+            return criticalScoreValue * behaviourPriority;
         }
         else
         {

@@ -36,7 +36,7 @@ public class HuntBehaviour : BaseBehaviour
 
     protected override float CalculateBehaviourScore()
     {
-        return _unit.Anger;
+        return _unit.Anger * behaviourPriority;
     }
 
     IEnumerator Hunt(Transform huntedUnit)

@@ -47,7 +47,7 @@ public class BirthBehaviour : BaseBehaviour
     {
         if(_unit.IsPregnant && _unit.PregnancyCounter < 0)
         {
-            return criticalScoreValue;
+            return criticalScoreValue * behaviourPriority;
         }
         return -1;
     }

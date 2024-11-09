@@ -11,13 +11,15 @@ public abstract class Food : MonoBehaviour
         Meat
     }
 
+    protected static float sekPerDay = 1440f;
+    protected static float counterUpdateSampling = 1f;
+
     [SerializeField] public FoodType foodType;
     [SerializeField] protected float maxLifeTime;
     [SerializeField] protected float nutritiousness;
 
-    private float currentLifeTime;
-    [SerializeField] private float currentNutritiousness;
-    [SerializeField] private float updateFrequency;
+    [SerializeField] protected float currentLifeTime;
+    [SerializeField] protected float currentNutritiousness;
 
     public void Eat(Unit eatingUnit)
     {
@@ -45,13 +47,12 @@ public abstract class Food : MonoBehaviour
     {
         currentLifeTime = maxLifeTime;
         currentNutritiousness = nutritiousness;
-        InvokeRepeating("InvokeUpdate", 1f, updateFrequency);
+        InvokeRepeating("InvokeUpdate", 1f, counterUpdateSampling);
     }
 
     protected virtual void InvokeUpdate()
     {
-        currentLifeTime -= updateFrequency;
-        currentNutritiousness += updateFrequency;
+        currentLifeTime -= counterUpdateSampling / sekPerDay;
         if(currentLifeTime < 0f)
         {
             Destroy(gameObject);

@@ -55,7 +55,7 @@ public class MatingBehaviour : BaseBehaviour
     {
         if(!_unit.IsPregnant && !_unitController.IsControlled)
         {
-            return _unit.Urge;
+            return _unit.Urge * behaviourPriority;
         }
         //Do net performe while pregnant
         return -1;

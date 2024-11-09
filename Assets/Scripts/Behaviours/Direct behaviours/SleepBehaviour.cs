@@ -14,9 +14,9 @@ public class SleepBehaviour : BaseBehaviour
     {
         if(_unit.Energy == 0)
         {
-            return (1 - _unit.Energy) + criticalScoreValue / 2f;
+            return (1 - _unit.Energy) + criticalScoreValue * behaviourPriority;
         }
-        return 1 - _unit.Energy;
+        return 1 - _unit.Energy * behaviourPriority;
     }
 
     protected override void DeprecatedBehaviour()
