@@ -17,7 +17,8 @@ public abstract class BaseBehaviour : MonoBehaviour
         Hunting,
         Move,
         Guarding,
-        Sleep
+        Sleep,
+        Incapacitated
     }
 
     public float currnetBehaviourScore;

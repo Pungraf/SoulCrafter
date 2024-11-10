@@ -89,6 +89,10 @@ public class PlayerInteractionSensor : MonoBehaviour
                     {
                         UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Pick Up");
                     }
+                    else if (closestTransform.CompareTag("Interractable"))
+                    {
+                        UIManager.Instance.EnableActionButtonPanel(UICamera.WorldToScreenPoint(closestTransform.position), "E", "Interract");
+                    }
                 }
             }
             else
