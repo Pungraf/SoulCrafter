@@ -19,25 +19,37 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    [SerializeField] RectTransform UIPanel;
-    [SerializeField] TextMeshProUGUI actionButtonText;
-    [SerializeField] TextMeshProUGUI actionNameText;
+    [SerializeField] private RectTransform ActionButtonPanel;
+    [SerializeField] private TextMeshProUGUI actionButtonText;
+    [SerializeField] private TextMeshProUGUI actionNameText;
+
+    [SerializeField] private RectTransform AltarPanel;
 
     public void EnableActionButtonPanel(Vector2 position, string buttonName, string actionName)
     {
-        UIPanel.position = position;
+        ActionButtonPanel.position = position;
         actionButtonText.text = buttonName;
         actionNameText.text = actionName;
-        UIPanel.gameObject.SetActive(true);
+        ActionButtonPanel.gameObject.SetActive(true);
     }
 
     public void DisableActionButtonPanel()
     {
-        UIPanel.gameObject.SetActive(false);
+        ActionButtonPanel.gameObject.SetActive(false);
     }
 
     public void SetActionButtonPanelPosition(Vector2 position)
     {
-        UIPanel.position = position;
+        ActionButtonPanel.position = position;
+    }
+
+    public void  AltarPanelChangeState()
+    {
+        AltarPanel.gameObject.SetActive(!AltarPanel.gameObject.activeSelf);
+    }
+
+    public void DisableAltarPanel()
+    {
+        AltarPanel.gameObject.SetActive(false) ;
     }
 }

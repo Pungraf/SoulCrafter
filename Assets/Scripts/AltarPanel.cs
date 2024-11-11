@@ -8,6 +8,6 @@ public class AltarPanel : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        Debug.Log("Interracted with panel of: " + altar.name);
+        UIManager.Instance.AltarPanelChangeState();
     }
 }
