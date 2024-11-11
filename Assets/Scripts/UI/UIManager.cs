@@ -23,7 +23,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionButtonText;
     [SerializeField] private TextMeshProUGUI actionNameText;
 
-    [SerializeField] private RectTransform AltarPanel;
+    [SerializeField] private RectTransform altarPanel;
+
+    public RectTransform AltarPanel
+    {
+        get { return altarPanel; } set { altarPanel = value; }
+    }
 
     public void EnableActionButtonPanel(Vector2 position, string buttonName, string actionName)
     {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23000401, g: 0.29198906, b: 0.3751601, a: 1}
+  m_IndirectSpecularColor: {r: 0.02861419, g: 0.2950731, b: 0.48665342, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2528,7 +2528,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.61541224, y: 0, z: 0, w: 0.7882055}
-  m_LocalPosition: {x: -71.8, y: 20.700005, z: 40.5}
+  m_LocalPosition: {x: -62.49, y: 20.700005, z: 14.879999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4015,6 +4015,7 @@ GameObject:
   - component: {fileID: 630167821}
   - component: {fileID: 630167823}
   - component: {fileID: 630167822}
+  - component: {fileID: 630167824}
   m_Layer: 5
   m_Name: AltarPanel
   m_TagString: Untagged
@@ -4079,6 +4080,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630167820}
   m_CullTransparentMesh: 1
+--- !u!114 &630167824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630167820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 10
+    m_Right: 0
+    m_Top: 20
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &642010134
 GameObject:
   m_ObjectHideFlags: 0
@@ -4647,7 +4674,7 @@ PrefabInstance:
     - target: {fileID: 5160033977487528432, guid: 08429da985b33e043b4d520ecf4ce8e9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -71.8
+      value: -62.49
       objectReference: {fileID: 0}
     - target: {fileID: 5160033977487528432, guid: 08429da985b33e043b4d520ecf4ce8e9,
         type: 3}
@@ -4657,7 +4684,7 @@ PrefabInstance:
     - target: {fileID: 5160033977487528432, guid: 08429da985b33e043b4d520ecf4ce8e9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.5
+      value: 19.88
       objectReference: {fileID: 0}
     - target: {fileID: 5160033977487528432, guid: 08429da985b33e043b4d520ecf4ce8e9,
         type: 3}
@@ -10461,7 +10488,7 @@ MonoBehaviour:
   ActionButtonPanel: {fileID: 1661601440}
   actionButtonText: {fileID: 1225782983}
   actionNameText: {fileID: 642010135}
-  AltarPanel: {fileID: 630167821}
+  altarPanel: {fileID: 630167821}
 --- !u!4 &1638752541
 Transform:
   m_ObjectHideFlags: 0
@@ -11377,7 +11404,7 @@ PrefabInstance:
     - target: {fileID: 8291344813399346514, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -62.50975
+      value: -58.88
       objectReference: {fileID: 0}
     - target: {fileID: 8291344813399346514, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -11387,7 +11414,7 @@ PrefabInstance:
     - target: {fileID: 8291344813399346514, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 48.000305
+      value: 22.38
       objectReference: {fileID: 0}
     - target: {fileID: 8291344813399346514, guid: 6927238bb3f158d4a9f43c34002f0f5b,
         type: 3}
@@ -13741,6 +13768,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 728590709813522460, guid: 81b11af6687569049b5ffdadbd5f4ae7,
+        type: 3}
+      propertyPath: subPanelPrefab
+      value: 
+      objectReference: {fileID: 9184726508556292162, guid: 313879051e79e6c469e0cec27ed8698c,
+        type: 3}
     - target: {fileID: 6761149221035971545, guid: 81b11af6687569049b5ffdadbd5f4ae7,
         type: 3}
       propertyPath: m_Name
