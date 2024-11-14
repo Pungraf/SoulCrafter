@@ -120,6 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeldUnit: {fileID: 0}
+  subPanelPrefab: {fileID: 9102362112827331660, guid: 313879051e79e6c469e0cec27ed8698c,
+    type: 3}
 --- !u!54 &8133494216767448664
 Rigidbody:
   m_ObjectHideFlags: 0

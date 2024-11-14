@@ -446,38 +446,8 @@ MonoBehaviour:
   genScore: 0
   targetedTransform: {fileID: 0}
   controller: {fileID: 0}
-  gens:
-    _lifeSpan: 7
-    _incubation: 1
-    _vitality: 100
-    _speed: 3
-    _strength: 1
-    _satiety: 2
-    _hydration: 2
-    _ingestion: 0.02
-    _urge: 2
-    _reach: 2
-    _perception: 50
-    _fecundity: 0.7
-    _attractiveness: 0.7
-    _gestation: 2
-    _fertility: 5
-  lastPartnerGenSample:
-    _lifeSpan: 0
-    _incubation: 0
-    _vitality: 0
-    _speed: 0
-    _strength: 0
-    _satiety: 0
-    _hydration: 0
-    _ingestion: 0
-    _urge: 0
-    _reach: 0
-    _perception: 0
-    _fecundity: 0
-    _attractiveness: 0
-    _gestation: 0
-    _fertility: 0
+  gens: {}
+  lastPartnerGenSample: {}
   IsFemale: 1
   species: 0
   isAdult: 0

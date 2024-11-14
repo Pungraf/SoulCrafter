@@ -166,11 +166,11 @@ public abstract class UnitController : MonoBehaviour, IInteractable
             Food corpse = Instantiate(unit.corpseUnitPrefab, transform.position, Quaternion.identity).GetComponent<Food>();
             if (!unit.IsAdult)
             {
-                corpse.Nutritiousness = unit.Gens.Vitality / 4f;
+                corpse.Nutritiousness = unit.Gens.Vitality.Value / 4f;
             }
             else
             {
-                corpse.Nutritiousness = unit.Gens.Vitality / 2f;
+                corpse.Nutritiousness = unit.Gens.Vitality.Value / 2f;
             }
             corpse.Initialize();
         }

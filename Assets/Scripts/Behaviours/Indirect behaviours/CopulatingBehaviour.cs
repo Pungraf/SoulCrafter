@@ -8,7 +8,7 @@ public class CopulatingBehaviour : BaseBehaviour
     public override void Behave(Action onBehaviourComplete)
     {
         BehaviourStart(onBehaviourComplete);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach.Value);
 
         foreach (var hitCollider in inInteractRadius)
         {
@@ -47,9 +47,9 @@ public class CopulatingBehaviour : BaseBehaviour
 
         if (_unit.IsFemale)
         {
-            if(_unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity > _unitController.Rand.NextDouble())
+            if(_unit.targetedTransform.GetComponent<Unit>().Gens.Fecundity.Value > _unitController.Rand.NextDouble())
             {
-                _unit.PregnancyCounter = _unit.Gens.Gestation;
+                _unit.PregnancyCounter = _unit.Gens.Gestation.Value;
                 _unit.IsPregnant = true;
             }
         }

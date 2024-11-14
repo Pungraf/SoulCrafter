@@ -9,7 +9,7 @@ public class HuntBehaviour : BaseBehaviour
     {
         BehaviourStart(onBehaviourComplete);
 
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
         Transform potentialHuntTarget = null;
         List<Transform> preyTargets = new List<Transform>();
 
@@ -46,7 +46,7 @@ public class HuntBehaviour : BaseBehaviour
         while (huntTarget != null)
         {
             //TODO: Change detection mask here, nad in other Overlaps
-            Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach);
+            Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach.Value);
             foreach (var hitCollider in inInteractRadius)
             {
                 Unit unitInRange = hitCollider.GetComponent<Unit>();
@@ -90,7 +90,7 @@ public class HuntBehaviour : BaseBehaviour
                 hasAppliedDamage = true;
                 if (targetUnit != null)
                 {
-                    if(targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength))
+                    if(targetUnit.GetComponent<Unit>().TakeDamage(_unit.Gens.Strength.Value))
                     {
                         _unit.Anger = 0f;
                     }

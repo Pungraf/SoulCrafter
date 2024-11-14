@@ -90,13 +90,62 @@ public abstract class Unit : MonoBehaviour
             Debug.LogError("Gen sample miisng !");
             return;
         }
+        //TODO: Change to inspector serializable verison with Odin
+        if(Gens.LifeSpan.Value == 0)
+        {
+            if(species == Species.Wisp)
+            {
+                Gens.LifeSpan = new SingleGen(SingleGen.GenType.LifeSpan, 7);
+                Gens.Incubation = new SingleGen(SingleGen.GenType.Incubation, 1);
+
+                Gens.Vitality = new SingleGen(SingleGen.GenType.Vitality, 100);
+                Gens.Speed = new SingleGen(SingleGen.GenType.Speed, 3);
+                Gens.Strength = new SingleGen(SingleGen.GenType.Strength, 1);
+
+                Gens.Satiety = new SingleGen(SingleGen.GenType.Satiety, 2);
+                Gens.Hydration = new SingleGen(SingleGen.GenType.Hydration, 2);
+                Gens.Ingestion = new SingleGen(SingleGen.GenType.Ingestion, 0.02f);
+                Gens.Urge = new SingleGen(SingleGen.GenType.Urge, 2);
+
+                Gens.Reach = new SingleGen(SingleGen.GenType.Reach, 2);
+                Gens.Perception = new SingleGen(SingleGen.GenType.Perception, 50);
+
+                Gens.Fecundity = new SingleGen(SingleGen.GenType.Fecundity, 0.7f);
+                Gens.Attractiveness = new SingleGen(SingleGen.GenType.Attractiveness, 0.7f);
+                Gens.Gestation = new SingleGen(SingleGen.GenType.Gestation, 2);
+                Gens.Fertility = new SingleGen(SingleGen.GenType.Fertility, 5);
+
+            }
+            else if(species == Species.Wolf)
+            {
+                Gens.LifeSpan = new SingleGen(SingleGen.GenType.LifeSpan, 30);
+                Gens.Incubation = new SingleGen(SingleGen.GenType.Incubation, 3);
+
+                Gens.Vitality = new SingleGen(SingleGen.GenType.Vitality, 300);
+                Gens.Speed = new SingleGen(SingleGen.GenType.Speed, 6);
+                Gens.Strength = new SingleGen(SingleGen.GenType.Strength, 3);
+
+                Gens.Satiety = new SingleGen(SingleGen.GenType.Satiety, 0.3f);
+                Gens.Hydration = new SingleGen(SingleGen.GenType.Hydration, 1);
+                Gens.Ingestion = new SingleGen(SingleGen.GenType.Ingestion, 0.01f);
+                Gens.Urge = new SingleGen(SingleGen.GenType.Urge, 1);
+
+                Gens.Reach = new SingleGen(SingleGen.GenType.Reach, 5);
+                Gens.Perception = new SingleGen(SingleGen.GenType.Perception, 80);
+
+                Gens.Fecundity = new SingleGen(SingleGen.GenType.Fecundity, 0.5f);
+                Gens.Attractiveness = new SingleGen(SingleGen.GenType.Attractiveness, 0.9f);
+                Gens.Gestation = new SingleGen(SingleGen.GenType.Gestation, 3);
+                Gens.Fertility = new SingleGen(SingleGen.GenType.Fertility, 3);
+            }
+        }
         if (IsAdult)
         {
-            controller.aIPath.maxSpeed = gens.Speed;
-            RemainingStageLifeTime = gens.LifeSpan;
+            controller.aIPath.maxSpeed = gens.Speed.Value;
+            RemainingStageLifeTime = gens.LifeSpan.Value;
             if(Health == 0)
             {
-                Health = Gens.Vitality;
+                Health = Gens.Vitality.Value;
                 controller.ResetTraversableTag();
             }
             if(Hunger == 0)
@@ -110,10 +159,10 @@ public abstract class Unit : MonoBehaviour
         }
         else
         {
-            controller.aIPath.maxSpeed = gens.Speed / 2;
-            Health = gens.Vitality / 2;
+            controller.aIPath.maxSpeed = gens.Speed.Value / 2;
+            Health = gens.Vitality.Value / 2;
             controller.ResetTraversableTag();
-            RemainingStageLifeTime = gens.LifeSpan * 0.05f;
+            RemainingStageLifeTime = gens.LifeSpan.Value * 0.05f;
             if (Hunger == 0)
             {
                 Hunger = 0.5f;
@@ -135,6 +184,8 @@ public abstract class Unit : MonoBehaviour
         Hunger = hunger;
         Thirst = thirst;
         controller.SetTraversableMask(traversableMask);
+
+        Debug.Log(Gens.Vitality.Value);
     }
 
     // Accesors
@@ -153,7 +204,7 @@ public abstract class Unit : MonoBehaviour
         get { return health; }
         set
         {
-            health = Mathf.Clamp(value, 0f, Gens.Vitality); 
+            health = Mathf.Clamp(value, 0f, Gens.Vitality.Value); 
             if(health <= 0f)
             {
                 controller.Death();
@@ -282,8 +333,8 @@ public abstract class Unit : MonoBehaviour
 
     private void UpdateParameters()
     {
-        Hunger -= gens.Satiety * counterUpdateSampling / sekPerDay;
-        Thirst -= gens.Hydration * counterUpdateSampling / sekPerDay;
+        Hunger -= gens.Satiety.Value * counterUpdateSampling / sekPerDay;
+        Thirst -= gens.Hydration.Value * counterUpdateSampling / sekPerDay;
         RemainingStageLifeTime -= counterUpdateSampling / sekPerDay;
 
         if (IsAdult)
@@ -294,7 +345,7 @@ public abstract class Unit : MonoBehaviour
             }
             else
             {
-                Urge += gens.Urge * counterUpdateSampling / sekPerDay;
+                Urge += gens.Urge.Value * counterUpdateSampling / sekPerDay;
             }
         }
 

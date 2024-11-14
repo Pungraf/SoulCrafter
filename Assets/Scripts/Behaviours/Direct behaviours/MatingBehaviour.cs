@@ -23,7 +23,7 @@ public class MatingBehaviour : BaseBehaviour
         }
         else
         {
-            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception);
+            Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
 
             Transform potentialMatingTarget = null;
             List<Transform> unitTargets = new List<Transform>();
@@ -82,7 +82,7 @@ public class MatingBehaviour : BaseBehaviour
         {
             double randomDouble = _unitController.Rand.NextDouble();
 
-            if (randomDouble < offeredMatting.Gens.Attractiveness)
+            if (randomDouble < offeredMatting.Gens.Attractiveness.Value)
             {
                 CancelInvoke("DeprecatedBehaviour");
                 Invoke("DeprecatedBehaviour", behaviourTimeLimit);
@@ -101,7 +101,7 @@ public class MatingBehaviour : BaseBehaviour
     {
         if (isActive && isAwatingPathCallback && !_unit.IsFemale)
         {
-            if(_unit.targetedTransform != null && Vector3.Distance(_unit.transform.position, _unit.targetedTransform.position) > _unit.Gens.Reach)
+            if(_unit.targetedTransform != null && Vector3.Distance(_unit.transform.position, _unit.targetedTransform.position) > _unit.Gens.Reach.Value)
             {
                 return;
             }

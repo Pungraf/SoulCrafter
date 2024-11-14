@@ -24,7 +24,7 @@ public class EggItem : Item, IUsable
     public void Use()
     {
         UnitEgg egg = Instantiate(eggPrefab, WorldManager.Instance.Player.transform.position, Quaternion.identity).GetComponent<UnitEgg>();
-        egg.Initialize(_genSample, _evolvedUnit, _genSample.Vitality);
+        egg.Initialize(_genSample, _evolvedUnit, _genSample.Vitality.Value);
     }
     public EggItem InitializeInstance(GenSample genSample, GameObject evolvedUnit)
     {

@@ -23,11 +23,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionButtonText;
     [SerializeField] private TextMeshProUGUI actionNameText;
 
+    [SerializeField] private RectTransform altarGensPanel;
     [SerializeField] private RectTransform altarPanel;
 
-    public RectTransform AltarPanel
+    public RectTransform AltarGensPanel
     {
-        get { return altarPanel; } set { altarPanel = value; }
+        get { return altarGensPanel; } set { altarGensPanel = value; }
     }
 
     public void EnableActionButtonPanel(Vector2 position, string buttonName, string actionName)
@@ -50,11 +51,11 @@ public class UIManager : MonoBehaviour
 
     public void  AltarPanelChangeState()
     {
-        AltarPanel.gameObject.SetActive(!AltarPanel.gameObject.activeSelf);
+        altarPanel.gameObject.SetActive(!altarPanel.gameObject.activeSelf);
     }
 
     public void DisableAltarPanel()
     {
-        AltarPanel.gameObject.SetActive(false) ;
+        altarPanel.gameObject.SetActive(false) ;
     }
 }

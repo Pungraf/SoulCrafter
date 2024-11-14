@@ -29,7 +29,7 @@ public class UnitPackManager : PackManager
 
     public void LookForPack()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, unit.Gens.Perception.Value);
         Transform potentialLeaderTransform = null;
         List<Transform> packTargets = new List<Transform>();
         List<Transform> freeTargets = new List<Transform>();

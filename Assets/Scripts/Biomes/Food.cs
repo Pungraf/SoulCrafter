@@ -23,7 +23,7 @@ public abstract class Food : MonoBehaviour
 
     public void Eat(Unit eatingUnit)
     {
-        float amountToConsume = eatingUnit.Gens.Ingestion;
+        float amountToConsume = eatingUnit.Gens.Ingestion.Value;
 
         if(currentNutritiousness > amountToConsume)
         {

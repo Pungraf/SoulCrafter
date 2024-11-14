@@ -11,79 +11,79 @@ public class GenMerger: GenSample
         set { _samplesCount = value; }
     }
 
-    public new float LifeSpan
+    public new SingleGen LifeSpan
     {
-        get { return _lifeSpan / _samplesCount; }
-        set { _lifeSpan += value; }
+        get { return new SingleGen(_lifeSpan.Type, _lifeSpan.Value / SamplesCount); }
+        set { _lifeSpan = new SingleGen(_lifeSpan.Type, _lifeSpan.Value + value.Value); }
     }
-    public new float Incubation
+    public new SingleGen Incubation
     {
-        get { return _incubation / _samplesCount; }
-        set { _incubation += value; }
+        get { return new SingleGen(_incubation.Type, _incubation.Value / SamplesCount); }
+        set { _incubation = new SingleGen(_incubation.Type, _incubation.Value + value.Value); }
     }
-    public new float Vitality
+    public new SingleGen Vitality
     {
-        get { return _vitality / _samplesCount; }
-        set { _vitality += value; }
+        get { return new SingleGen(_vitality.Type, _vitality.Value / SamplesCount); }
+        set { _vitality = new SingleGen(_vitality.Type, _vitality.Value + value.Value); }
     }
-    public new float Speed
+    public new SingleGen Speed
     {
-        get { return _speed / _samplesCount; }
-        set { _speed += value; }
+        get { return new SingleGen(_speed.Type, _speed.Value / SamplesCount); }
+        set { _speed = new SingleGen(_speed.Type, _speed.Value + value.Value); }
     }
-    public new float Strength
+    public new SingleGen Strength
     {
-        get { return _strength / _samplesCount; }
-        set { _strength += value; }
+        get { return new SingleGen(_strength.Type, _strength.Value / SamplesCount); }
+        set { _strength = new SingleGen(_strength.Type, _strength.Value + value.Value); }
     }
-    public new float Satiety
+    public new SingleGen Satiety
     {
-        get { return _satiety / _samplesCount; }
-        set { _satiety += value; }
+        get { return new SingleGen(_satiety.Type, _satiety.Value / SamplesCount); }
+        set { _satiety = new SingleGen(_satiety.Type, _satiety.Value + value.Value); }
     }
-    public new float Hydration
+    public new SingleGen Hydration
     {
-        get { return _hydration / _samplesCount; }
-        set { _hydration += value; }
+        get { return new SingleGen(_hydration.Type, _hydration.Value / SamplesCount); }
+        set { _hydration = new SingleGen(_hydration.Type, _hydration.Value + value.Value); }
     }
-    public new float Ingestion
+    public new SingleGen Ingestion
     {
-        get { return _ingestion / _samplesCount; }
-        set { _ingestion += value; }
+        get { return new SingleGen(_ingestion.Type, _ingestion.Value / SamplesCount); }
+        set { _ingestion = new SingleGen(_ingestion.Type, _ingestion.Value + value.Value); }
     }
-    public new float Urge
+    public new SingleGen Urge
     {
-        get { return _urge / _samplesCount; }
-        set { _urge += value; }
+        get { return new SingleGen(_urge.Type, _urge.Value / SamplesCount); }
+        set { _urge = new SingleGen(_urge.Type, _urge.Value + value.Value); }
     }
-    public new float Reach
+    public new SingleGen Reach
     {
-        get { return _reach / _samplesCount; }
-        set { _reach += value; }
+        get { return new SingleGen(_reach.Type, _reach.Value / SamplesCount); }
+        set { _reach = new SingleGen(_reach.Type, _reach.Value + value.Value); }
     }
-    public new float Perception
+    public new SingleGen Perception
     {
-        get { return _perception / _samplesCount; }
-        set { _perception += value; }
+        get { return new SingleGen(_perception.Type, _perception.Value / SamplesCount); }
+        set { _perception = new SingleGen(_perception.Type, _perception.Value + value.Value); }
     }
-    public new float Fecundity
+    public new SingleGen Fecundity
     {
-        get { return _fecundity / _samplesCount; }
-        set { _fecundity += value; }
+        get { return new SingleGen(_fecundity.Type, _fecundity.Value / SamplesCount); }
+        set { _fecundity = new SingleGen(_fecundity.Type, _fecundity.Value + value.Value); }
     }
-    public new float Attractiveness
+    public new SingleGen Attractiveness
     {
-        get { return _attractiveness / _samplesCount; }
-        set { _attractiveness += value; }
+        get { return new SingleGen(_attractiveness.Type, _attractiveness.Value / SamplesCount); }
+        set { _attractiveness = new SingleGen(_attractiveness.Type, _attractiveness.Value + value.Value); }
     }
-    public new float Gestation
+    public new SingleGen Gestation
     {
-        get { return _gestation / _samplesCount; }
-        set { _gestation += value; }
+        get { return new SingleGen(_gestation.Type, _gestation.Value / SamplesCount); }
+        set { _gestation = new SingleGen(_gestation.Type, _gestation.Value + value.Value); }
     }
-    public new float Fertility
+    public new SingleGen Fertility
     {
-        get { return _fertility / _samplesCount; }
-        set { _fertility += value; }
+        get { return new SingleGen(_fertility.Type, _fertility.Value / SamplesCount); }
+        set { _fertility = new SingleGen(_fertility.Type, _fertility.Value + value.Value); }
     }
 }

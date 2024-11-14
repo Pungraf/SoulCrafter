@@ -6,101 +6,101 @@ using UnityEngine;
 public class GenSample
 {
     //Time properties
-    [SerializeField] protected float _lifeSpan;
-    [SerializeField] protected float _incubation;
+    [SerializeField] protected SingleGen _lifeSpan;
+    [SerializeField] protected SingleGen _incubation;
 
     //Main properties
-    [SerializeField] protected float _vitality;
-    [SerializeField] protected float _speed;
-    [SerializeField] protected float _strength;
+    [SerializeField] protected SingleGen _vitality;
+    [SerializeField] protected SingleGen _speed;
+    [SerializeField] protected SingleGen _strength;
 
     //Needs properties
-    [SerializeField] protected float _satiety;
-    [SerializeField] protected float _hydration;
-    [SerializeField] protected float _ingestion;
-    [SerializeField] protected float _urge;
+    [SerializeField] protected SingleGen _satiety;
+    [SerializeField] protected SingleGen _hydration;
+    [SerializeField] protected SingleGen _ingestion;
+    [SerializeField] protected SingleGen _urge;
 
     //Interaction properties
-    [SerializeField] protected float _reach;
-    [SerializeField] protected float _perception;
+    [SerializeField] protected SingleGen _reach;
+    [SerializeField] protected SingleGen _perception;
 
     //Reproduction properties
-    [SerializeField] protected float _fecundity;
-    [SerializeField] protected float _attractiveness;
-    [SerializeField] protected float _gestation;
-    [SerializeField] protected float _fertility;
+    [SerializeField] protected SingleGen _fecundity;
+    [SerializeField] protected SingleGen _attractiveness;
+    [SerializeField] protected SingleGen _gestation;
+    [SerializeField] protected SingleGen _fertility;
 
-    public float LifeSpan
+    public SingleGen LifeSpan
     {
         get { return _lifeSpan; }
         set { _lifeSpan = value; }
     }
-    public float Incubation
+    public SingleGen Incubation
     {
         get { return _incubation; }
         set { _incubation = value; }
     }
-    public float Vitality
+    public SingleGen Vitality
     {
         get { return _vitality; }
         set { _vitality = value; }
     }
-    public float Speed
+    public SingleGen Speed
     {
         get { return _speed; }
         set { _speed = value; }
     }
-    public float Strength
+    public SingleGen Strength
     {
         get { return _strength; }
         set { _strength = value; }
     }
-    public float Satiety
+    public SingleGen Satiety
     {
         get { return _satiety; }
         set { _satiety = value; }
     }
-    public float Hydration
+    public SingleGen Hydration
     {
         get { return _hydration; }
         set { _hydration = value; }
     }
-    public float Ingestion
+    public SingleGen Ingestion
     {
         get { return _ingestion; }
         set { _ingestion = value; }
     }
-    public float Urge
+    public SingleGen Urge
     {
         get { return _urge; }
         set { _urge = value; }
     }
-    public float Reach
+    public SingleGen Reach
     {
         get { return _reach; }
         set { _reach = value; }
     }
-    public float Perception
+    public SingleGen Perception
     {
         get { return _perception; }
         set { _perception = value; }
     }
-    public float Fecundity
+    public SingleGen Fecundity
     {
         get { return _fecundity; }
         set { _fecundity = value; }
     }
-    public float Attractiveness
+    public SingleGen Attractiveness
     {
         get { return _attractiveness; }
         set { _attractiveness = value; }
     }
-    public float Gestation
+    public SingleGen Gestation
     {
         get { return _gestation; }
         set { _gestation = value; }
     }
-    public float Fertility
+    public SingleGen Fertility
     {
         get { return _fertility; }
         set { _fertility = value; }

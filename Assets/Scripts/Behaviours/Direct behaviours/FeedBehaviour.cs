@@ -93,8 +93,8 @@ public class FeedBehaviour : BaseBehaviour
 
     protected bool LookForFood()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach.Value);
 
         foreach (var hitCollider in inInteractRadius)
         {
@@ -163,8 +163,8 @@ public class FeedBehaviour : BaseBehaviour
 
     protected bool LookForDrink()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception);
-        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
+        Collider[] inInteractRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Reach.Value);
 
         foreach (var hitCollider in inInteractRadius)
         {

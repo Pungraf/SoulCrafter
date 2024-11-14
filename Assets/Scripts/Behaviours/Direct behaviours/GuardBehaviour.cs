@@ -14,7 +14,7 @@ public class GuardBehaviour : BaseBehaviour
 
         GuardingLocation = behaviourLocation;
 
-        Vector3 guardingLoaction = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed;
+        Vector3 guardingLoaction = UnityEngine.Random.insideUnitSphere * _unit.Gens.Speed.Value;
         guardingLoaction += GuardingLocation;
         _unitController.MoveUnit(guardingLoaction);
         IsGuarding = true;

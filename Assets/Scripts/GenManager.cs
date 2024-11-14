@@ -69,21 +69,52 @@ public class GenManager : MonoBehaviour
     {
         GenSample newGen = new GenSample();
 
-        newGen.LifeSpan = RandomOverRange(firstSample.LifeSpan, secondSample.LifeSpan, rangeModifier);
-        newGen.Incubation = RandomOverRange(firstSample.Incubation, secondSample.Incubation, rangeModifier);
-        newGen.Vitality = RandomOverRange(firstSample.Vitality, secondSample.Vitality, rangeModifier);
-        newGen.Speed = RandomOverRange(firstSample.Speed, secondSample.Speed, rangeModifier);
-        newGen.Strength = RandomOverRange(firstSample.Strength, secondSample.Strength, rangeModifier);
-        newGen.Satiety = RandomOverRange(firstSample.Satiety, secondSample.Satiety, rangeModifier);
-        newGen.Hydration = RandomOverRange(firstSample.Hydration, secondSample.Hydration, rangeModifier);
-        newGen.Ingestion = RandomOverRange(firstSample.Ingestion, secondSample.Ingestion, rangeModifier);
-        newGen.Urge = RandomOverRange(firstSample.Urge, secondSample.Urge, rangeModifier);
-        newGen.Reach = RandomOverRange(firstSample.Reach, secondSample.Reach, rangeModifier);
-        newGen.Perception = RandomOverRange(firstSample.Perception, secondSample.Perception, rangeModifier);
-        newGen.Fecundity = RandomOverRange(firstSample.Fecundity, secondSample.Fecundity, rangeModifier);
-        newGen.Attractiveness = RandomOverRange(firstSample.Attractiveness, secondSample.Attractiveness, rangeModifier);
-        newGen.Gestation = RandomOverRange(firstSample.Gestation, secondSample.Gestation, rangeModifier);
-        newGen.Fertility = RandomOverRange(firstSample.Fertility, secondSample.Fertility, rangeModifier);
+        newGen.LifeSpan = new SingleGen
+                        (SingleGen.GenType.LifeSpan,
+                        RandomOverRange(firstSample.LifeSpan.Value, secondSample.LifeSpan.Value, rangeModifier));
+        newGen.Incubation = new SingleGen
+                        (SingleGen.GenType.Incubation,
+                        RandomOverRange(firstSample.Incubation.Value, secondSample.Incubation.Value, rangeModifier));
+        newGen.Vitality = new SingleGen
+                        (SingleGen.GenType.Vitality,
+                        RandomOverRange(firstSample.Vitality.Value, secondSample.Vitality.Value, rangeModifier));
+        newGen.Speed = new SingleGen
+                        (SingleGen.GenType.Speed,
+                        RandomOverRange(firstSample.Speed.Value, secondSample.Speed.Value, rangeModifier));
+        newGen.Strength = new SingleGen
+                        (SingleGen.GenType.Strength,
+                        RandomOverRange(firstSample.Strength.Value, secondSample.Strength.Value, rangeModifier));
+        newGen.Satiety = new SingleGen
+                        (SingleGen.GenType.Satiety,
+                        RandomOverRange(firstSample.Satiety.Value, secondSample.Satiety.Value, rangeModifier));
+        newGen.Hydration = new SingleGen
+                        (SingleGen.GenType.Hydration,
+                        RandomOverRange(firstSample.Hydration.Value, secondSample.Hydration.Value, rangeModifier));
+        newGen.Ingestion = new SingleGen
+                        (SingleGen.GenType.Ingestion,
+                        RandomOverRange(firstSample.Ingestion.Value, secondSample.Ingestion.Value, rangeModifier));
+        newGen.Urge = new SingleGen
+                        (SingleGen.GenType.Urge,
+                        RandomOverRange(firstSample.Urge.Value, secondSample.Urge.Value, rangeModifier));
+        newGen.Reach = new SingleGen
+                        (SingleGen.GenType.Reach,
+                        RandomOverRange(firstSample.Reach.Value, secondSample.Reach.Value, rangeModifier));
+        newGen.Perception = new SingleGen
+                        (SingleGen.GenType.Perception,
+                        RandomOverRange(firstSample.Perception.Value, secondSample.Perception.Value, rangeModifier));
+        newGen.Fecundity = new SingleGen
+                        (SingleGen.GenType.Fecundity,
+                        RandomOverRange(firstSample.Fecundity.Value, secondSample.Fecundity.Value, rangeModifier));
+        newGen.Attractiveness = new SingleGen
+                        (SingleGen.GenType.Attractiveness,
+                        RandomOverRange(firstSample.Attractiveness.Value, secondSample.Attractiveness.Value, rangeModifier));
+        newGen.Gestation = new SingleGen
+                        (SingleGen.GenType.Gestation,
+                        RandomOverRange(firstSample.Gestation.Value, secondSample.Gestation.Value, rangeModifier));
+        newGen.Fertility = new SingleGen
+                        (SingleGen.GenType.Fertility,
+                        RandomOverRange(firstSample.Fertility.Value, secondSample.Fertility.Value, rangeModifier));
+
         return newGen;
     }
 

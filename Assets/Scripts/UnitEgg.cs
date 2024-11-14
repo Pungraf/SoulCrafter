@@ -43,7 +43,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
             _gens = gen;
         }
         _durability = durability;
-        _hatchingTime = gen.Incubation;
+        _hatchingTime = gen.Incubation.Value;
         evolvedUnitPrefab = evolveUnit;
 
     }
@@ -58,7 +58,7 @@ public abstract class UnitEgg : MonoBehaviour, IInteractable
         {
             Unit evolvedUnit = Instantiate(evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
             UnitController evolvedUnitController = evolvedUnit.controller;
-            evolvedUnit.Initialize(Gens, Gens.Vitality, evolvedUnitController.seeker.traversableTags);
+            evolvedUnit.Initialize(Gens, Gens.Vitality.Value, evolvedUnitController.seeker.traversableTags);
             Destroy(gameObject);
         }
     }

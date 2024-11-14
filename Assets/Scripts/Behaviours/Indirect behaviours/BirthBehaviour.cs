@@ -10,7 +10,7 @@ public class BirthBehaviour : BaseBehaviour
         BehaviourStart(onBehaviourComplete);
         if (_unit.IsPregnant && _unit.IsFemale)
         {
-            int offspringQuantity = _unitController.Rand.Next(1, (int)_unit.Gens.Fertility);
+            int offspringQuantity = _unitController.Rand.Next(1, (int)_unit.Gens.Fertility.Value);
 
             for (int i = 0; i < offspringQuantity; i++)
             {
@@ -34,7 +34,7 @@ public class BirthBehaviour : BaseBehaviour
                 }
                 //TODO: Spread spawn location around mother
                 offspring = Instantiate(_unit.eggPrefab, spawnPosition, Quaternion.identity).GetComponent<UnitEgg>();
-                offspring.Initialize(newGen, evolvingPrefab, newGen.Vitality);
+                offspring.Initialize(newGen, evolvingPrefab, newGen.Vitality.Value);
             }
 
             _unit.IsPregnant = false;

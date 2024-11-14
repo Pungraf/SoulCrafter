@@ -33,7 +33,7 @@ public class RunawayBehaviour : BaseBehaviour
 
     protected bool SensedDanger()
     {
-        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception);
+        Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
         Transform predatorUnit = SensePredator(inSenseRadius);
         if (predatorUnit != null)
         {
@@ -72,7 +72,7 @@ public class RunawayBehaviour : BaseBehaviour
     {
         _unit.targetedTransform = runAwayTarget;
 
-        Vector3 directionAway = (transform.position - runAwayTarget.position).normalized * _unit.Gens.Speed * 10f;
+        Vector3 directionAway = (transform.position - runAwayTarget.position).normalized * _unit.Gens.Speed.Value * 10f;
         directionAway += transform.position;
         isAwatingPathCallback = true;
         _unitController.MoveUnit(directionAway);

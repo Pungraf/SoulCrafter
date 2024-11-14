@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Altar : MonoBehaviour
 {
     public Unit HeldUnit;
     public GameObject subPanelPrefab;
 
-    private RectTransform altarPanel;
+    private RectTransform altarGensPanel;
 
     private void Start()
     {
-        altarPanel = UIManager.Instance.AltarPanel;
+        altarGensPanel = UIManager.Instance.AltarGensPanel;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,6 +32,7 @@ public class Altar : MonoBehaviour
         if(HeldUnit == unit)
         {
             HeldUnit = null;
+            ClearAltarPanel();
         }
     }
 
@@ -51,31 +53,60 @@ public class Altar : MonoBehaviour
 
     private void FillAltarPanelWithGens(GenSample genSample)
     {
-        if(altarPanel != null)
+        if(altarGensPanel != null)
         {
             FieldInfo[] properties = typeof(GenSample).GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
 
-            Debug.Log(properties.Length);
-
             foreach (var property in properties)
             {
-                if (property.FieldType == typeof(float))
+                if (property.FieldType == typeof(SingleGen))
                 {
-                    float genValue = (float)property.GetValue(genSample);
-                    string value = property.Name + ": " + genValue;
-                    CreateSubPanel(value);
+                    SingleGen singleGen = (SingleGen)property.GetValue(genSample);
+                    float genValue = singleGen.Value;
+                    string value = singleGen.Type.ToString();
+                    CreateSubPanel(value, genValue, singleGen);
                 }
             }
         }
     }
 
-    void CreateSubPanel(string text)
+    private void ClearAltarPanel()
     {
-        GameObject subPanel = Instantiate(subPanelPrefab, altarPanel);
-        TextMeshProUGUI panelText = subPanel.GetComponentInChildren<TextMeshProUGUI>();
-        if (panelText != null)
+        if (altarGensPanel.childCount == 0) return;
+
+        for (int i = altarGensPanel.childCount - 1; i >= 0; i--)
         {
-            panelText.text = text.ToString();
+            Destroy(altarGensPanel.GetChild(i).gameObject);
+        }
+    }
+
+    private void CreateSubPanel(string genName, float genValue, SingleGen panelGen)
+    {
+        GenPanelUI subPanel = Instantiate(subPanelPrefab, altarGensPanel).GetComponent<GenPanelUI>();
+
+        subPanel.SetGenPanel(genName, genValue, panelGen);
+    }
+
+    public void Sacrifice()
+    {
+        GenPanelUI selectedGenPanel = null;
+        foreach(Toggle toggle in altarGensPanel.GetComponentsInChildren<Toggle>())
+        {
+            if (toggle.isOn)
+            {
+                selectedGenPanel = toggle.GetComponent<GenPanelUI>();
+                break;
+            }
+        }
+        if(selectedGenPanel != null)
+        {
+            Debug.Log("Sacrificed " + HeldUnit + " for " + selectedGenPanel.GetGenName() + " with value: " + selectedGenPanel.GetGenValue());
+            ClearAltarPanel();
+            HeldUnit.Die();
+        }
+        else
+        {
+            Debug.Log("No gen to sacrifice.");
         }
     }
 }
