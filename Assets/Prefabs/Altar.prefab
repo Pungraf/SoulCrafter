@@ -119,8 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fda29aefbf2904fbcbf70f30e17d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  genShardPrefab: {fileID: 7565534335901221425, guid: 8efd020bfa3a535489163c574c6cb561,
+    type: 3}
   HeldUnit: {fileID: 0}
-  subPanelPrefab: {fileID: 9102362112827331660, guid: 313879051e79e6c469e0cec27ed8698c,
+  subPanelPrefab: {fileID: 6406431976850900114, guid: 313879051e79e6c469e0cec27ed8698c,
     type: 3}
 --- !u!54 &8133494216767448664
 Rigidbody:

@@ -11,6 +11,11 @@ public class GenPanelUI : MonoBehaviour
 
     private SingleGen panelGen;
 
+    public SingleGen PanelGen
+    {
+        get { return panelGen; }
+    }
+
     public void SetGenPanel(string genName, float genValue, SingleGen panelGen)
     {
         this.genName.text = genName;

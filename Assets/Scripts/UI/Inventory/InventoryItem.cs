@@ -13,13 +13,13 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [HideInInspector] public Transform parentAfterDrag;
     [SerializeField] private string imageName;
     [SerializeField] private TextMeshProUGUI countText;
+    [SerializeField] private Item item;
 
     private Button_UI buttonUI;
 
 
     public Image image;
 
-    private Item item;
     private int count = 1;
 
     private void Start()

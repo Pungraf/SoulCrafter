@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Altar : MonoBehaviour
 {
+    [SerializeField] private GameObject genShardPrefab;
+
     public Unit HeldUnit;
     public GameObject subPanelPrefab;
 
@@ -101,6 +103,9 @@ public class Altar : MonoBehaviour
         if(selectedGenPanel != null)
         {
             Debug.Log("Sacrificed " + HeldUnit + " for " + selectedGenPanel.GetGenName() + " with value: " + selectedGenPanel.GetGenValue());
+            GenShard genShard = Instantiate(genShardPrefab, HeldUnit.transform.position, Quaternion.identity).GetComponent<GenShard>();
+            genShard.Initialize(selectedGenPanel.PanelGen);
+
             ClearAltarPanel();
             HeldUnit.Die();
         }
