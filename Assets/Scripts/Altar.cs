@@ -21,6 +21,10 @@ public class Altar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.GetComponent<Food>() != null)
+        {
+            other.GetComponent<Food>().CurrentLifeTime = 0.01f;
+        }
         Unit unit = other.GetComponent<Unit>();
         if(unit != null && HeldUnit == null)
         {

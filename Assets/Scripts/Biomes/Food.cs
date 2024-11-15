@@ -21,6 +21,12 @@ public abstract class Food : MonoBehaviour
     [SerializeField] protected float currentLifeTime;
     [SerializeField] protected float currentNutritiousness;
 
+    public float CurrentLifeTime
+    {
+        get { return currentLifeTime; }
+        set { currentLifeTime = value; }
+    }
+
     public void Eat(Unit eatingUnit)
     {
         float amountToConsume = eatingUnit.Gens.Ingestion.Value;
