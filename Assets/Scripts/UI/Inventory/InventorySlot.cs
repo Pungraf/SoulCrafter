@@ -5,36 +5,43 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    public InventoryItem itemInSlot;
+    [SerializeField] protected InventoryItem itemInSlot;
 
+    public virtual InventoryItem ItemInSlot
+    {
+        set { itemInSlot = value; }
+        get { return itemInSlot; }
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
+        GameObject dropped = eventData.pointerDrag;
+        InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
+        if (!AvalaibleItemType(inventoryItem))
+        {
+            return;
+        }
         if (transform.childCount == 0)
         {
-            GameObject dropped = eventData.pointerDrag;
-            InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
             if (inventoryItem != null)
             {
                 inventoryItem.parentAfterDrag = transform;
                 SetItemToSlot(inventoryItem);
             }
         }
-        else if (transform.childCount == 1 && (itemInSlot.Count < itemInSlot.GetItem().MaxStack))
+        else if (transform.childCount == 1 && (ItemInSlot.Count < ItemInSlot.GetItem().MaxStack))
         {
-            GameObject dropped = eventData.pointerDrag;
-            InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
-            if (inventoryItem.GetType() == itemInSlot.GetType() && inventoryItem.GetItem().IsStackable)
+            if (inventoryItem.GetType() == ItemInSlot.GetType() && inventoryItem.GetItem().IsStackable)
             {
-                if (inventoryItem.Count + itemInSlot.Count <= itemInSlot.GetItem().MaxStack)
+                if (inventoryItem.Count + ItemInSlot.Count <= ItemInSlot.GetItem().MaxStack)
                 {
-                    itemInSlot.Count++;
+                    ItemInSlot.Count++;
                     Destroy(dropped);
                 }
                 else
                 {
-                    int amountOverMaxStack = itemInSlot.Count + inventoryItem.Count - itemInSlot.GetItem().MaxStack;
-                    itemInSlot.Count = itemInSlot.GetItem().MaxStack;
+                    int amountOverMaxStack = ItemInSlot.Count + inventoryItem.Count - ItemInSlot.GetItem().MaxStack;
+                    ItemInSlot.Count = ItemInSlot.GetItem().MaxStack;
                     inventoryItem.Count = amountOverMaxStack;
                 }
             }
@@ -43,11 +50,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public virtual void SetItemToSlot(InventoryItem inventoryItem)
     {
-        itemInSlot = inventoryItem;
+        ItemInSlot = inventoryItem;
     }
 
     public InventoryItem GetItemInSlot()
     {
-        return itemInSlot;
+        return ItemInSlot;
+    }
+
+    protected virtual bool AvalaibleItemType(InventoryItem dropedItem)
+    {
+        return true;
     }
 }

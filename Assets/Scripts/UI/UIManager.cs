@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RectTransform altarGensPanel;
     [SerializeField] private RectTransform altarPanel;
 
+    [SerializeField] private RectTransform spliceCorePanel;
+
     public RectTransform AltarGensPanel
     {
         get { return altarGensPanel; } set { altarGensPanel = value; }
@@ -51,11 +53,35 @@ public class UIManager : MonoBehaviour
 
     public void  AltarPanelChangeState()
     {
+        if(!altarPanel.gameObject.activeSelf)
+        {
+            DisableAllWindows();
+        }
         altarPanel.gameObject.SetActive(!altarPanel.gameObject.activeSelf);
     }
 
     public void DisableAltarPanel()
     {
         altarPanel.gameObject.SetActive(false) ;
+    }
+
+    public void SpliceCorePanelChangeState()
+    {
+        if(!spliceCorePanel.gameObject.activeSelf)
+        {
+            DisableAllWindows();
+        }
+        spliceCorePanel.gameObject.SetActive(!spliceCorePanel.gameObject.activeSelf);
+    }
+
+    public void DisableSpliceCorePanel()
+    {
+        spliceCorePanel.gameObject.SetActive(false);
+    }
+
+    public void DisableAllWindows()
+    {
+        DisableSpliceCorePanel();
+        DisableAltarPanel();
     }
 }
