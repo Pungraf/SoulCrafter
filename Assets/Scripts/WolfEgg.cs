@@ -9,4 +9,9 @@ public class WolfEgg : UnitEgg
         base.Initialize(gen, evolveUnit, durablity);
         transform.SetParent(SoulsManager.Instance.WolfsHolder);
     }
+
+    protected override GenSample DefaultGenSample()
+    {
+        return SoulsManager.Instance.DefaultWolfGen;
+    }
 }

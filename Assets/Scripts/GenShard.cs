@@ -8,20 +8,27 @@ public class GenShard : MonoBehaviour, IInteractable
 
     private SingleGen gen;
 
+    public GenItem GenItem
+    {
+        get { return genItem; }
+        set { genItem = value; }
+    }
+
     public SingleGen Gen
     {
         get { return gen; }
         set { gen = value; }
     }
 
-    public virtual void Initialize(SingleGen gen)
+    public virtual void Initialize(SingleGen gen, GenItem genItem)
     {
         Gen = gen;
+        this.genItem = genItem;
     }
 
     public void Interact(PlayerController player)
     {
-        genItem.Gen = this.Gen;
+        genItem.Gen = Gen;
 
         InventoryManager.Instance.AddItem(genItem.InitializeInstance(Gen));
         Destroy(gameObject);

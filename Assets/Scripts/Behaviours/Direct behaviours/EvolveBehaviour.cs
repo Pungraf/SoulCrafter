@@ -14,7 +14,7 @@ public class EvolveBehaviour : BaseBehaviour
         else
         {
             Unit evolvedUnit = Instantiate(_unit.evolvedUnitPrefab, transform.position, Quaternion.identity).GetComponent<Unit>();
-            evolvedUnit.Initialize(_unit.Gens, _unit.Health, _unitController.seeker.traversableTags, _unit.Hunger, _unit.Thirst);
+            evolvedUnit.Initialize(_unit.Gens, _unit.Health, _unit.Hunger, _unit.Thirst);
 
             if (_unitController.PackManager.HasPack)
             {

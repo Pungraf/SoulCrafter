@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hatchingTime: 0
   _durability: 0
-  eggItem: {fileID: 11400000, guid: ff08de2c0d5b29d4190a251494d362f9, type: 2}
+  eggItem: {fileID: 11400000, guid: dde24cef508d2724db60d7a54833e56b, type: 2}
   corpseUnitPrefab: {fileID: 0}
 --- !u!136 &4399739714417663818
 CapsuleCollider:

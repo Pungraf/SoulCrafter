@@ -17,3 +17,5 @@ MonoBehaviour:
   spriteName: WispEgg
   eggPrefab: {fileID: 2681955293210169971, guid: 9de444c84fbe37e4abf04a3cb789b4ee,
     type: 3}
+  eggVisualsPrefab: {fileID: 2681955293210169971, guid: 0a20af9b530d6d24cb09f3e29ed33491,
+    type: 3}

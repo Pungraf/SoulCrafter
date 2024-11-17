@@ -17,3 +17,5 @@ MonoBehaviour:
   spriteName: WolfEgg
   eggPrefab: {fileID: 2681955293210169971, guid: 7641af9f996f59541851977162b41cc4,
     type: 3}
+  eggVisualsPrefab: {fileID: 2681955293210169971, guid: 21babfa965251e74ba4f54b1e8b4b07d,
+    type: 3}

@@ -21,7 +21,7 @@ public class GenItem : Item, IUsable
     public void Use()
     {
         GenShard genShard = Instantiate(genShardPrefab, WorldManager.Instance.Player.transform.position, Quaternion.identity).GetComponent<GenShard>();
-        genShard.Initialize(Gen);
+        genShard.Initialize(Gen, InitializeInstance(gen));
     }
 
     public GenItem InitializeInstance(SingleGen singleGen)
@@ -32,7 +32,7 @@ public class GenItem : Item, IUsable
         instace.SpriteName = SpriteName;
 
         instace.genShardPrefab = genShardPrefab;
-        instace.gen = gen;
+        instace.gen = singleGen;
 
         instace.GenName = singleGen.Type.ToString();
         instace.GenValue = singleGen.Value;

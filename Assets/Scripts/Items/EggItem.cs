@@ -6,6 +6,8 @@ using UnityEngine;
 public class EggItem : Item, IUsable
 {
     [SerializeField] private GameObject eggPrefab;
+    [SerializeField] private GameObject eggVisualsPrefab;
+
     private GenSample _genSample;
     private GameObject _evolvedUnit;
 
@@ -21,6 +23,18 @@ public class EggItem : Item, IUsable
         set { _evolvedUnit = value; }
     }
 
+    public GameObject EggPrefab
+    {
+        get { return eggPrefab; }
+        set { eggPrefab = value; }
+    }
+
+    public GameObject EggVisualsPrefab
+    {
+        get { return eggVisualsPrefab; }
+        set { eggVisualsPrefab = value; }
+    }
+
     public void Use()
     {
         UnitEgg egg = Instantiate(eggPrefab, WorldManager.Instance.Player.transform.position, Quaternion.identity).GetComponent<UnitEgg>();
@@ -34,6 +48,7 @@ public class EggItem : Item, IUsable
         instace.SpriteName = SpriteName;
 
         instace.eggPrefab = eggPrefab;
+        instace.eggVisualsPrefab = eggVisualsPrefab;
         instace.GenSample = genSample;
         instace.EvolvedUnit = evolvedUnit;
 

@@ -9,7 +9,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public virtual InventoryItem ItemInSlot
     {
-        set { itemInSlot = value; }
+        set
+        {
+            itemInSlot = value; 
+            if(value != null)
+            {
+                ItemInSlot.ButtonIsActive = true;
+            }
+        }
         get { return itemInSlot; }
     }
 

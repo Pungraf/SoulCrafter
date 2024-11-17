@@ -108,7 +108,7 @@ public class Altar : MonoBehaviour
         {
             Debug.Log("Sacrificed " + HeldUnit + " for " + selectedGenPanel.GetGenName() + " with value: " + selectedGenPanel.GetGenValue());
             GenShard genShard = Instantiate(genShardPrefab, HeldUnit.transform.position, Quaternion.identity).GetComponent<GenShard>();
-            genShard.Initialize(selectedGenPanel.PanelGen);
+            genShard.Initialize(selectedGenPanel.PanelGen, genShard.GenItem);
 
             ClearAltarPanel();
             HeldUnit.Die();

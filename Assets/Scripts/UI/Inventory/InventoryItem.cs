@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static CodeMonkey.Utils.Button_UI;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -15,8 +16,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private Item item;
 
+    public bool ButtonIsActive;
     private Button_UI buttonUI;
-
+    InterceptActionHandler interceptHandler;
 
     public Image image;
 
@@ -30,6 +32,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             UseItem();
         };
+        interceptHandler = buttonUI.InterceptAction("MouseRightClickFunc", () =>
+        {
+            // Condition to allow or block MouseRightClickFunc
+            return ButtonIsActive;
+        });
     }
 
     public void OnBeginDrag(PointerEventData eventData)

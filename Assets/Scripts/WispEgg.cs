@@ -9,4 +9,9 @@ public class WispEgg : UnitEgg
         base.Initialize(gen, evolveUnit, durablity);
         transform.SetParent(SoulsManager.Instance.WispsHolder);
     }
+
+    protected override GenSample DefaultGenSample()
+    {
+        return SoulsManager.Instance.DefaultWispGen;
+    }
 }
