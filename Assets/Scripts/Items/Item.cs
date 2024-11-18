@@ -4,9 +4,19 @@ using UnityEngine;
 
 public abstract class Item : ScriptableObject
 {
+    [SerializeField] private string itemName;
     [SerializeField] private bool isStackable;
     [SerializeField] private int maxStack;
     [SerializeField] private string spriteName;
+
+    public string ItemName
+    {
+        get => itemName;
+        set
+        {
+            itemName = value;
+        }
+    }
 
     public bool IsStackable
     {
@@ -43,4 +53,6 @@ public abstract class Item : ScriptableObject
     {
         return CreateInstance<Item>();
     }
+
+    public abstract string ItemDescription();
 }

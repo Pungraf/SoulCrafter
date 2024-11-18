@@ -1,4 +1,5 @@
 using CodeMonkey.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -37,6 +38,25 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             // Condition to allow or block MouseRightClickFunc
             return ButtonIsActive;
         });
+
+        buttonUI.MouseOverOnceFunc = () =>
+        {
+            ShowItemDescriptionPanel();
+        };
+        buttonUI.MouseOutOnceFunc = () =>
+        {
+            HideItemDescriptionPanel();
+        };
+    }
+
+    private void HideItemDescriptionPanel()
+    {
+        UIManager.Instance.DisableItemDescriptionPanel();
+    }
+
+    private void ShowItemDescriptionPanel()
+    {
+        UIManager.Instance.EnableItemDescriptionPanel(transform.position, Item.ItemName, Item.ItemDescription());
     }
 
     public void OnBeginDrag(PointerEventData eventData)

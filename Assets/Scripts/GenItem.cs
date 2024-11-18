@@ -27,6 +27,7 @@ public class GenItem : Item, IUsable
     public GenItem InitializeInstance(SingleGen singleGen)
     {
         GenItem instace = ScriptableObject.CreateInstance<GenItem>();
+        instace.ItemName = ItemName;
         instace.IsStackable = IsStackable;
         instace.MaxStack = MaxStack;
         instace.SpriteName = SpriteName;
@@ -38,5 +39,10 @@ public class GenItem : Item, IUsable
         instace.GenValue = singleGen.Value;
 
         return instace;
+    }
+
+    public override string ItemDescription()
+    {
+        return Gen.Type.ToString() + " ; " + Mathf.Round(Gen.Value * 100f) / 100f; ;
     }
 }

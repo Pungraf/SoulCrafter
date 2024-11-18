@@ -68,7 +68,7 @@ public class Altar : MonoBehaviour
                 if (property.FieldType == typeof(SingleGen))
                 {
                     SingleGen singleGen = (SingleGen)property.GetValue(genSample);
-                    float genValue = singleGen.Value;
+                    float genValue = Mathf.Round(singleGen.Value * 100f) / 100f;
                     string value = singleGen.Type.ToString();
                     CreateSubPanel(value, genValue, singleGen);
                 }

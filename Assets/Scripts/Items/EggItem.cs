@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable object/Item/Egg")]
@@ -43,6 +44,7 @@ public class EggItem : Item, IUsable
     public EggItem InitializeInstance(GenSample genSample, GameObject evolvedUnit)
     {
         EggItem instace = ScriptableObject.CreateInstance<EggItem>();
+        instace.ItemName = ItemName;
         instace.IsStackable = IsStackable;
         instace.MaxStack = MaxStack;
         instace.SpriteName = SpriteName;
@@ -53,5 +55,26 @@ public class EggItem : Item, IUsable
         instace.EvolvedUnit = evolvedUnit;
 
         return instace;
+    }
+
+    public override string ItemDescription()
+    {
+        string description = "";
+
+        FieldInfo[] properties = typeof(GenSample).GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+
+        foreach (var property in properties)
+        {
+            if (property.FieldType == typeof(SingleGen))
+            {
+                SingleGen singleGen = (SingleGen)property.GetValue(GenSample);
+                float genValue = Mathf.Round(singleGen.Value * 100f) / 100f;
+                string value = singleGen.Type.ToString();
+
+                description += value + " : " + genValue + System.Environment.NewLine;
+            }
+        }
+
+        return description;
     }
 }

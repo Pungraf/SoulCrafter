@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25d946d6febfbb409d4ce84c66c5733, type: 3}
   m_Name: GenShard
   m_EditorClassIdentifier: 
+  itemName: Gen shard
   isStackable: 0
   maxStack: 1
   spriteName: GenShard

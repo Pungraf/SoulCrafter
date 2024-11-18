@@ -23,10 +23,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionButtonText;
     [SerializeField] private TextMeshProUGUI actionNameText;
 
+    [SerializeField] private RectTransform itemDescriptionPanel;
+
     [SerializeField] private RectTransform altarGensPanel;
     [SerializeField] private RectTransform altarPanel;
 
     [SerializeField] private RectTransform spliceCorePanel;
+
+    private ItemDescriptionUI itemDescriptionUI;
+
+    private void Start()
+    {
+        itemDescriptionUI = itemDescriptionPanel.GetComponent<ItemDescriptionUI>();
+    }
 
     public RectTransform AltarGensPanel
     {
@@ -49,6 +58,17 @@ public class UIManager : MonoBehaviour
     public void SetActionButtonPanelPosition(Vector2 position)
     {
         ActionButtonPanel.position = position;
+    }
+
+    public void EnableItemDescriptionPanel(Vector2 position, string itemName, string itemDescription)
+    {
+        itemDescriptionPanel.gameObject.SetActive(true);
+        itemDescriptionUI.SetupItemDescriptioPanel(position, itemName, itemDescription);
+    }
+
+    public void DisableItemDescriptionPanel()
+    {
+        itemDescriptionPanel.gameObject.SetActive(false);
     }
 
     public void  AltarPanelChangeState()

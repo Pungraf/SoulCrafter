@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6aafb7fa7c9914eb34855269d1e9e2, type: 3}
   m_Name: WolfEgg
   m_EditorClassIdentifier: 
+  itemName: Wolf egg
   isStackable: 0
   maxStack: 0
   spriteName: WolfEgg

@@ -59,12 +59,9 @@ public class SpliceCore : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log("Life value befor mod: " + eggInCore.GenSample.LifeSpan.Value);
-
             ModifieGenValue(eggInCore.GenSample, genInCore.Gen);
 
             Destroy(singleGenSlot.ItemInSlot.gameObject);
-            Debug.Log("Life value after mod: " + eggInCore.GenSample.LifeSpan.Value);
         }
     }
 
