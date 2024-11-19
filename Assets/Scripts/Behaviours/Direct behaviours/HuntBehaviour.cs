@@ -12,7 +12,6 @@ public class HuntBehaviour : BaseBehaviour
         Collider[] inSenseRadius = Physics.OverlapSphere(transform.position, _unit.Gens.Perception.Value);
         Transform potentialHuntTarget = null;
         List<Transform> preyTargets = new List<Transform>();
-
         foreach (var hitCollider in inSenseRadius)
         {
             //Build lists with proper types

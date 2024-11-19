@@ -8,7 +8,6 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
-    [SerializeField] private GameObject InventoryGO;
     [SerializeField] private InventorySlot[] inventorySlots;
     [SerializeField] private GameObject inventoryItemPrefab;
 
@@ -54,7 +53,7 @@ public class InventoryManager : MonoBehaviour
 
     public void ToggleInventory()
     {
-        InventoryGO.SetActive(!InventoryGO.activeSelf);
+        UIManager.Instance.ToggleInventoryPanel();
     }
 
     public bool AddItem(Item item)

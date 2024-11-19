@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    [SerializeField] private GameObject InventoryGO;
+
     [SerializeField] private RectTransform ActionButtonPanel;
     [SerializeField] private TextMeshProUGUI actionButtonText;
     [SerializeField] private TextMeshProUGUI actionNameText;
@@ -40,6 +42,15 @@ public class UIManager : MonoBehaviour
     public RectTransform AltarGensPanel
     {
         get { return altarGensPanel; } set { altarGensPanel = value; }
+    }
+
+    public void ToggleInventoryPanel()
+    {
+        InventoryGO.SetActive(!InventoryGO.activeSelf);
+        if (InventoryGO.activeSelf == false)
+        {
+            DisableItemDescriptionPanel();
+        }
     }
 
     public void EnableActionButtonPanel(Vector2 position, string buttonName, string actionName)
@@ -92,11 +103,16 @@ public class UIManager : MonoBehaviour
             DisableAllWindows();
         }
         spliceCorePanel.gameObject.SetActive(!spliceCorePanel.gameObject.activeSelf);
+        if(!spliceCorePanel.gameObject.activeSelf)
+        {
+            DisableItemDescriptionPanel();
+        }
     }
 
     public void DisableSpliceCorePanel()
     {
         spliceCorePanel.gameObject.SetActive(false);
+        DisableItemDescriptionPanel();
     }
 
     public void DisableAllWindows()

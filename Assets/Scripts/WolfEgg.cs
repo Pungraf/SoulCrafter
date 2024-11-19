@@ -12,6 +12,6 @@ public class WolfEgg : UnitEgg
 
     protected override GenSample DefaultGenSample()
     {
-        return SoulsManager.Instance.DefaultWolfGen;
+        return GenManager.Instance.DefaultWolfGen;
     }
 }

@@ -11,6 +11,9 @@ public class GenManager : MonoBehaviour
 
     System.Random rand = new System.Random();
 
+    public GenSample DefaultWispGen;
+    public GenSample DefaultWolfGen;
+
     private void Awake()
     {
         if (Instance != null)
@@ -21,17 +24,8 @@ public class GenManager : MonoBehaviour
         }
 
         Instance = this;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SetDefaultGens();
     }
 
     private float RandomOverRange(float firstValue, float secondValue, float mod)
@@ -133,4 +127,115 @@ public class GenManager : MonoBehaviour
     }
 
 
+
+    private void SetDefaultGens()
+    {
+        // Wisp
+        DefaultWispGen.LifeSpan = new SingleGen(SingleGen.GenType.LifeSpan, 7);
+        DefaultWispGen.Incubation = new SingleGen(SingleGen.GenType.Incubation, 1);
+
+        DefaultWispGen.Vitality = new SingleGen(SingleGen.GenType.Vitality, 100);
+        DefaultWispGen.Speed = new SingleGen(SingleGen.GenType.Speed, 3);
+        DefaultWispGen.Strength = new SingleGen(SingleGen.GenType.Strength, 1);
+
+        DefaultWispGen.Satiety = new SingleGen(SingleGen.GenType.Satiety, 2);
+        DefaultWispGen.Hydration = new SingleGen(SingleGen.GenType.Hydration, 2);
+        DefaultWispGen.Ingestion = new SingleGen(SingleGen.GenType.Ingestion, 0.02f);
+        DefaultWispGen.Urge = new SingleGen(SingleGen.GenType.Urge, 2);
+
+        DefaultWispGen.Reach = new SingleGen(SingleGen.GenType.Reach, 2);
+        DefaultWispGen.Perception = new SingleGen(SingleGen.GenType.Perception, 50);
+
+        DefaultWispGen.Fecundity = new SingleGen(SingleGen.GenType.Fecundity, 0.7f);
+        DefaultWispGen.Attractiveness = new SingleGen(SingleGen.GenType.Attractiveness, 0.7f);
+        DefaultWispGen.Gestation = new SingleGen(SingleGen.GenType.Gestation, 2);
+        DefaultWispGen.Fertility = new SingleGen(SingleGen.GenType.Fertility, 5);
+        // Wolf
+        DefaultWolfGen.LifeSpan = new SingleGen(SingleGen.GenType.LifeSpan, 30);
+        DefaultWolfGen.Incubation = new SingleGen(SingleGen.GenType.Incubation, 3);
+
+        DefaultWolfGen.Vitality = new SingleGen(SingleGen.GenType.Vitality, 300);
+        DefaultWolfGen.Speed = new SingleGen(SingleGen.GenType.Speed, 6);
+        DefaultWolfGen.Strength = new SingleGen(SingleGen.GenType.Strength, 3);
+
+        DefaultWolfGen.Satiety = new SingleGen(SingleGen.GenType.Satiety, 0.3f);
+        DefaultWolfGen.Hydration = new SingleGen(SingleGen.GenType.Hydration, 1);
+        DefaultWolfGen.Ingestion = new SingleGen(SingleGen.GenType.Ingestion, 0.01f);
+        DefaultWolfGen.Urge = new SingleGen(SingleGen.GenType.Urge, 1);
+
+        DefaultWolfGen.Reach = new SingleGen(SingleGen.GenType.Reach, 5);
+        DefaultWolfGen.Perception = new SingleGen(SingleGen.GenType.Perception, 80);
+
+        DefaultWolfGen.Fecundity = new SingleGen(SingleGen.GenType.Fecundity, 0.5f);
+        DefaultWolfGen.Attractiveness = new SingleGen(SingleGen.GenType.Attractiveness, 0.9f);
+        DefaultWolfGen.Gestation = new SingleGen(SingleGen.GenType.Gestation, 3);
+        DefaultWolfGen.Fertility = new SingleGen(SingleGen.GenType.Fertility, 3);
+    }
+
+    public int CalculateGenScore(Unit.Species species, GenSample unitSample)
+    {
+        // Map of all properties in GenSample
+        Dictionary<SingleGen.GenType, Func<GenSample, SingleGen>> genPropertyMap = new Dictionary<SingleGen.GenType, Func<GenSample, SingleGen>>()
+        {
+            { SingleGen.GenType.LifeSpan, sample => sample.LifeSpan },
+            { SingleGen.GenType.Incubation, sample => sample.Incubation },
+            { SingleGen.GenType.Vitality, sample => sample.Vitality },
+            { SingleGen.GenType.Speed, sample => sample.Speed },
+            { SingleGen.GenType.Strength, sample => sample.Strength },
+            { SingleGen.GenType.Satiety, sample => sample.Satiety },
+            { SingleGen.GenType.Hydration, sample => sample.Hydration },
+            { SingleGen.GenType.Ingestion, sample => sample.Ingestion },
+            { SingleGen.GenType.Urge, sample => sample.Urge },
+            { SingleGen.GenType.Reach, sample => sample.Reach },
+            { SingleGen.GenType.Perception, sample => sample.Perception },
+            { SingleGen.GenType.Fecundity, sample => sample.Fecundity },
+            { SingleGen.GenType.Attractiveness, sample => sample.Attractiveness },
+            { SingleGen.GenType.Gestation, sample => sample.Gestation },
+            { SingleGen.GenType.Fertility, sample => sample.Fertility }
+        };
+
+        float totalScore = 0f;
+        int propertyCount = genPropertyMap.Count;
+
+        GenSample defaultSample = null;
+
+        switch (species)
+        {
+            case Unit.Species.Wisp:
+                defaultSample = DefaultWispGen;
+                break;
+            case Unit.Species.Wolf:
+                defaultSample = DefaultWolfGen;
+                break;
+            default:
+                Debug.Log("Wrong species.");
+                break;
+        }
+
+        if(defaultSample == null)
+        {
+            Debug.Log("Missins defaut sample.");
+            return 0;
+        }
+
+        foreach (var kvp in genPropertyMap)
+        {
+            SingleGen defaultGen = kvp.Value(defaultSample);
+            SingleGen unitGen = kvp.Value(unitSample);
+
+            // Avoid division by zero or invalid data
+            if (defaultGen.Value <= 0)
+            {
+                Debug.LogWarning($"Default value for {kvp.Key} is zero or negative; skipping this property.");
+                propertyCount--;
+                continue;
+            }
+
+            // Calculate the score for this property
+            totalScore += unitGen.Value / defaultGen.Value;
+        }
+
+        // Return the average score
+        return (int)(propertyCount > 0 ? totalScore / propertyCount * 100f : 0f);
+    }
 }

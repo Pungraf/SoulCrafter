@@ -74,9 +74,6 @@ public abstract class Unit : MonoBehaviour
 
         OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
 
-        // TODO: calculate based on gens
-        genScore = rand.Next(50, 100);
-
         TimeManager.OnHourChanged += HourChanged;
         InvokeRepeating("UpdateParameters", 0f, counterUpdateSampling);
     }
@@ -95,11 +92,11 @@ public abstract class Unit : MonoBehaviour
         {
             if(species == Species.Wisp)
             {
-                Gens = SoulsManager.Instance.DefaultWispGen;
+                Gens = GenManager.Instance.DefaultWispGen;
             }
             else if(species == Species.Wolf)
             {
-                Gens = SoulsManager.Instance.DefaultWolfGen;
+                Gens = GenManager.Instance.DefaultWolfGen;
             }
         }
         if (IsAdult)
@@ -166,7 +163,11 @@ public abstract class Unit : MonoBehaviour
     public GenSample Gens
     {
         get { return gens; }
-        set { gens = value; }
+        set
+        {
+            gens = value;
+            genScore = GenManager.Instance.CalculateGenScore(species, gens);
+        }
     }
     public GenSample LastPartnerGenSample
     {

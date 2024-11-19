@@ -12,6 +12,6 @@ public class WispEgg : UnitEgg
 
     protected override GenSample DefaultGenSample()
     {
-        return SoulsManager.Instance.DefaultWispGen;
+        return GenManager.Instance.DefaultWispGen;
     }
 }
