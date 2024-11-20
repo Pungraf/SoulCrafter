@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb2de01c60d4494280fef9e34b74f21, type: 3}
+  m_Name: Road of fury
+  m_EditorClassIdentifier: 
+  UpgradeDataList:
+  - StatType: 0
+    SkillIncreaseAmount: 10
+    IsPercentage: 1
+  - StatType: 1
+    SkillIncreaseAmount: 10
+    IsPercentage: 1
+  IsAbility: 0
+  SkillName: Road of fury
+  OveriteDescription: 0
+  SkillDescription: Road of fury increases Strength by 10% and , Dexterity by 10%.
+  SkillIcon: {fileID: 0}
+  SkillPrerequisites:
+  - {fileID: 11400000, guid: 8fcdd54681a7f5540abcd09144f1d6e2, type: 2}
+  SkillTier: 2
+  Cost: 3

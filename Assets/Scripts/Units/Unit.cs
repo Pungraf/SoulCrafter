@@ -138,7 +138,7 @@ public abstract class Unit : MonoBehaviour
     {
         if (gen != null)
         {
-            gens = gen;
+            Gens = gen;
         }
         Health = health;
         Hunger = hunger;
