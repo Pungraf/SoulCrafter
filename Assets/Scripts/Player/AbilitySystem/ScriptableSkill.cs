@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace _Scripts.Ability_System
+namespace Scripts.Player.AbilitySystem
 { 
     [CreateAssetMenu(fileName = "New Skill", menuName = "Skill System/New Skill", order = 0)]
     public class ScriptableSkill : ScriptableObject
