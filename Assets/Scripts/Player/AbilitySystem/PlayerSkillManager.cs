@@ -38,7 +38,7 @@ namespace Scripts.Player.AbilitySystem
             _wisdom = 10;
             _charisma = 10;
             _constitution = 10;
-            _skillPoints = 10;
+            _skillPoints = 5;
         }
 
         public void GainSkillPoint()

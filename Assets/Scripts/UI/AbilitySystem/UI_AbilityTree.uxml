@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/AbilitySystem/AbilityStyleSheet.uss?fileID=7433441132597879392&amp;guid=6e245e5db79dfd949aba6375d6b0e9bf&amp;type=3#AbilityStyleSheet" />
+    <ui:VisualElement name="MainPanel" style="flex-grow: 1; flex-direction: row; background-color: rgb(31, 31, 31); -unity-background-image-tint-color: rgb(31, 31, 31);">
+        <ui:VisualElement name="StatPanel" class="AbilityPanel" style="border-right-width: 4px; justify-content: center;">
+            <ui:Label tabindex="-1" text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatHeader" class="HeaderLabel" />
+            <ui:Label tabindex="-1" text="Str - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Strength" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Dex - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Dexterity" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Int - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Intelligence" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Wis - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Wisdom" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Cha - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Charisma" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Con - 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatLabel_Constitution" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Ability" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityHeader" class="HeaderLabel" />
+            <ui:Label tabindex="-1" text="Swing - Locked" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityLabel_Swing" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Whirl - Locked" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityLabel_Whirl" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Throw - Locked" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityLabel_Throw" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Ability Points: 00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityPontsLabel" class="HeaderLabel" />
+        </ui:VisualElement>
+        <ui:VisualElement name="AbilityTree" style="flex-grow: 1;">
+            <ui:VisualElement name="Ability_RowOne" class="ability-row" />
+            <ui:VisualElement name="Ability_RowTwo" class="ability-row" />
+            <ui:VisualElement name="Ability_RowThree" class="ability-row" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SkillDescription" class="AbilityPanel" style="border-left-width: 4px; align-items: center; justify-content: center; align-self: stretch;">
+            <ui:VisualElement name="Icon" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Images/SpellIconsVolume_1_Free/Dark/Dark_9.png?fileID=2800000&amp;guid=b0f9db93203770d488537e3059a75676&amp;type=3#Dark_9&quot;); width: 256px; height: 256px;" />
+            <ui:Label tabindex="-1" text="Skill Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SkillNameLabel" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Skill Description" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SkillDescriptionLabel" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Cost: 1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SkillCostLabel" class="StatLabel" />
+            <ui:Label tabindex="-1" text="Prerequisites" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PreReqLabel" class="StatLabel" />
+            <ui:Button text="Purchase Skil" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BuySkillButton" class="skill-tree-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,68 @@
+.AbilityPanel {
+    flex-grow: 0;
+    background-color: rgb(47, 47, 47);
+    border-right-color: rgb(255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    width: 25%;
+}
+
+.HeaderLabel {
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    color: rgb(255, 255, 255);
+    font-size: 40px;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.StatLabel {
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    font-size: 30px;
+    white-space: normal;
+}
+
+.ability-button {
+    width: 128px;
+    height: 128px;
+    border-radius: 5px;
+}
+
+.ability-button:hover {
+    border-width: 5px;
+    border-color: rgb(255, 231, 98);
+}
+
+.ability-button:disabled {
+    border-width: 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.ability-row {
+    flex-grow: 1;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+}
+
+.skill-tree-button {
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
+    font-size: 30px;
+}

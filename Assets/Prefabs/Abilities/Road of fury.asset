@@ -23,7 +23,7 @@ MonoBehaviour:
   SkillName: Road of fury
   OveriteDescription: 0
   SkillDescription: Road of fury increases Strength by 10% and , Dexterity by 10%.
-  SkillIcon: {fileID: 0}
+  SkillIcon: {fileID: 21300000, guid: 92e19d7bbf71f0e4093c6a311416348f, type: 3}
   SkillPrerequisites:
   - {fileID: 11400000, guid: 8fcdd54681a7f5540abcd09144f1d6e2, type: 2}
   SkillTier: 2

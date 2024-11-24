@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/AbilitySystem/AbilityStyleSheet.uss?fileID=7433441132597879392&amp;guid=6e245e5db79dfd949aba6375d6b0e9bf&amp;type=3#AbilityStyleSheet" />
+    <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" class="ability-button" />
+</ui:UXML>
