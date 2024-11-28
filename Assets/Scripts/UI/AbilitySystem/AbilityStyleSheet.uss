@@ -54,6 +54,18 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
+.ability-button-locked {
+    width: 128px;
+    height: 128px;
+    opacity: 0.5;
+    border-radius: 5px;
+}
+
+.ability-button-locked:hover {
+    border-width: 5px;
+    border-color: rgb(255, 231, 98);
+}
+
 .ability-row {
     flex-grow: 1;
     justify-content: space-around;

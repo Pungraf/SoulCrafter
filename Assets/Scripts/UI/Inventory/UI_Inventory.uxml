@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/InventorySS.uss?fileID=7433441132597879392&amp;guid=46ffea135574b34408aa1859fa415ffc&amp;type=3#InventorySS" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; padding-right: 50px; opacity: 1;">
+        <ui:VisualElement name="Inventory" class="inventory">
+            <ui:Label tabindex="-1" text="Inventory" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" style="font-size: 50px; color: rgb(255, 197, 0); -unity-font-definition: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&amp;guid=c5d165487f121634a8cae7af866a81a2&amp;type=2#Vampire Wars SDF&quot;); -unity-font: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&amp;guid=3d11ca806d30b2744b3a49b69da9f1cd&amp;type=3#Vampire Wars&quot;); padding-bottom: 10px; border-bottom-color: rgb(64, 74, 82); border-bottom-width: 1px;" />
+            <ui:VisualElement name="SlotContainer" class="slot" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
