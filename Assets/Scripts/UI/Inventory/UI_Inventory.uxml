@@ -5,5 +5,6 @@
             <ui:Label tabindex="-1" text="Inventory" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" style="font-size: 50px; color: rgb(255, 197, 0); -unity-font-definition: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&amp;guid=c5d165487f121634a8cae7af866a81a2&amp;type=2#Vampire Wars SDF&quot;); -unity-font: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&amp;guid=3d11ca806d30b2744b3a49b69da9f1cd&amp;type=3#Vampire Wars&quot;); padding-bottom: 10px; border-bottom-color: rgb(64, 74, 82); border-bottom-width: 1px;" />
             <ui:VisualElement name="SlotContainer" class="slot" />
         </ui:VisualElement>
+        <ui:VisualElement name="GhostIcon" style="flex-grow: 1; position: absolute; width: 128px; height: 128px; visibility: hidden;" />
     </ui:VisualElement>
 </ui:UXML>

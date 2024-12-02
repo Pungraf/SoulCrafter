@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -26,6 +27,11 @@ public class InventoryManager : MonoBehaviour
 
     private VisualElement m_Root;
     private VisualElement m_SlotContainer;
+
+    private static bool m_IsDragging;
+    private static UI_InventorySlot m_OriginalSlot;
+
+    private static VisualElement m_GhostIcon;
     private void Awake()
     {
         if (Instance != null)
@@ -53,6 +59,10 @@ public class InventoryManager : MonoBehaviour
         //Search the root for the SlotContainer Visual Element
         m_SlotContainer = m_Root.Q<VisualElement>("SlotContainer");
 
+        m_GhostIcon = m_Root.Query<VisualElement>("GhostIcon");
+        m_GhostIcon.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+        m_GhostIcon.RegisterCallback<PointerUpEvent>(OnPointerUp);
+
         //Create InventorySlots and add them as children to the SlotContainer
         for (int i = 0; i < 30; i++)
         {
@@ -64,9 +74,77 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void StartDrag(Vector2 position, UI_InventorySlot originalSlot)
+    {
+        //Set tracking variables
+        m_IsDragging = true;
+        m_OriginalSlot = originalSlot;
+
+        //Set the new position
+        m_GhostIcon.style.top = position.y - m_GhostIcon.layout.height / 2;
+        m_GhostIcon.style.left = position.x - m_GhostIcon.layout.width / 2;
+
+        //Set the image
+        m_GhostIcon.style.backgroundImage = originalSlot.Item.GetSprite().texture;
+
+        //Flip the visibility on
+        m_GhostIcon.style.visibility = Visibility.Visible;
+    }
+
+    private void OnPointerMove(PointerMoveEvent evt)
+    {
+        //Only take action if the player is dragging an item around the screen
+        if (!m_IsDragging)
+        {
+            return;
+        }
+
+        //Set the new position
+        m_GhostIcon.style.top = evt.position.y - m_GhostIcon.layout.height / 2;
+        m_GhostIcon.style.left = evt.position.x - m_GhostIcon.layout.width / 2;
+
+    }
+
+    private void OnPointerUp(PointerUpEvent evt)
+    {
+        if (!m_IsDragging)
+        {
+            return;
+        }
+
+        //Check to see if they are dropping the ghost icon over any inventory slots.
+        IEnumerable<UI_InventorySlot> slots = InventoryItems.Where(x =>
+               x.worldBound.Overlaps(m_GhostIcon.worldBound));
+
+        //Found at least one
+        if (slots.Count() != 0)
+        {
+            UI_InventorySlot closestSlot = slots.OrderBy(x => Vector2.Distance
+               (x.worldBound.position, m_GhostIcon.worldBound.position)).First();
+
+            //Set the new inventory slot with the data
+            closestSlot.AddItemToSlot(m_OriginalSlot.Item);
+
+            //Clear the original slot
+            m_OriginalSlot.RemoveItemFromSlot();
+        }
+        //Didn't find any (dragged off the window)
+        else
+        {
+            m_OriginalSlot.Icon.image = m_OriginalSlot.Item.GetSprite().texture;
+        }
+
+        //Clear dragging related visuals and data
+        m_IsDragging = false;
+        m_OriginalSlot = null;
+        m_GhostIcon.style.visibility = Visibility.Hidden;
+
+    }
+
     private void HandleToggleActionPerformed(InputAction.CallbackContext Context)
     {
-        ToggleInventory();
+        //ToggleInventory();
+        m_Root.visible = !m_Root.visible;
     }
 
     private void HandleFakeActionStarted(InputAction.CallbackContext Context)
@@ -81,6 +159,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool AddItem(Item item)
     {
+        /*
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
@@ -100,6 +179,19 @@ public class InventoryManager : MonoBehaviour
                 return true;
             }
         }
+        */
+        for (int i = 0; i < InventoryItems.Count; i++)
+        {
+            UI_InventorySlot slot = InventoryItems[i];
+            Item itemInSlot = slot.Item;
+
+            if (itemInSlot == null)
+            {
+                slot.AddItemToSlot(item);
+                return true;
+            }
+        }
+
         return false;
     }
 
