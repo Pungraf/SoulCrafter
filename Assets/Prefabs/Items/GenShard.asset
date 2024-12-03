@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GenShard
   m_EditorClassIdentifier: 
   itemName: Gen shard
-  isStackable: 1
+  isStackable: 0
   maxStack: 1
   spriteName: GenShard
   genShardPrefab: {fileID: 7565534335901221425, guid: 8efd020bfa3a535489163c574c6cb561,

@@ -128,21 +128,30 @@ public class InventoryManager : MonoBehaviour
                 if(closestSlot.Item != null)
                 {
                     Item itemToSwitch = closestSlot.Item;
-                    if(closestSlot.Item.ItemName == m_OriginalSlot.Item.ItemName && closestSlot.Item.IsStackable)
+                    int countToSwitch = closestSlot.Count;
+                    if (closestSlot.Item.ItemName == m_OriginalSlot.Item.ItemName && closestSlot.Item.IsStackable)
                     {
-                        m_OriginalSlot.RemoveItemFromSlot();
-                        AddStackOfItems(closestSlot, itemToSwitch);
+                        if(m_OriginalSlot.Count + closestSlot.Count > itemToSwitch.MaxStack)
+                        {
+                            m_OriginalSlot.Count = Mathf.Abs(m_OriginalSlot.Count - closestSlot.Count);
+                            closestSlot.Count = itemToSwitch.MaxStack;
+                        }
+                        else
+                        {
+                            closestSlot.Count += m_OriginalSlot.Count;
+                            m_OriginalSlot.RemoveItemFromSlot();
+                        }
                     }
                     else
                     {
-                        closestSlot.AddItemToSlot(m_OriginalSlot.Item);
-                        m_OriginalSlot.AddItemToSlot(itemToSwitch);
+                        closestSlot.AddItemToSlot(m_OriginalSlot.Item, m_OriginalSlot.Count);
+                        m_OriginalSlot.AddItemToSlot(itemToSwitch, countToSwitch);
                     }
                 }
                 else
                 {
                     //Set the new inventory slot with the data
-                    closestSlot.AddItemToSlot(m_OriginalSlot.Item);
+                    closestSlot.AddItemToSlot(m_OriginalSlot.Item, m_OriginalSlot.Count);
                     //Clear the original slot
                     m_OriginalSlot.RemoveItemFromSlot();
                 }
@@ -208,19 +217,22 @@ public class InventoryManager : MonoBehaviour
             UI_InventorySlot slot = InventoryItems[i];
             Item itemInSlot = slot.Item;
 
-            if (itemInSlot == null)
+            if (itemInSlot == null || (itemInSlot.IsStackable && slot.Count < item.MaxStack && itemInSlot.ItemName == item.ItemName))
             {
-                slot.AddItemToSlot(item);
-                return true;
+                if(itemInSlot == null)
+                {
+                    slot.AddItemToSlot(item);
+                    return true;
+                }
+                else
+                {
+                    slot.Count++;
+                    return true;
+                }
             }
         }
 
         return false;
-    }
-
-    private void AddStackOfItems(UI_InventorySlot slot, Item item)
-    {
-        Debug.Log("Addind stac of items");
     }
 
     public void SpawnNewItem(Item item, InventorySlot slot)

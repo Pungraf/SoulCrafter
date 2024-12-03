@@ -45,3 +45,14 @@
     flex-shrink: 0;
     flex-grow: 1;
 }
+
+.slotCountLabel {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
+    color: white;
+    padding: 2px 4px;
+    font-size: 12px;
+    border-radius: 3px;
+}
