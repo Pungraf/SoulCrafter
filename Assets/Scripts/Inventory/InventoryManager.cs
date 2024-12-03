@@ -115,6 +115,7 @@ public class InventoryManager : MonoBehaviour
         //Check to see if they are dropping the ghost icon over any inventory slots.
         IEnumerable<UI_InventorySlot> slots = InventoryItems.Where(x =>
                x.worldBound.Overlaps(m_GhostIcon.worldBound));
+        
 
         //Found at least one
         if (slots.Count() != 0)
@@ -122,18 +123,40 @@ public class InventoryManager : MonoBehaviour
             UI_InventorySlot closestSlot = slots.OrderBy(x => Vector2.Distance
                (x.worldBound.position, m_GhostIcon.worldBound.position)).First();
 
-            //Set the new inventory slot with the data
-            closestSlot.AddItemToSlot(m_OriginalSlot.Item);
-
-            //Clear the original slot
-            m_OriginalSlot.RemoveItemFromSlot();
+            if(closestSlot != m_OriginalSlot)
+            {
+                if(closestSlot.Item != null)
+                {
+                    Item itemToSwitch = closestSlot.Item;
+                    if(closestSlot.Item.ItemName == m_OriginalSlot.Item.ItemName && closestSlot.Item.IsStackable)
+                    {
+                        m_OriginalSlot.RemoveItemFromSlot();
+                        AddStackOfItems(closestSlot, itemToSwitch);
+                    }
+                    else
+                    {
+                        closestSlot.AddItemToSlot(m_OriginalSlot.Item);
+                        m_OriginalSlot.AddItemToSlot(itemToSwitch);
+                    }
+                }
+                else
+                {
+                    //Set the new inventory slot with the data
+                    closestSlot.AddItemToSlot(m_OriginalSlot.Item);
+                    //Clear the original slot
+                    m_OriginalSlot.RemoveItemFromSlot();
+                }
+            }
+            else
+            {
+                m_OriginalSlot.Icon.image = m_OriginalSlot.Item.GetSprite().texture;
+            }
         }
         //Didn't find any (dragged off the window)
         else
         {
             m_OriginalSlot.Icon.image = m_OriginalSlot.Item.GetSprite().texture;
         }
-
         //Clear dragging related visuals and data
         m_IsDragging = false;
         m_OriginalSlot = null;
@@ -193,6 +216,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void AddStackOfItems(UI_InventorySlot slot, Item item)
+    {
+        Debug.Log("Addind stac of items");
     }
 
     public void SpawnNewItem(Item item, InventorySlot slot)
