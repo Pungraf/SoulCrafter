@@ -33,7 +33,7 @@
     border-top-color: rgb(48, 48, 48);
     border-bottom-color: rgb(48, 48, 48);
     background-color: rgb(9, 19, 21);
-    background-image: url('/Assets/Sprites/ItemSlotBackground.png');
+    background-image: url("project://database/Assets/Sprites/ItemSlotBackground.png?fileID=2800000&guid=00af3760dfdc38b4588160c49b23cae3&type=3#ItemSlotBackground");
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -50,9 +50,19 @@
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 2px 4px;
     font-size: 12px;
     border-radius: 3px;
+}
+
+.inventoryTitleLabel {
+    font-size: 50px;
+    color: rgb(255, 197, 0);
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
+    padding-bottom: 10px;
+    border-bottom-color: rgb(64, 74, 82);
+    border-bottom-width: 1px;
 }

@@ -32,6 +32,7 @@ public class InventoryManager : MonoBehaviour
     private static UI_InventorySlot m_OriginalSlot;
 
     private static VisualElement m_GhostIcon;
+    private static VisualElement m_DescriptionPanel;
     private void Awake()
     {
         if (Instance != null)
@@ -63,6 +64,9 @@ public class InventoryManager : MonoBehaviour
         m_GhostIcon.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         m_GhostIcon.RegisterCallback<PointerUpEvent>(OnPointerUp);
 
+        m_DescriptionPanel = m_Root.Query<VisualElement>("DetailsPanel");
+        m_DescriptionPanel.RegisterCallback<MouseOverEvent>(MouseOver);
+
         //Create InventorySlots and add them as children to the SlotContainer
         for (int i = 0; i < 30; i++)
         {
@@ -72,6 +76,11 @@ public class InventoryManager : MonoBehaviour
 
             m_SlotContainer.Add(item);
         }
+    }
+
+    private void MouseOver(MouseOverEvent evt)
+    {
+        
     }
 
     public void StartDrag(Vector2 position, UI_InventorySlot originalSlot)
