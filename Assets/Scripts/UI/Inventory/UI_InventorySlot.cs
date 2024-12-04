@@ -38,6 +38,8 @@ public class UI_InventorySlot : VisualElement
         AddToClassList("slotContainer");
 
         RegisterCallback<PointerDownEvent>(OnPointerDown);
+        RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+        RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
     }
 
     private void OnPointerDown(PointerDownEvent evt)
@@ -58,11 +60,27 @@ public class UI_InventorySlot : VisualElement
         
     }
 
+    private void OnMouseEnter(MouseEnterEvent evt)
+    {
+        if(Item is null) return;
+        InventoryManager.Instance.SetDescriptionPanel(evt, Item.ItemName, Item.ItemDescription());
+    }
+
+    private void OnMouseLeave(MouseLeaveEvent evt)
+    {
+        InventoryManager.Instance.HideDescriptionPanel();
+    }
+
     public void AddItemToSlot(Item item, int count = 1)
     {
         _item = item;
-        _icon.sprite = item.GetSprite();
+        SetImage();
         Count = count;
+    }
+
+    public void SetImage()
+    {
+        _icon.sprite = _item.GetSprite();
     }
 
     public void RemoveItemFromSlot()

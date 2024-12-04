@@ -26,6 +26,8 @@ public class InventoryManager : MonoBehaviour
     public List<UI_InventorySlot> InventoryItems = new List<UI_InventorySlot>();
 
     private VisualElement m_Root;
+    private VisualElement m_InventoryCointainer;
+    private bool isInventoryVisible = false; 
     private VisualElement m_SlotContainer;
 
     private static bool m_IsDragging;
@@ -33,6 +35,9 @@ public class InventoryManager : MonoBehaviour
 
     private static VisualElement m_GhostIcon;
     private static VisualElement m_DescriptionPanel;
+    private static Label m_DescriptionPanel_Title;
+    private static Label m_DescriptionPanel_Description;
+    private static bool m_DesDescriptionPanelInOn;
     private void Awake()
     {
         if (Instance != null)
@@ -56,7 +61,7 @@ public class InventoryManager : MonoBehaviour
         ///////////////////////////
         //Store the root from the UI Document component
         m_Root = GetComponent<UIDocument>().rootVisualElement;
-
+        m_InventoryCointainer = m_Root.Q<VisualElement>("Container");
         //Search the root for the SlotContainer Visual Element
         m_SlotContainer = m_Root.Q<VisualElement>("SlotContainer");
 
@@ -65,8 +70,8 @@ public class InventoryManager : MonoBehaviour
         m_GhostIcon.RegisterCallback<PointerUpEvent>(OnPointerUp);
 
         m_DescriptionPanel = m_Root.Query<VisualElement>("DetailsPanel");
-        m_DescriptionPanel.RegisterCallback<MouseOverEvent>(MouseOver);
-
+        m_DescriptionPanel_Title = m_DescriptionPanel.Query<Label>("ItemNameLabel");
+        m_DescriptionPanel_Description = m_DescriptionPanel.Query<Label>("DetailsLabel");
         //Create InventorySlots and add them as children to the SlotContainer
         for (int i = 0; i < 30; i++)
         {
@@ -78,9 +83,26 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void MouseOver(MouseOverEvent evt)
+    private void Start()
     {
-        
+        //ToggleInventoryUI(false);
+    }
+
+    public void SetDescriptionPanel(MouseEnterEvent evt, string title, string description)
+    {
+        if(m_DesDescriptionPanelInOn) return;
+        m_DescriptionPanel.style.visibility = Visibility.Visible;
+        m_DescriptionPanel.style.left = evt.mousePosition.x;
+        m_DescriptionPanel.style.top = evt.mousePosition.y;
+        m_DescriptionPanel_Title.text = title;
+        m_DescriptionPanel_Description.text = description;
+        m_DesDescriptionPanelInOn = true;
+    }
+
+    public void HideDescriptionPanel()
+    {
+         m_DescriptionPanel.style.visibility = Visibility.Hidden;
+         m_DesDescriptionPanelInOn = false;
     }
 
     public void StartDrag(Vector2 position, UI_InventorySlot originalSlot)
@@ -167,25 +189,40 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
-                m_OriginalSlot.Icon.image = m_OriginalSlot.Item.GetSprite().texture;
+                m_OriginalSlot.SetImage();
             }
         }
         //Didn't find any (dragged off the window)
         else
         {
-            m_OriginalSlot.Icon.image = m_OriginalSlot.Item.GetSprite().texture;
+            m_OriginalSlot.SetImage();
         }
         //Clear dragging related visuals and data
         m_IsDragging = false;
-        m_OriginalSlot = null;
         m_GhostIcon.style.visibility = Visibility.Hidden;
 
+    }
+
+    // Function to toggle the visibility of the inventory panel
+    public void ToggleInventoryUI(bool isVisible)
+    {
+        if (m_Root != null)
+        {
+            isInventoryVisible = isVisible;
+            m_InventoryCointainer.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+    }
+
+    // Convenience method for toggling on and off
+    public void ToggleInventoryUI()
+    {
+        ToggleInventoryUI(!isInventoryVisible);
     }
 
     private void HandleToggleActionPerformed(InputAction.CallbackContext Context)
     {
         //ToggleInventory();
-        m_Root.visible = !m_Root.visible;
+        ToggleInventoryUI();
     }
 
     private void HandleFakeActionStarted(InputAction.CallbackContext Context)

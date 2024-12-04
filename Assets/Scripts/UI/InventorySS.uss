@@ -53,8 +53,10 @@
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 2px 4px;
-    font-size: 12px;
+    font-size: 30px;
     border-radius: 3px;
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
 }
 
 .inventoryTitleLabel {
