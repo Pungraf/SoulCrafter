@@ -73,7 +73,7 @@ public class InventoryManager : MonoBehaviour
         m_DescriptionPanel_Title = m_DescriptionPanel.Query<Label>("ItemNameLabel");
         m_DescriptionPanel_Description = m_DescriptionPanel.Query<Label>("DetailsLabel");
         //Create InventorySlots and add them as children to the SlotContainer
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 25; i++)
         {
             UI_InventorySlot item = new UI_InventorySlot();
 
