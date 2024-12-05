@@ -12,9 +12,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="AltarPanel" class="inventory" style="justify-content: center; align-self: auto; visibility: visible; display: flex; width: 40%; max-width: 40%; align-items: flex-start; left: 5px; position: relative; padding-bottom: 50px;">
             <ui:Label tabindex="-1" text="Altar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" class="inventoryTitleLabel" />
-            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="GensContainer" style="width: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; height: 100%;">
-                <ui:VisualElement name="GenElement" style="flex-grow: 1; width: 100%; height: 50px; align-self: auto; background-color: rgba(255, 89, 35, 0.33); border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
-            </ui:ScrollView>
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="GensContainer" style="width: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; height: 100%;" />
             <ui:Button text="SACRIFICE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SacrificeButton" class="actionButton" />
         </ui:VisualElement>
     </ui:VisualElement>

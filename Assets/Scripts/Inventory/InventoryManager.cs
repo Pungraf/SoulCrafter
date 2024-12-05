@@ -38,6 +38,9 @@ public class InventoryManager : MonoBehaviour
     private static Label m_DescriptionPanel_Title;
     private static Label m_DescriptionPanel_Description;
     private static bool m_DesDescriptionPanelInOn;
+
+    public VisualElement M_Root => m_Root;
+
     private void Awake()
     {
         if (Instance != null)

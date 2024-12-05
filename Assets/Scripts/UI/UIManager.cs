@@ -149,7 +149,6 @@ public class UIManager : MonoBehaviour
         SpawnButtons(_abilityBottomRow, skillLibrary.GetSkillsOfTier(1));
         SpawnButtons(_abilityMiddleTow, skillLibrary.GetSkillsOfTier(2));
         SpawnButtons(_abilityTopRow, skillLibrary.GetSkillsOfTier(3));
-
     }
 
     private void SpawnButtons(VisualElement parent, List<ScriptableSkill> skills)

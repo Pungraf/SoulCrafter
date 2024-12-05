@@ -4,6 +4,7 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Altar : MonoBehaviour
 {
@@ -14,9 +15,15 @@ public class Altar : MonoBehaviour
 
     private RectTransform altarGensPanel;
 
+    private VisualElement m_AltarPanel;
+    private ScrollView m_GensListScrollPanel;
+    [SerializeField] private VisualTreeAsset uiGenElement;
+
     private void Start()
     {
         altarGensPanel = UIManager.Instance.AltarGensPanel;
+        m_AltarPanel = InventoryManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
+        m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -71,6 +78,9 @@ public class Altar : MonoBehaviour
                     float genValue = Mathf.Round(singleGen.Value * 100f) / 100f;
                     string value = singleGen.Type.ToString();
                     CreateSubPanel(value, genValue, singleGen);
+
+                    VisualElement genElement = uiGenElement.CloneTree().Q<VisualElement>();
+                    m_GensListScrollPanel.Add(genElement);
                 }
             }
         }
@@ -96,7 +106,7 @@ public class Altar : MonoBehaviour
     public void Sacrifice()
     {
         GenPanelUI selectedGenPanel = null;
-        foreach(Toggle toggle in altarGensPanel.GetComponentsInChildren<Toggle>())
+        foreach(UnityEngine.UI.Toggle toggle in altarGensPanel.GetComponentsInChildren<UnityEngine.UI.Toggle>())
         {
             if (toggle.isOn)
             {
