@@ -15,6 +15,8 @@ public class Altar : MonoBehaviour
 
     private RectTransform altarGensPanel;
 
+    private List<GenPanel> genPanels = new List<GenPanel>();
+
     private VisualElement m_AltarPanel;
     private ScrollView m_GensListScrollPanel;
     [SerializeField] private VisualTreeAsset uiGenElement;
@@ -79,8 +81,9 @@ public class Altar : MonoBehaviour
                     string value = singleGen.Type.ToString();
                     CreateSubPanel(value, genValue, singleGen);
 
-                    VisualElement genElement = uiGenElement.CloneTree().Q<VisualElement>();
-                    m_GensListScrollPanel.Add(genElement);
+                    VisualElement genPanel = uiGenElement.CloneTree().Q<VisualElement>();
+                    GenPanel panel = new GenPanel(genPanel, singleGen);
+                    m_GensListScrollPanel.Add(genPanel);
                 }
             }
         }

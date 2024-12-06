@@ -95,3 +95,34 @@
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+
+.genPanel {
+    flex-grow: 0;
+    width: 600px;
+    height: 100px;
+    align-self: auto;
+    background-color: rgba(255, 89, 35, 0.33);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.genPanel:hover {
+    background-color: rgba(255, 89, 35, 0.66);
+}
+
+.genLabel {
+    align-self: auto;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-shrink: 0;
+    width: 80%;
+    -unity-text-align: middle-left;
+    -unity-font-definition: url("project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&guid=c5d165487f121634a8cae7af866a81a2&type=2#Vampire Wars SDF");
+    -unity-font: url("project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&guid=3d11ca806d30b2744b3a49b69da9f1cd&type=3#Vampire Wars");
+    color: rgb(255, 197, 0);
+    font-size: 30px;
+}

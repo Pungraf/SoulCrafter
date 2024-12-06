@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/InventorySS.uss?fileID=7433441132597879392&amp;guid=46ffea135574b34408aa1859fa415ffc&amp;type=3#InventorySS" />
+    <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenPanel" class="genPanel" style="flex-direction: row; justify-content: space-between;">
+        <ui:Label tabindex="-1" text="Gen name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenNameLabel" class="genLabel" />
+        <ui:Label tabindex="-1" text="0.0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenValueLabel" class="genLabel" style="width: 20%; color: rgb(255, 132, 0); -unity-text-align: middle-center;" />
+    </ui:Button>
+</ui:UXML>
