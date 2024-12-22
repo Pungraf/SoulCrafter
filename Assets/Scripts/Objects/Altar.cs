@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Altar : MonoBehaviour
@@ -19,13 +18,29 @@ public class Altar : MonoBehaviour
 
     private VisualElement m_AltarPanel;
     private ScrollView m_GensListScrollPanel;
+    private Button m_sacrificeButton;
     [SerializeField] private VisualTreeAsset uiGenElement;
+
+    private GenPanel selectedGenPanel;
 
     private void Start()
     {
         altarGensPanel = UIManager.Instance.AltarGensPanel;
         m_AltarPanel = InventoryManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
         m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
+
+        m_sacrificeButton = m_AltarPanel.Query<Button>("SacrificeButton");
+        if (m_sacrificeButton != null)
+        {
+            m_sacrificeButton.clicked += Sacrifice;
+        }
+
+        GenPanel.OnGenPanelSelected += HandleGenPanelSelected;
+    }
+
+    private void OnDestroy()
+    {
+        GenPanel.OnGenPanelSelected -= HandleGenPanelSelected;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,6 +63,20 @@ public class Altar : MonoBehaviour
         {
             HeldUnit = null;
             ClearAltarPanel();
+        }
+    }
+
+    private void HandleGenPanelSelected(GenPanel selectedPanel)
+    {
+        if (selectedPanel.IsSelected) selectedGenPanel = selectedPanel;
+        else if (!selectedGenPanel.IsSelected && selectedGenPanel == selectedPanel) selectedGenPanel = null;
+        
+        foreach (var panel in genPanels)
+        {
+            if (panel != selectedGenPanel && panel.IsSelected)
+            {
+                panel.IsSelected = false;
+            }
         }
     }
 
@@ -77,12 +106,10 @@ public class Altar : MonoBehaviour
                 if (property.FieldType == typeof(SingleGen))
                 {
                     SingleGen singleGen = (SingleGen)property.GetValue(genSample);
-                    float genValue = Mathf.Round(singleGen.Value * 100f) / 100f;
-                    string value = singleGen.Type.ToString();
-                    CreateSubPanel(value, genValue, singleGen);
 
-                    VisualElement genPanel = uiGenElement.CloneTree().Q<VisualElement>();
+                    Button genPanel = uiGenElement.CloneTree().Q<Button>();
                     GenPanel panel = new GenPanel(genPanel, singleGen);
+                    genPanels.Add(panel);
                     m_GensListScrollPanel.Add(genPanel);
                 }
             }
@@ -91,44 +118,32 @@ public class Altar : MonoBehaviour
 
     private void ClearAltarPanel()
     {
-        if (altarGensPanel.childCount == 0) return;
+        if (m_GensListScrollPanel.childCount == 0) return;
 
-        for (int i = altarGensPanel.childCount - 1; i >= 0; i--)
+        // Destroy all Buttons in m_GensListScrollPanel
+        for (int i = m_GensListScrollPanel.childCount - 1; i >= 0; i--)
         {
-            Destroy(altarGensPanel.GetChild(i).gameObject);
+            VisualElement child = m_GensListScrollPanel[i];
+            if (child is Button)
+            {
+                m_GensListScrollPanel.Remove(child);
+            }
         }
-    }
 
-    private void CreateSubPanel(string genName, float genValue, SingleGen panelGen)
-    {
-        GenPanelUI subPanel = Instantiate(subPanelPrefab, altarGensPanel).GetComponent<GenPanelUI>();
-
-        subPanel.SetGenPanel(genName, genValue, panelGen);
+        // Clear the genPanels list
+        genPanels.Clear();
+        selectedGenPanel = null;
     }
 
     public void Sacrifice()
     {
-        GenPanelUI selectedGenPanel = null;
-        foreach(UnityEngine.UI.Toggle toggle in altarGensPanel.GetComponentsInChildren<UnityEngine.UI.Toggle>())
-        {
-            if (toggle.isOn)
-            {
-                selectedGenPanel = toggle.GetComponent<GenPanelUI>();
-                break;
-            }
-        }
-        if(selectedGenPanel != null)
-        {
-            Debug.Log("Sacrificed " + HeldUnit + " for " + selectedGenPanel.GetGenName() + " with value: " + selectedGenPanel.GetGenValue());
-            GenShard genShard = Instantiate(genShardPrefab, HeldUnit.transform.position, Quaternion.identity).GetComponent<GenShard>();
-            genShard.Initialize(selectedGenPanel.PanelGen, genShard.GenItem);
+        if(selectedGenPanel is null) return;
 
-            ClearAltarPanel();
-            HeldUnit.Die();
-        }
-        else
-        {
-            Debug.Log("No gen to sacrifice.");
-        }
+        Debug.Log("Sacrificed " + HeldUnit + " for " + selectedGenPanel.GetGenName() + " with value: " + selectedGenPanel.GetGenValue());
+        GenShard genShard = Instantiate(genShardPrefab, HeldUnit.transform.position, Quaternion.identity).GetComponent<GenShard>();
+        genShard.Initialize(selectedGenPanel.PanelGen, genShard.GenItem);
+
+        ClearAltarPanel();
+        HeldUnit.Die();
     }
 }

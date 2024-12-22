@@ -126,3 +126,14 @@
     color: rgb(255, 197, 0);
     font-size: 30px;
 }
+
+.genPanelSelected {
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-left-color: rgb(255, 162, 0);
+    border-right-color: rgb(255, 162, 0);
+    border-top-color: rgb(255, 162, 0);
+    border-bottom-color: rgb(255, 162, 0);
+}
