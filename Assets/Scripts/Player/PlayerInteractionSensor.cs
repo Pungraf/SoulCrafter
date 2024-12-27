@@ -100,7 +100,6 @@ public class PlayerInteractionSensor : MonoBehaviour
                 actionPanelIsActive = false;
                 closestTransform = null;
                 UIManager.Instance.DisableActionButtonPanel();
-                UIManager.Instance.DisableAllWindows();
             }
         }
     }

@@ -10,7 +10,6 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
-    [SerializeField] private InventorySlot[] inventorySlots;
     [SerializeField] private GameObject inventoryItemPrefab;
 
     [SerializeField]
@@ -84,11 +83,6 @@ public class InventoryManager : MonoBehaviour
 
             m_SlotContainer.Add(item);
         }
-    }
-
-    private void Start()
-    {
-        //ToggleInventoryUI(false);
     }
 
     public void SetDescriptionPanel(MouseEnterEvent evt, string title, string description)
@@ -233,34 +227,8 @@ public class InventoryManager : MonoBehaviour
         AddItem(FakeItem);
     }
 
-    public void ToggleInventory()
-    {
-        UIManager.Instance.ToggleInventoryPanel();
-    }
-
     public bool AddItem(Item item)
     {
-        /*
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            InventorySlot slot = inventorySlots[i];
-            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
-            if (itemInSlot != null &&
-                itemInSlot.GetItem() == item &&
-                itemInSlot.GetItem().IsStackable &&
-                (itemInSlot.Count < itemInSlot.GetItem().MaxStack))
-            {
-                itemInSlot.Count++;
-                itemInSlot.RefreshCount();
-                return true;
-            }
-            if (itemInSlot == null)
-            {
-                SpawnNewItem(item, slot);
-                return true;
-            }
-        }
-        */
         for (int i = 0; i < InventoryItems.Count; i++)
         {
             UI_InventorySlot slot = InventoryItems[i];

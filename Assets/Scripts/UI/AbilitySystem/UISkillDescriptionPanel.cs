@@ -15,7 +15,7 @@ public class UISkillDescriptionPanel : MonoBehaviour
 
     private void Awake()
     {
-        _uiManager= GetComponent<UIManager>();
+        _uiManager= GetComponentInParent<UIManager>();
     }
 
     private void OnEnable()
@@ -32,26 +32,26 @@ public class UISkillDescriptionPanel : MonoBehaviour
     private void Start()
     {
         GatherLebelReferences();
-        var skill = _uiManager.SkillLibrary.GetSkillsOfTier(1)[0];
+        var skill = _uiManager.UIAbilitySystem.SkillLibrary.GetSkillsOfTier(1)[0];
         PopulateLabelText(skill);
     }
 
     private void GatherLebelReferences()
     {
-        _skillImage = _uiManager.UIDocument.rootVisualElement.Q<VisualElement>("Icon");
-        _skillNameLabel = _uiManager.UIDocument.rootVisualElement.Q<Label>("SkillNameLabel");
-        _skillDescriptionLabel = _uiManager.UIDocument.rootVisualElement.Q<Label>("SkillDescriptionLabel");
-        _skillCostLabel = _uiManager.UIDocument.rootVisualElement.Q<Label>("SkillCostLabel");
-        _skillPreReqLabel = _uiManager.UIDocument.rootVisualElement.Q<Label>("PreReqLabel");
-        _purchaseSkillButton = _uiManager.UIDocument.rootVisualElement.Q<Button>("BuySkillButton");
+        _skillImage = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<VisualElement>("Icon");
+        _skillNameLabel = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<Label>("SkillNameLabel");
+        _skillDescriptionLabel = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<Label>("SkillDescriptionLabel");
+        _skillCostLabel = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<Label>("SkillCostLabel");
+        _skillPreReqLabel = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<Label>("PreReqLabel");
+        _purchaseSkillButton = _uiManager.UIAbilitySystem.UIDocument.rootVisualElement.Q<Button>("BuySkillButton");
         _purchaseSkillButton.clicked += PurchaseSkill;
     }
 
     private void PurchaseSkill()
     {
-        if (_uiManager.PlayerSkillManager.CanAffordSkill(_assignedSkill))
+        if (_uiManager.UIAbilitySystem.PlayerSkillManager.CanAffordSkill(_assignedSkill))
         {
-            _uiManager.PlayerSkillManager.UnlockSkill(_assignedSkill);
+            _uiManager.UIAbilitySystem.PlayerSkillManager.UnlockSkill(_assignedSkill);
             PopulateLabelText(_assignedSkill);
         }
     }
@@ -81,17 +81,17 @@ public class UISkillDescriptionPanel : MonoBehaviour
             _skillPreReqLabel.text = "";
         }
         
-        if(_uiManager.PlayerSkillManager.IsSkillUnlocked(_assignedSkill))
+        if(_uiManager.UIAbilitySystem.PlayerSkillManager.IsSkillUnlocked(_assignedSkill))
         {
             _purchaseSkillButton.text = "Purchased";
             _purchaseSkillButton.SetEnabled(false);
         }
-        else if (!_uiManager.PlayerSkillManager.PreReqaMet(_assignedSkill))
+        else if (!_uiManager.UIAbilitySystem.PlayerSkillManager.PreReqaMet(_assignedSkill))
         {
             _purchaseSkillButton.text = "Prerequisites Not Met";
             _purchaseSkillButton.SetEnabled(false);
         }
-        else if(!_uiManager.PlayerSkillManager.CanAffordSkill(_assignedSkill))
+        else if(!_uiManager.UIAbilitySystem.PlayerSkillManager.CanAffordSkill(_assignedSkill))
         {
             _purchaseSkillButton.text = "Can't Afford";
             _purchaseSkillButton.SetEnabled(false);

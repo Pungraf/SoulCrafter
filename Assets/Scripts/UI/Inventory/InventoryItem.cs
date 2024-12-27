@@ -18,8 +18,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     [SerializeField] private Item item;
 
     public bool ButtonIsActive;
-    private Button_UI buttonUI;
-    InterceptActionHandler interceptHandler;
 
     public Image image;
 
@@ -28,35 +26,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     private void Start()
     {
         RefreshCount();
-        buttonUI = GetComponent<Button_UI>();
-        buttonUI.MouseRightClickFunc = () =>
-        {
-            UseItem();
-        };
-        interceptHandler = buttonUI.InterceptAction("MouseRightClickFunc", () =>
-        {
-            // Condition to allow or block MouseRightClickFunc
-            return ButtonIsActive;
-        });
-
-        buttonUI.MouseOverOnceFunc = () =>
-        {
-            ShowItemDescriptionPanel();
-        };
-        buttonUI.MouseOutOnceFunc = () =>
-        {
-            HideItemDescriptionPanel();
-        };
-    }
-
-    private void HideItemDescriptionPanel()
-    {
-        UIManager.Instance.DisableItemDescriptionPanel();
-    }
-
-    private void ShowItemDescriptionPanel()
-    {
-        UIManager.Instance.EnableItemDescriptionPanel(transform.position, Item.ItemName, Item.ItemDescription());
     }
 
     public void OnBeginDrag(PointerEventData eventData)

@@ -48,7 +48,7 @@ public class SpliceCore : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        UIManager.Instance.SpliceCorePanelChangeState();
+       // UIManager.Instance.SpliceCorePanelChangeState();
     }
 
     public void SpliceGenIntoEgg()

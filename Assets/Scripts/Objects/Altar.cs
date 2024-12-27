@@ -10,9 +10,6 @@ public class Altar : MonoBehaviour
     [SerializeField] private GameObject genShardPrefab;
 
     public Unit HeldUnit;
-    public GameObject subPanelPrefab;
-
-    private RectTransform altarGensPanel;
 
     private List<GenPanel> genPanels = new List<GenPanel>();
 
@@ -25,7 +22,6 @@ public class Altar : MonoBehaviour
 
     private void Start()
     {
-        altarGensPanel = UIManager.Instance.AltarGensPanel;
         m_AltarPanel = InventoryManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
         m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
 
@@ -97,7 +93,7 @@ public class Altar : MonoBehaviour
 
     private void FillAltarPanelWithGens(GenSample genSample)
     {
-        if(altarGensPanel != null)
+        if(genSample != null)
         {
             FieldInfo[] properties = typeof(GenSample).GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
 

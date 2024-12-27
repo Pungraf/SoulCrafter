@@ -8,6 +8,6 @@ public class AltarPanel : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        UIManager.Instance.AltarPanelChangeState();
+        //
     }
 }
