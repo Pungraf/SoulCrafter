@@ -13,9 +13,6 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject inventoryItemPrefab;
 
     [SerializeField]
-    private Item FakeItem;
-
-    [SerializeField]
     private InputActionAsset InputActions;
     private InputActionMap UIActionMap;
     private InputAction Toggle;
@@ -24,7 +21,7 @@ public class InventoryManager : MonoBehaviour
     /// ////////////////////////////////////////////////////
     public List<UI_InventorySlot> InventoryItems = new List<UI_InventorySlot>();
 
-    private VisualElement m_Root;
+
     private VisualElement m_InventoryCointainer;
     private bool isInventoryVisible = false; 
     private VisualElement m_SlotContainer;
@@ -37,8 +34,6 @@ public class InventoryManager : MonoBehaviour
     private static Label m_DescriptionPanel_Title;
     private static Label m_DescriptionPanel_Description;
     private static bool m_DesDescriptionPanelInOn;
-
-    public VisualElement M_Root => m_Root;
 
     private void Awake()
     {
@@ -54,24 +49,20 @@ public class InventoryManager : MonoBehaviour
         Toggle = InputActions.FindAction("ToggleInventory");
         Toggle.performed += HandleToggleActionPerformed;
         Toggle.Enable();
-        FakeAction = InputActions.FindAction("FakeAction");
-        FakeAction.started += HandleFakeActionStarted;
-        FakeAction.Enable();
         UIActionMap.Enable();
         InputActions.Enable();
 
         ///////////////////////////
         //Store the root from the UI Document component
-        m_Root = GetComponent<UIDocument>().rootVisualElement;
-        m_InventoryCointainer = m_Root.Q<VisualElement>("Container");
+        m_InventoryCointainer = UIManager.Instance.M_Root.Q<VisualElement>("Container");
         //Search the root for the SlotContainer Visual Element
-        m_SlotContainer = m_Root.Q<VisualElement>("SlotContainer");
+        m_SlotContainer = UIManager.Instance.M_Root.Q<VisualElement>("SlotContainer");
 
-        m_GhostIcon = m_Root.Query<VisualElement>("GhostIcon");
+        m_GhostIcon = UIManager.Instance.M_Root.Query<VisualElement>("GhostIcon");
         m_GhostIcon.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         m_GhostIcon.RegisterCallback<PointerUpEvent>(OnPointerUp);
 
-        m_DescriptionPanel = m_Root.Query<VisualElement>("DetailsPanel");
+        m_DescriptionPanel = UIManager.Instance.M_Root.Query<VisualElement>("DetailsPanel");
         m_DescriptionPanel_Title = m_DescriptionPanel.Query<Label>("ItemNameLabel");
         m_DescriptionPanel_Description = m_DescriptionPanel.Query<Label>("DetailsLabel");
         //Create InventorySlots and add them as children to the SlotContainer
@@ -203,7 +194,7 @@ public class InventoryManager : MonoBehaviour
     // Function to toggle the visibility of the inventory panel
     public void ToggleInventoryUI(bool isVisible)
     {
-        if (m_Root != null)
+        if (UIManager.Instance.M_Root != null)
         {
             isInventoryVisible = isVisible;
             m_InventoryCointainer.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
@@ -220,11 +211,6 @@ public class InventoryManager : MonoBehaviour
     {
         //ToggleInventory();
         ToggleInventoryUI();
-    }
-
-    private void HandleFakeActionStarted(InputAction.CallbackContext Context)
-    {
-        AddItem(FakeItem);
     }
 
     public bool AddItem(Item item)

@@ -9,9 +9,16 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    private VisualElement m_Root;
+    public VisualElement M_Root => m_Root;
+
     public UIAbilitySystem UIAbilitySystem => _uIAbilitySystem;
 
     private UIAbilitySystem _uIAbilitySystem;
+
+    [SerializeField] private RectTransform ActionButtonPanel;
+    [SerializeField] private TextMeshProUGUI actionButtonText;
+    [SerializeField] private TextMeshProUGUI actionNameText;
 
     private void Awake()
     {
@@ -25,11 +32,11 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         _uIAbilitySystem = GetComponentInChildren<UIAbilitySystem>();
+
+
+        m_Root = GetComponent<UIDocument>().rootVisualElement;
     }
 
-    [SerializeField] private RectTransform ActionButtonPanel;
-    [SerializeField] private TextMeshProUGUI actionButtonText;
-    [SerializeField] private TextMeshProUGUI actionNameText;
 
     public void EnableActionButtonPanel(Vector2 position, string buttonName, string actionName)
     {

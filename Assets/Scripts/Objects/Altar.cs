@@ -22,7 +22,7 @@ public class Altar : MonoBehaviour
 
     private void Start()
     {
-        m_AltarPanel = InventoryManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
+        m_AltarPanel = UIManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
         m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
 
         m_sacrificeButton = m_AltarPanel.Query<Button>("SacrificeButton");
