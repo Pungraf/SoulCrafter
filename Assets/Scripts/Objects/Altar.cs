@@ -13,22 +13,16 @@ public class Altar : MonoBehaviour
 
     private List<GenPanel> genPanels = new List<GenPanel>();
 
-    private VisualElement m_AltarPanel;
-    private ScrollView m_GensListScrollPanel;
-    private Button m_sacrificeButton;
+    
     [SerializeField] private VisualTreeAsset uiGenElement;
 
     private GenPanel selectedGenPanel;
 
     private void Start()
     {
-        m_AltarPanel = UIManager.Instance.M_Root.Query<VisualElement>("AltarPanel");
-        m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
-
-        m_sacrificeButton = m_AltarPanel.Query<Button>("SacrificeButton");
-        if (m_sacrificeButton != null)
+        if (UIManager.Instance.M_sacrificeButton != null)
         {
-            m_sacrificeButton.clicked += Sacrifice;
+            UIManager.Instance.M_sacrificeButton.clicked += Sacrifice;
         }
 
         GenPanel.OnGenPanelSelected += HandleGenPanelSelected;
@@ -106,7 +100,7 @@ public class Altar : MonoBehaviour
                     Button genPanel = uiGenElement.CloneTree().Q<Button>();
                     GenPanel panel = new GenPanel(genPanel, singleGen);
                     genPanels.Add(panel);
-                    m_GensListScrollPanel.Add(genPanel);
+                    UIManager.Instance.M_GensListScrollPanel.Add(genPanel);
                 }
             }
         }
@@ -114,15 +108,15 @@ public class Altar : MonoBehaviour
 
     private void ClearAltarPanel()
     {
-        if (m_GensListScrollPanel.childCount == 0) return;
+        if (UIManager.Instance.M_GensListScrollPanel.childCount == 0) return;
 
         // Destroy all Buttons in m_GensListScrollPanel
-        for (int i = m_GensListScrollPanel.childCount - 1; i >= 0; i--)
+        for (int i = UIManager.Instance.M_GensListScrollPanel.childCount - 1; i >= 0; i--)
         {
-            VisualElement child = m_GensListScrollPanel[i];
+            VisualElement child = UIManager.Instance.M_GensListScrollPanel[i];
             if (child is Button)
             {
-                m_GensListScrollPanel.Remove(child);
+                UIManager.Instance.M_GensListScrollPanel.Remove(child);
             }
         }
 

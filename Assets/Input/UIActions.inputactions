@@ -15,9 +15,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "FakeAction",
+                    "name": "ToggleAbility",
                     "type": "Button",
-                    "id": "2729d5ea-ff08-49bd-bd5e-f4687e266b46",
+                    "id": "ece5e890-7718-4e61-a3f8-1221ea3269a6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -38,12 +38,12 @@
                 },
                 {
                     "name": "",
-                    "id": "03b53798-eb2c-475e-9f51-af71248745b4",
-                    "path": "<Keyboard>/rightBracket",
+                    "id": "ec433bce-af12-478e-a2b8-2953a83ee2c0",
+                    "path": "<Keyboard>/#(P)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "FakeAction",
+                    "action": "ToggleAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

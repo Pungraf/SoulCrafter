@@ -12,18 +12,13 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryItemPrefab;
 
-    [SerializeField]
-    private InputActionAsset InputActions;
-    private InputActionMap UIActionMap;
-    private InputAction Toggle;
-    private InputAction FakeAction;
+    
 
     /// ////////////////////////////////////////////////////
     public List<UI_InventorySlot> InventoryItems = new List<UI_InventorySlot>();
 
 
-    private VisualElement m_InventoryCointainer;
-    private bool isInventoryVisible = false; 
+    
     private VisualElement m_SlotContainer;
 
     private static bool m_IsDragging;
@@ -45,24 +40,15 @@ public class InventoryManager : MonoBehaviour
         }
         Instance = this;
 
-        UIActionMap = InputActions.FindActionMap("UI");
-        Toggle = InputActions.FindAction("ToggleInventory");
-        Toggle.performed += HandleToggleActionPerformed;
-        Toggle.Enable();
-        UIActionMap.Enable();
-        InputActions.Enable();
-
         ///////////////////////////
-        //Store the root from the UI Document component
-        m_InventoryCointainer = UIManager.Instance.M_Root.Q<VisualElement>("Container");
         //Search the root for the SlotContainer Visual Element
-        m_SlotContainer = UIManager.Instance.M_Root.Q<VisualElement>("SlotContainer");
+        m_SlotContainer = UIManager.Instance.M_InventoryRoot.Q<VisualElement>("SlotContainer");
 
-        m_GhostIcon = UIManager.Instance.M_Root.Query<VisualElement>("GhostIcon");
+        m_GhostIcon = UIManager.Instance.M_InventoryRoot.Query<VisualElement>("GhostIcon");
         m_GhostIcon.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         m_GhostIcon.RegisterCallback<PointerUpEvent>(OnPointerUp);
 
-        m_DescriptionPanel = UIManager.Instance.M_Root.Query<VisualElement>("DetailsPanel");
+        m_DescriptionPanel = UIManager.Instance.M_InventoryRoot.Query<VisualElement>("DetailsPanel");
         m_DescriptionPanel_Title = m_DescriptionPanel.Query<Label>("ItemNameLabel");
         m_DescriptionPanel_Description = m_DescriptionPanel.Query<Label>("DetailsLabel");
         //Create InventorySlots and add them as children to the SlotContainer
@@ -189,28 +175,6 @@ public class InventoryManager : MonoBehaviour
         m_IsDragging = false;
         m_GhostIcon.style.visibility = Visibility.Hidden;
 
-    }
-
-    // Function to toggle the visibility of the inventory panel
-    public void ToggleInventoryUI(bool isVisible)
-    {
-        if (UIManager.Instance.M_Root != null)
-        {
-            isInventoryVisible = isVisible;
-            m_InventoryCointainer.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
-        }
-    }
-
-    // Convenience method for toggling on and off
-    public void ToggleInventoryUI()
-    {
-        ToggleInventoryUI(!isInventoryVisible);
-    }
-
-    private void HandleToggleActionPerformed(InputAction.CallbackContext Context)
-    {
-        //ToggleInventory();
-        ToggleInventoryUI();
     }
 
     public bool AddItem(Item item)

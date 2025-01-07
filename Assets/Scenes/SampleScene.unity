@@ -10184,7 +10184,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412900003}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10215,8 +10215,8 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 840f9e36ac919794abbd3d40db69e5b1, type: 2}
-  m_ParentUI: {fileID: 1638752542}
+  m_PanelSettings: {fileID: 11400000, guid: f27a7f071dfcdf74b93f3ac33342d4d6, type: 2}
+  m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: bd7a92aa3397de946a6d4cf04855099d,
     type: 3}
   m_SortingOrder: 0
@@ -12288,7 +12288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1638752541}
   - component: {fileID: 1638752540}
-  - component: {fileID: 1638752542}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -12308,6 +12307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b167c6470c00a53408bad96cd391fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputActions: {fileID: -944628639613478452, guid: c886a4a11996ff54b9a801e3e2260c87,
+    type: 3}
   ActionButtonPanel: {fileID: 1661601440}
   actionButtonText: {fileID: 1225782983}
   actionNameText: {fileID: 642010135}
@@ -12324,27 +12325,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1412900004}
   - {fileID: 5506134096937628098}
+  - {fileID: 1412900004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1638752542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638752539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 840f9e36ac919794abbd3d40db69e5b1, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: ff8fbcb12fd3be44498649907762ccb6,
-    type: 3}
-  m_SortingOrder: 0
 --- !u!1 &1646000926
 GameObject:
   m_ObjectHideFlags: 0
@@ -15247,6 +15231,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5711b2b479d6e4eaba548472efb9b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1963140351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6186415628541162532, guid: 2d64c5e32b3ab3d449cf62229d71f114,
+    type: 3}
+  m_PrefabInstance: {fileID: 5506134096937628097}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1976343008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17135,7 +17125,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6186415628541162532, guid: 2d64c5e32b3ab3d449cf62229d71f114,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5506134096937628100}
   m_SourcePrefab: {fileID: 100100000, guid: 2d64c5e32b3ab3d449cf62229d71f114, type: 3}
 --- !u!4 &5506134096937628098 stripped
 Transform:
@@ -17143,6 +17137,23 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5506134096937628097}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5506134096937628100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963140351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 840f9e36ac919794abbd3d40db69e5b1, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: ff8fbcb12fd3be44498649907762ccb6,
+    type: 3}
+  m_SortingOrder: 0
 --- !u!1001 &6226318223614118555
 PrefabInstance:
   m_ObjectHideFlags: 0
