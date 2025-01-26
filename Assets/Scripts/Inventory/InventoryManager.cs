@@ -128,7 +128,7 @@ public class InventoryManager : MonoBehaviour
             UI_InventorySlot closestSlot = slots.OrderBy(x => Vector2.Distance
                (x.worldBound.position, m_GhostIcon.worldBound.position)).First();
 
-            if(closestSlot != m_OriginalSlot)
+            if(closestSlot != m_OriginalSlot && closestSlot.IsValidItem(m_OriginalSlot.Item))
             {
                 if(closestSlot.Item != null)
                 {

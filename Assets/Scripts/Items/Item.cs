@@ -4,10 +4,18 @@ using UnityEngine;
 
 public abstract class Item : ScriptableObject
 {
+    public enum ItemType
+    {
+        All,
+        Egg,
+        SoulShard
+    }
+
     [SerializeField] private string itemName;
     [SerializeField] private bool isStackable;
     [SerializeField] private int maxStack;
     [SerializeField] private string spriteName;
+    [SerializeField] private ItemType itemType;
 
     public string ItemName
     {
@@ -42,6 +50,15 @@ public abstract class Item : ScriptableObject
         set
         {
             spriteName = value;
+        }
+    }
+
+    public ItemType Type
+    {
+        get => itemType;
+        set
+        {
+            itemType = value;
         }
     }
     public Sprite GetSprite()

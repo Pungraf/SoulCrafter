@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     private VisualElement m_InventoryRoot;
     public VisualElement M_InventoryRoot => m_InventoryRoot;
 
+    private VisualElement secondaryInventoryPanel;
+
     public bool IsInventoryPanelActive => _isInventoryPanelActive;
     private bool _isInventoryPanelActive;
 
@@ -30,6 +32,27 @@ public class UIManager : MonoBehaviour
         set => m_sacrificeButton = value;
     }
     private Button m_sacrificeButton;
+
+    //Splice Core Panel
+    private VisualElement m_SpliceCorePanel;
+    public UI_InventorySlot M_EggSlot
+    {
+        get => m_EggSlot;
+        set => m_EggSlot = value;
+    }
+    private UI_InventorySlot m_EggSlot;
+    public UI_InventorySlot M_GenSlot
+    {
+        get => m_GenSlot;
+        set => m_GenSlot = value;
+    }
+    private UI_InventorySlot m_GenSlot;
+    public Button M_SpliceButton
+    {
+        get => m_SpliceButton;
+        set => m_SpliceButton = value;
+    }
+    private Button m_SpliceButton;
 
     //Ability Main Panel
     private VisualElement m_AbilityRoot;
@@ -78,6 +101,11 @@ public class UIManager : MonoBehaviour
         m_AltarPanel = M_InventoryRoot.Query<VisualElement>("AltarPanel");
         m_GensListScrollPanel = m_AltarPanel.Query<ScrollView>("GensContainer");
         m_sacrificeButton = m_AltarPanel.Query<Button>("SacrificeButton");
+
+        m_SpliceCorePanel = M_InventoryRoot.Query<VisualElement>("SpliceCorePanel");
+        m_EggSlot = m_SpliceCorePanel.Query<UI_InventorySlot>("EggSlot");
+        m_GenSlot = m_SpliceCorePanel.Query<UI_InventorySlot>("GenSlot");
+        m_SpliceButton = m_SpliceCorePanel.Query<Button>("SpliceButton");
 
         m_AbilityRoot = _uIAbilitySystem.gameObject.GetComponent<UIDocument>().rootVisualElement;
         m_AbilityCointainer = m_AbilityRoot.Q<VisualElement>("MainPanel");
@@ -161,10 +189,33 @@ public class UIManager : MonoBehaviour
 
     public void ToggleAltarPanelUI(bool isVisible)
     {
+        //Open main panel if is closed
         if (!IsInventoryPanelActive) ToggleInventoryUI(isVisible);
+        //Disable previous secondary panel if is opened
+        if (secondaryInventoryPanel != null && secondaryInventoryPanel.style.display == DisplayStyle.Flex)
+        {
+            secondaryInventoryPanel.style.display = DisplayStyle.None;
+        }
         if (m_AltarPanel != null)
         {
             m_AltarPanel.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+            secondaryInventoryPanel = m_AltarPanel;
+        }
+    }
+
+    public void ToggleSpliceCorePanelUI(bool isVisible)
+    {
+        //Open main panel if is closed
+        if (!IsInventoryPanelActive) ToggleInventoryUI(isVisible);
+        //Disable previous secondary panel if is opened
+        if(secondaryInventoryPanel!= null && secondaryInventoryPanel.style.display == DisplayStyle.Flex)
+        {
+            secondaryInventoryPanel.style.display = DisplayStyle.None;
+        }
+        if (m_SpliceCorePanel != null)
+        {
+            m_SpliceCorePanel.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+            secondaryInventoryPanel = m_SpliceCorePanel;
         }
     }
 }

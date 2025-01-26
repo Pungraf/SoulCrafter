@@ -13,6 +13,12 @@ public class UI_InventorySlot : VisualElement
     private Label _countLabel;
     private int _count;
 
+    [SerializeField]
+    private List<Item.ItemType> availableItemTypes = new List<Item.ItemType>(); // List of class names (string)
+
+    public List<Item.ItemType> AvailableItemTypes => availableItemTypes;
+
+    public bool HasItemRestriction = false;
 
     public Image Icon => _icon;
     public Item Item => _item;
@@ -40,6 +46,8 @@ public class UI_InventorySlot : VisualElement
         RegisterCallback<PointerDownEvent>(OnPointerDown);
         RegisterCallback<MouseEnterEvent>(OnMouseEnter);
         RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+
+        availableItemTypes.Add(Item.ItemType.All);
     }
 
     private void OnPointerDown(PointerDownEvent evt)
@@ -69,6 +77,11 @@ public class UI_InventorySlot : VisualElement
     private void OnMouseLeave(MouseLeaveEvent evt)
     {
         InventoryManager.Instance.HideDescriptionPanel();
+    }
+
+    public bool IsValidItem(Item item)
+    {
+        return item != null && (availableItemTypes.Contains(Item.ItemType.All) || availableItemTypes.Contains(item.Type));
     }
 
     public void AddItemToSlot(Item item, int count = 1)
@@ -113,6 +126,10 @@ public class UI_InventorySlot : VisualElement
         }
     }
 
+    public void SetSlotRestriction(List<Item.ItemType> avalaibleTypes)
+    {
+        availableItemTypes = avalaibleTypes;
+    }
     #region UXML
     [Preserve]
     public new class UxmlFactory : UxmlFactory<UI_InventorySlot, UxmlTraits> { }

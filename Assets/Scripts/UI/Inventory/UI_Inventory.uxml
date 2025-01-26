@@ -1,11 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/UI/InventorySS.uss?fileID=7433441132597879392&amp;guid=46ffea135574b34408aa1859fa415ffc&amp;type=3#InventorySS" />
-    <ui:VisualElement name="Container" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: space-between; padding-right: 50px; opacity: 1; visibility: visible; display: none; flex-direction: row-reverse; align-self: auto; padding-left: 50px; position: relative;">
+    <ui:VisualElement name="Container" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: space-between; padding-right: 50px; opacity: 1; visibility: visible; display: flex; flex-direction: row-reverse; align-self: auto; padding-left: 50px; position: relative;">
         <ui:VisualElement name="Inventory" class="inventory" style="justify-content: flex-end; flex-direction: column; width: 40%; align-self: auto; max-width: 40%; right: 5px; position: relative; visibility: visible; display: flex;">
             <ui:Label tabindex="-1" text="Inventory" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" class="inventoryTitleLabel" />
             <ui:VisualElement name="SlotContainer" class="slot" />
         </ui:VisualElement>
-        <ui:VisualElement name="GhostIcon" style="flex-grow: 1; position: absolute; width: 128px; height: 128px; visibility: hidden;" />
         <ui:VisualElement name="DetailsPanel" picking-mode="Ignore" style="flex-grow: 1; position: absolute; align-items: center; border-left-color: rgb(255, 197, 0); border-right-color: rgb(255, 197, 0); border-top-color: rgb(255, 197, 0); border-bottom-color: rgb(255, 197, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; -unity-background-image-tint-color: rgba(28, 32, 36, 0); background-color: rgba(0, 0, 0, 0.75); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; top: 414px; left: 843px; visibility: hidden;">
             <ui:Label tabindex="-1" text="Item name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemNameLabel" picking-mode="Ignore" class="inventoryTitleLabel" style="width: 250px; font-size: 30px; -unity-text-align: middle-center;" />
             <ui:Label tabindex="-1" text="Description" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DetailsLabel" picking-mode="Ignore" style="width: 250px; min-height: 200px; -unity-font-definition: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars%20SDF.asset?fileID=11400000&amp;guid=c5d165487f121634a8cae7af866a81a2&amp;type=2#Vampire Wars SDF&quot;); -unity-font: url(&quot;project://database/Assets/FBX/Fonts/Vampire%20Wars.otf?fileID=12800000&amp;guid=3d11ca806d30b2744b3a49b69da9f1cd&amp;type=3#Vampire Wars&quot;); color: rgb(255, 197, 0); font-size: 20px;" />
@@ -15,5 +14,16 @@
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="GensContainer" style="width: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; height: 100%;" />
             <ui:Button text="SACRIFICE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SacrificeButton" class="actionButton" />
         </ui:VisualElement>
+        <ui:VisualElement name="SpliceCorePanel" class="inventory" style="justify-content: center; align-self: auto; visibility: visible; display: none; width: 40%; max-width: 40%; align-items: flex-start; left: 5px; position: relative; padding-bottom: 50px;">
+            <ui:Label tabindex="-1" text="Splice core" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" class="inventoryTitleLabel" />
+            <ui:VisualElement name="SplicePanel" style="flex-grow: 1; align-items: center; flex-direction: column; flex-wrap: nowrap; justify-content: center; width: 100%;">
+                <ui:Label tabindex="-1" text="Egg slot" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EggLabel" class="inventoryTitleLabel" style="font-size: 35px;" />
+                <UI_InventorySlot name="EggSlot" class="customInventorySlot" style="margin-top: 10px; margin-right: 10px; margin-bottom: 75px; margin-left: 10px;" />
+                <ui:Label tabindex="-1" text="Gen slot" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenLabel" class="inventoryTitleLabel" style="font-size: 35px;" />
+                <UI_InventorySlot name="GenSlot" style="margin-top: 10px; margin-right: 10px; margin-bottom: 75px; margin-left: 10px;" />
+            </ui:VisualElement>
+            <ui:Button text="SPLICE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SpliceButton" class="actionButton" />
+        </ui:VisualElement>
+        <ui:VisualElement name="GhostIcon" style="flex-grow: 1; position: absolute; width: 128px; height: 128px; visibility: hidden;" />
     </ui:VisualElement>
 </ui:UXML>

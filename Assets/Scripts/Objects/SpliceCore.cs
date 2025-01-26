@@ -8,6 +8,10 @@ public class SpliceCore : MonoBehaviour, IInteractable
     [SerializeField] private EggSlot eggSlot;
     [SerializeField] private SingleGenSlot singleGenSlot;
 
+    private bool spliceCorePanelIsActive;
+    private Transform playerTransform;
+    private float disablePanelDistance = 3f;
+
     private EggItem eggInCore;
     private GameObject eggVisual;
 
@@ -17,6 +21,26 @@ public class SpliceCore : MonoBehaviour, IInteractable
     {
         eggSlot.OnSlotItemChanged += EggSlot_OnSlotItemChanged;
         singleGenSlot.OnSlotItemChanged += SingleGenSlot_OnSlotItemChanged;
+
+        playerTransform = WorldManager.Instance.Player.transform;
+
+        if (UIManager.Instance.M_SpliceButton != null)
+        {
+            UIManager.Instance.M_SpliceButton.clicked += SpliceGenIntoEgg;
+        }
+    }
+
+    private void Update()
+    {
+        if (spliceCorePanelIsActive)
+        {
+            float distance = Vector3.Distance(playerTransform.position, transform.position);
+            if (distance > disablePanelDistance)
+            {
+                spliceCorePanelIsActive = false;
+                UIManager.Instance.ToggleAltarPanelUI(false);
+            }
+        }
     }
 
     private void EggSlot_OnSlotItemChanged(object sender, System.EventArgs e)
@@ -48,7 +72,8 @@ public class SpliceCore : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-       // UIManager.Instance.SpliceCorePanelChangeState();
+        spliceCorePanelIsActive = true;
+        UIManager.Instance.ToggleSpliceCorePanelUI(true);
     }
 
     public void SpliceGenIntoEgg()
