@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class UI_InventorySlot : VisualElement
 {
+    // Define an event to notify when the item changes
+    public event Action<UI_InventorySlot, Item> OnItemChanged;
+
     private Image _icon;
     private Item _item;
     private Label _countLabel;
@@ -89,6 +92,7 @@ public class UI_InventorySlot : VisualElement
         _item = item;
         SetImage();
         Count = count;
+        OnItemChanged?.Invoke(this, _item);
     }
 
     public void SetImage()
@@ -101,6 +105,7 @@ public class UI_InventorySlot : VisualElement
         _item = null;
         _icon.sprite = null;
         Count = 0;
+        OnItemChanged?.Invoke(this, _item);
     }
 
     private void UpdateCountLabel()

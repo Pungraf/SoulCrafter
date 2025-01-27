@@ -53,6 +53,7 @@ public class EggItem : Item, IUsable
         instace.eggVisualsPrefab = eggVisualsPrefab;
         instace.GenSample = genSample;
         instace.EvolvedUnit = evolvedUnit;
+        instace.Type = ItemType.Egg;
 
         return instace;
     }

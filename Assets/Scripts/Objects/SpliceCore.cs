@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class SpliceCore : MonoBehaviour, IInteractable
 {
-    [SerializeField] private EggSlot eggSlot;
-    [SerializeField] private SingleGenSlot singleGenSlot;
-
     private bool spliceCorePanelIsActive;
     private Transform playerTransform;
     private float disablePanelDistance = 3f;
@@ -19,15 +16,19 @@ public class SpliceCore : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        eggSlot.OnSlotItemChanged += EggSlot_OnSlotItemChanged;
-        singleGenSlot.OnSlotItemChanged += SingleGenSlot_OnSlotItemChanged;
-
         playerTransform = WorldManager.Instance.Player.transform;
 
         if (UIManager.Instance.M_SpliceButton != null)
         {
             UIManager.Instance.M_SpliceButton.clicked += SpliceGenIntoEgg;
         }
+
+        UIManager.Instance.M_EggSlot.SetSlotRestriction(new List<Item.ItemType> { Item.ItemType.Egg });
+        UIManager.Instance.M_GenSlot.SetSlotRestriction(new List<Item.ItemType> { Item.ItemType.SoulShard });
+
+        UIManager.Instance.M_EggSlot.OnItemChanged += EggSlot_OnSlotItemChanged;
+        UIManager.Instance.M_GenSlot.OnItemChanged += SingleGenSlot_OnSlotItemChanged;
+
     }
 
     private void Update()
@@ -43,11 +44,11 @@ public class SpliceCore : MonoBehaviour, IInteractable
         }
     }
 
-    private void EggSlot_OnSlotItemChanged(object sender, System.EventArgs e)
+    private void EggSlot_OnSlotItemChanged(UI_InventorySlot slot, Item newItem)
     {
-        if(eggSlot.ItemInSlot != null)
+        if(newItem != null)
         {
-            eggInCore = (EggItem)eggSlot.ItemInSlot.Item;
+            eggInCore = (EggItem)newItem;
             eggVisual = Instantiate(eggInCore.EggVisualsPrefab, transform.position, Quaternion.identity);
         }
         else
@@ -57,12 +58,12 @@ public class SpliceCore : MonoBehaviour, IInteractable
         }
     }
 
-    private void SingleGenSlot_OnSlotItemChanged(object sender, System.EventArgs e)
+    private void SingleGenSlot_OnSlotItemChanged(UI_InventorySlot slot, Item newItem)
     {
-        if (singleGenSlot.ItemInSlot != null)
+        if (newItem != null)
         {
 
-            genInCore = (GenItem)singleGenSlot.ItemInSlot.Item;
+            genInCore = (GenItem)newItem;
         }
         else
         {
@@ -78,7 +79,7 @@ public class SpliceCore : MonoBehaviour, IInteractable
 
     public void SpliceGenIntoEgg()
     {
-        if(eggSlot.ItemInSlot == null || singleGenSlot.ItemInSlot == null)
+        if (eggInCore == null || genInCore == null)
         {
             Debug.Log("Splice component missing.");
         }
@@ -86,7 +87,7 @@ public class SpliceCore : MonoBehaviour, IInteractable
         {
             ModifieGenValue(eggInCore.GenSample, genInCore.Gen);
 
-            Destroy(singleGenSlot.ItemInSlot.gameObject);
+            UIManager.Instance.M_GenSlot.RemoveItemFromSlot();
         }
     }
 

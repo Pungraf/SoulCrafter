@@ -215,7 +215,22 @@ public class UIManager : MonoBehaviour
         if (m_SpliceCorePanel != null)
         {
             m_SpliceCorePanel.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+            SpliceCoreInvetoryItemsSubscription(isVisible);
             secondaryInventoryPanel = m_SpliceCorePanel;
+        }
+    }
+
+    private void SpliceCoreInvetoryItemsSubscription(bool subscribe)
+    {
+        if(subscribe)
+        {
+            InventoryManager.Instance.InventoryItems.Add(M_EggSlot);
+            InventoryManager.Instance.InventoryItems.Add(M_GenSlot);
+        }
+        else
+        {
+            InventoryManager.Instance.InventoryItems.Remove(M_EggSlot);
+            InventoryManager.Instance.InventoryItems.Remove(M_GenSlot);
         }
     }
 }

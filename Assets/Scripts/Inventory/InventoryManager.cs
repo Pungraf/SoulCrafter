@@ -163,6 +163,10 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
+                if(!closestSlot.IsValidItem(m_OriginalSlot.Item))
+                {
+                    Debug.Log("Invalid item type: " + m_OriginalSlot.Item.Type.ToString() + " for " + closestSlot.AvailableItemTypes[0].ToString());
+                }
                 m_OriginalSlot.SetImage();
             }
         }

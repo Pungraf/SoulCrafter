@@ -37,6 +37,7 @@ public class GenItem : Item, IUsable
 
         instace.GenName = singleGen.Type.ToString();
         instace.GenValue = singleGen.Value;
+        instace.Type = ItemType.SoulShard;
 
         return instace;
     }
