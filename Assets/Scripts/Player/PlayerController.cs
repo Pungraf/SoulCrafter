@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public AbilitySet abilitySet;
+
+    private Ability primaryAbility;
+
     [SerializeField]
     private InputActionAsset InputActions;
     private InputActionMap PlayerActionMap;
@@ -13,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private InputAction ActionTwo;
     private InputAction ActionThree;
     private InputAction ActionFour;
+    private InputAction PrimaryAbilityInput;
+
 
     private PlayerPackManager packManager;
     public PlayerPackManager PackManager { get { return packManager; } }
@@ -25,16 +31,19 @@ public class PlayerController : MonoBehaviour
         ActionTwo = PlayerActionMap.FindAction("ActionTwo");
         ActionThree = PlayerActionMap.FindAction("ActionThree");
         ActionFour = PlayerActionMap.FindAction("ActionFour");
+        PrimaryAbilityInput = PlayerActionMap.FindAction("PrimaryAbility");
 
         ActionOne.started += HandleActinOneAction;
         ActionTwo.started += HandleActinTwoAction;
         ActionThree.started += HandleActinThreeAction;
         ActionFour.started += HandleActinFourAction;
+        PrimaryAbilityInput.started += HandleActinPrimaryAbility;
 
         ActionOne.Enable();
         ActionTwo.Enable();
         ActionThree.Enable();
         ActionFour.Enable();
+        PrimaryAbilityInput.Enable();
 
         PlayerActionMap.Enable();
         InputActions.Enable();
@@ -47,6 +56,8 @@ public class PlayerController : MonoBehaviour
     {
         WorldManager.Instance.Player = this.gameObject;
         packManager = GetComponent<PlayerPackManager>();
+
+        primaryAbility = abilitySet.GetAbilityByName("Swing");
     }
 
     private void HandleActinOneAction(InputAction.CallbackContext obj)
@@ -69,6 +80,10 @@ public class PlayerController : MonoBehaviour
         CommandeDisband();
     }
 
+    private void HandleActinPrimaryAbility(InputAction.CallbackContext obj)
+    {
+        primaryAbility.Activate(this);
+    }
     private void CommandeMove()
     {
         if(PackManager.Pack.Count == 0)
