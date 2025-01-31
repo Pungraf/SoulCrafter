@@ -9,5 +9,6 @@ public class SwingAction : AbilityAction
     {
         Debug.Log("Swing Attack!");
         // Implement attack logic, like applying damage to nearby enemies
+        controller.playerAC.SetTrigger("Swing");
     }
 }

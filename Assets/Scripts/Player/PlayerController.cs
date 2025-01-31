@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public AbilitySet abilitySet;
+    public Animator playerAC;
 
     private Ability primaryAbility;
 
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
         packManager = GetComponent<PlayerPackManager>();
 
         primaryAbility = abilitySet.GetAbilityByName("Swing");
+        playerAC = GetComponent<Animator>();
     }
 
     private void HandleActinOneAction(InputAction.CallbackContext obj)
